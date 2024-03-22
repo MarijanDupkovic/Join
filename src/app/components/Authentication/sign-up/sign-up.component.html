@@ -1,0 +1,63 @@
+<div class="frame">
+  <div class="main-container">
+    <div>
+      <h1>Sign up</h1>
+      <hr>
+    </div>
+
+    <form [formGroup]="signUpForm"  (ngSubmit)="onSubmit()">
+      <div class="name-frame">
+         <div class="name-input-frame">
+          <input type="text"  id="firstName" formControlName="firstName" class="form-control" placeholder="First name" autocomplete="false" >
+          <div class="inputdivider"></div>
+          <input type="text" id="lastName" formControlName="lastName" class="form-control" placeholder="Last name" autocomplete="false" >
+         </div>
+          <img src="../../../../assets/img/inputs/person.svg" alt="">
+      </div>
+      <div class="w-100 input-frame">
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email" autocomplete="false" >
+        <img src="../../../../assets/img/inputs/mail.svg" alt="">
+      </div>
+      <div class="w-100 input-frame">
+        <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password"
+          autocomplete="false" >
+        <img src="../../../../assets/img/inputs/lock.svg" alt="">
+      </div>
+      <div class="w-100 input-frame">
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" placeholder="Confirm password"
+          autocomplete="false" >
+        <img src="../../../../assets/img/inputs/lock.svg" alt="">
+      </div>
+      <div class="checkBox-frame">
+        <input type="checkbox" id="remember-me" > <span>I accept the <a>Privacy policy!</a></span>
+      </div>
+
+
+      <div class="btn-frame">
+        <button type="submit" class="blue-btn">Sign up</button>
+      </div>
+
+
+    </form>
+  </div>
+
+  <div class="legal-frame">
+    <a href="/privacy">Privacy policy</a>
+    <a href="/legalnotice">Legal notice</a>
+  </div>
+
+</div>
+<div *ngIf="errorCode && errorMessage" class="overlay">
+  <div  class="error-frame">
+    <h1>Error</h1>
+    <hr>
+    <span>{{errorCode}}</span>
+    <p>{{errorMessage}}</p>
+  </div>
+</div>
+
+<div *ngIf="loading">
+  <div class="overlay">
+    <div class="loader"></div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+@import '../../../../mixins.scss';
+
+
+
+hr {
+  width: 65%;
+  border: 2px solid #29ABE2;
+}
+
+input[type="text"], input[type="password"], input[type="email"]{
+  width: 95%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #D1D1D1;
+  border-radius: 10px;
+  outline: none;
+  height: 24px;
+
+  &:focus {
+    border: 1px solid #29ABE2;
+  }
+}
+
+.input-frame{
+  @include dFlex(column, center, center);
+  position: relative;
+  img{
+    position: absolute;
+    top:10;
+    right: 5%;
+    width: 30px;
+  }
+}
+
+form {
+  width: 100%;
+  @include dFlex(column, center, center);
+  gap: 0.5rem;
+}
+
+
+
+
+
+.checkBox-frame{
+  @include dFlex(row, center, center);
+  width: 100%;
+  align-self: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.name-frame{
+  @include dFlex(row, unset, center);
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #D1D1D1;
+  height: 48px;
+  position: relative;
+  input {
+    border: none;
+    width: 100%;
+  }
+
+  img{
+    position: absolute;
+    top: 10;
+    right: 5%;
+    width: 30px;
+  }
+}
+
+
+.border-right{
+  border-right: 1px solid #D1D1D1 !important;
+}
+
+.name-input-frame{
+  @include dFlex(row, start, center);
+  width: 100%;
+}

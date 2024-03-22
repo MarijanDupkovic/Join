@@ -1,0 +1,40 @@
+@import "../../../../mixins.scss";
+
+.footer-main-container{
+  background-color: #2A3647;
+  height: 80px;
+  @include dFlex(row, center, center);
+}
+
+.footer-links{
+  text-decoration: none;
+  @include dFlex(row, space-between, center);
+  height: 80px;
+}
+
+.link-container{
+  @include dFlex(column, center, center);
+  height: 76px;
+  width: 76px;
+  gap:0.5rem;
+  text-decoration: none;
+  color: #CDCDCD;
+  svg{
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    fill: #CDCDCD;
+  }
+}
+
+.active-link{
+   background-color: #091931;
+   border-radius: 16px;
+  svg{
+    fill: #FFFFFF;
+  }
+  span{
+    color: #FFFFFF;
+  }
+}
+

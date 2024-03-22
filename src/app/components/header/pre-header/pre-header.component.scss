@@ -1,0 +1,19 @@
+@import '../../../../mixins.scss';
+
+
+.logo-frame{
+  width: 90%;
+  padding: 1rem 0;
+  @include dFlex(row, start, center);
+
+  img{
+    width: 54px;
+    height: 54px;
+  }
+}
+
+.frame{
+  width: 100%;
+  @include dFlex(column, space-between, center);
+  height: 80px;
+}

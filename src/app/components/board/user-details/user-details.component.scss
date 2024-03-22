@@ -1,0 +1,120 @@
+@import '../../../../mixins.scss';
+
+.circle{
+  border-radius: 100%;
+  width: 60px;
+  height: 60px;
+  @include dFlex(row, center, center);
+  border: 1px solid #E5E5E5;
+  margin-left: 8px;
+  color: #FFFFFF;
+}
+.details-frame{
+  width: 100%;
+  @include dFlex(column, center, center);
+  margin-top: 1rem;
+
+}
+
+.headline-frame{
+  @include dFlex(row, space-between, center);
+  width: 100%;
+  a{
+    align-self: flex-start;
+  }
+}
+
+.contact-title-frame{
+  width: 90%;
+}
+
+.pre-details{
+  font-size: 1.75rem;
+  font-weight: 700;
+
+}
+hr{
+  width: 20%;
+  margin: 0;
+  align-self: flex-start;
+}
+
+.contact-details-frame{
+  width: 90%;
+  @include dFlex(row, flex-start, center);
+  margin-top: 1rem;
+}
+
+.contact-details-inner-frame{
+  @include dFlex(column, flex-start, center);
+  gap: 0.5rem;
+
+  .contact-details-name-frame{
+    @include dFlex(row, flex-start, center);
+    gap: 1rem;
+  }
+}
+
+h4{
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin: 0;
+  margin-top: 1.5rem;
+}
+
+h5{
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.contact-details-info-frame{
+  @include dFlex(column, flex-start, flex-start);
+  width: 100%;
+}
+.addButton{
+  position: absolute;
+  top: 85%;
+  right: 5%;
+  @include dFlex(row, center, center);
+  background-color: #2A3647 ;
+  border-radius: 100%;
+  width: 56px;
+  height: 56px;
+
+  img{
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}
+
+.edit-options-frame{
+  position: absolute;
+  top: 75%;
+  right: 5%;
+  @include dFlex(column, center, center);
+  width: 100px;
+  height: 100px;
+  border-radius: 20px 20px 0 20px;
+  box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  background-color: #FFFFFF;
+  gap:0.5rem;
+  padding: 5px 0 5px 10px;
+  a{
+    @include dFlex(row, flex-start, center);
+    gap:0.5rem;
+    width: 100%;
+    img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+  }
+  span{
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}

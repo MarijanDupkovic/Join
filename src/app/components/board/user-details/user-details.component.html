@@ -1,0 +1,50 @@
+<div class="details-frame">
+  <div class="contact-title-frame">
+    <div class="headline-frame">
+      <h1>Contacts</h1>
+      <a (click)="close()" ><img src="../../../../assets/img/buttons/arrow-left-line.svg" alt=""></a>
+    </div>
+    <p>Better with a team</p>
+    <hr>
+  </div>
+
+  <div class="contact-details-frame">
+    @if(contact.email){
+      <div class="contact-details-inner-frame">
+        <div class="contact-details-name-frame">
+          <div class="circle" [style.background-color]="'#' + contact.color_key">
+            <span>{{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}</span>
+          </div>
+          <div class="pre-details">
+            <span>{{ contact.firstName }} {{ contact.lastName }}</span>
+          </div>
+        </div>
+        <div class="contact-details-info-frame">
+          <h4>Contact information</h4>
+          <div>
+            <h5>Email</h5>
+            <a href="mailto:{{contact.email}}">{{contact.email}}</a>
+          </div>
+          <div>
+            <h5>Phone</h5>
+            <a href="tel:{{contact.phone}}">{{contact.phone}}</a>
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
+
+</div>
+
+<div class="addButton" (click)="toggleMenu($event)" >
+  <img src="../../../../assets/img/buttons/more_vert.svg" alt="">
+</div>
+<app-edit-user-details *ngIf="isEditContactVisible" (closeOverlay)="isEditContactVisible = false" class="edit-user-detail-comp"></app-edit-user-details>
+
+<div class="edit-options-frame" *ngIf="isMenuVisible" #editOptions>
+  <a (click)="openEditContact()"><img src="../../../../assets/img/buttons/edit.svg" alt=""><span>Edit</span></a>
+  <a (click)="deleteContact()" ><img src="../../../../assets/img/buttons/delete.svg" alt=""><span>Delete</span></a>
+</div>
+
+

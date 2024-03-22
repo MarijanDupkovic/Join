@@ -1,1 +1,171 @@
-/* You can add global styles to this file, and also import other style files */
+@import './mixins.scss';
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F6F7F8;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+.w-90 {
+  width: 90% !important;
+}
+
+button,
+.a-btn {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 180px;
+  height: 51px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2rem;
+}
+
+.blue-btn {
+  background-color: #2A3647;
+  color: #FFFFFF;
+
+  &:hover {
+    background-color: #29ABE2;
+  }
+}
+
+.white-btn {
+  background-color: #FFFFFF;
+  color: #2A3647;
+  border: 1px solid #2A3647;
+
+  &:hover {
+    border: 1px solid #29ABE2;
+    color: #29ABE2;
+  }
+}
+
+.btn-frame {
+  @include dFlex(column, center, center);
+  gap: 1rem;
+}
+
+.a-btn {
+  @include dFlex(row, center, center);
+  width: 6.5rem;
+  height: 49px;
+}
+
+a {
+  text-decoration: none;
+
+}
+
+.toSignUp-frame {
+  @include dFlex(row, center, center);
+  gap: 1.3125rem;
+  margin-top: 1.5rem;
+
+  span {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    color: #000000;
+  }
+}
+
+
+
+h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 47px;
+  font-weight: 700;
+  line-height: 56.4px;
+}
+
+.legal-frame {
+  @include dFlex(row, center, center);
+  gap: 2rem;
+  padding: 1rem 0;
+
+  a {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 19.2px;
+    color: #A8A8A8;
+  }
+}
+
+.inputdivider{
+    border-left: 1px solid #D1D1D1;
+    height:100%;
+    left: 50%;
+    position: absolute;
+}
+
+
+.error-frame{
+  @include dFlex(column, center, center);
+  gap: 0.5rem;
+  color: #FF0000;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.2rem;
+  padding: 5rem 5rem;
+  background-color: #FFFFFF;
+  border-radius: 30px;
+  box-shadow: 0px 0px 3px 0px rgba($color: #000000, $alpha: 0.2);
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  z-index: 100;
+  @include dFlex(column, center, center);
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation:progress 1s linear forwards;
+}
+
+@keyframes progress {
+  0% { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; }
+  33% { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-right: 5px solid #3498db; }
+  66% { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-right: 5px solid #3498db; border-bottom: 5px solid #3498db; }
+  100% { border: 5px solid #f3f3f3; border-top: 5px solid #3498db; border-right: 5px solid #3498db; border-bottom: 5px solid #3498db; border-left: 5px solid #3498db; }
+}
+
+.frame{
+  width: 100%;
+  @include dFlex(column, space-around, center);
+  height: calc(100vh - 80px);
+}
+
+.main-container {
+  @include dFlex(column, center, center);
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 0px 0px 3px 0px rgba($color: #000000, $alpha: 0.2);
+  width:85%;
+  background-color: #FFFFFF;
+}
+
+hr {
+  width: 65%;
+  border: 2px solid #29ABE2;
+}

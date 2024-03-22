@@ -1,0 +1,56 @@
+<div class="addContactOverlay">
+
+  <div class="addContactOverlayContent">
+    <div class="addContactOverlayTitle">
+      <a (click)="close()" style="align-self: flex-end;">
+        <img src="../../../../assets/img/buttons/close.svg" alt="">
+      </a>
+      <h1>Edit Contact</h1>
+      <hr>
+    </div>
+
+    <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+      <div class="name-frame">
+        <div class="name-input-frame">
+          <input type="text" id="firstName" formControlName="firstName" class="form-control" placeholder="First name"
+            autocomplete="false">
+          <div class="inputdivider"></div>
+          <input type="text" id="lastName" formControlName="lastName" class="form-control" placeholder="Last name"
+            autocomplete="false">
+        </div>
+        <img src="../../../../assets/img/inputs/person.svg" alt="">
+      </div>
+      <div class="input-frame">
+        <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email"
+          autocomplete="false">
+        <img src="../../../../assets/img/inputs/mail.svg" alt="">
+      </div>
+      <div class="input-frame">
+        <input type="text" id="phone" pattern="[0-9]" formControlName="phone" class="form-control" placeholder="Phone"
+          autocomplete="false">
+        <img src="../../../../assets/img/inputs/call.svg" alt="">
+      </div>
+
+      <div class="btn-frame">
+        <button type="button" (click)="deleteContact($event)" class="white-btn">Delete</button>
+        <button type="submit" class="blue-btn">Save<img src="../../../../assets/img/buttons/check.svg" alt=""></button>
+      </div>
+
+
+    </form>
+
+  </div>
+  <div *ngIf="errorCode && errorMessage" class="overlay">
+    <div class="error-frame">
+      <h1>Error</h1>
+      <hr>
+      <span>{{errorCode}}</span>
+      <p>{{errorMessage}}</p>
+    </div>
+  </div>
+
+  <div *ngIf="loading">
+    <div class="overlay">
+      <div class="loader"></div>
+    </div>
+  </div>

@@ -1,0 +1,80 @@
+@import '../../../../mixins.scss';
+
+.contacts-container {
+  height: 100%;
+  border-radius: unset;
+  padding: 0;
+  box-shadow: none;
+  justify-content: flex-start !important;
+}
+
+.contacts-frame{
+  width:90%;
+  @include dFlex(column, flex-start, center);
+
+  h4{
+    align-self: flex-start;
+    padding: 0 24px;
+
+  }
+}
+
+.contacts-inner-frame{
+  @include dFlex(row, flex-start, center);
+  gap:2.1875rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+hr{
+  width: 100%;
+  border: 1px solid #E5E5E5;
+  margin: 0;
+}
+
+.circle{
+  border-radius: 100%;
+  width: 42px;
+  height: 42px;
+  @include dFlex(row, center, center);
+  border: 1px solid #E5E5E5;
+  margin-left: 8px;
+  color: #FFFFFF;
+}
+
+.pre-details{
+  @include dFlex(column, flex-start, flex-start);
+  gap: 0.5rem;
+
+}
+
+.group-container{
+  @include dFlex(column, center, center);
+  width: 100%;
+}
+
+.addButton{
+  position: absolute;
+  top: 75%;
+  right: 5%;
+  @include dFlex(row, center, center);
+  background-color: #2A3647 ;
+  border-radius: 100%;
+  width: 56px;
+  height: 56px;
+
+  img{
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}
+
+.user-details-comp{
+  position: absolute;
+  top:80px;
+  right: 0;
+  left: 0;
+  bottom:80px;
+  background-color: #F6F7F8;
+}

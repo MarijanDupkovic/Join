@@ -1,0 +1,55 @@
+<div class="details-box">
+ <div class="headline-frame">
+  <div [style.background-color]="getCategoryColor(task_details.category)" class="cat-bg">
+    <span>{{ task_details.category }}</span>
+
+  </div>
+  <a (click)="close()" style="align-self: flex-start;">
+    <img src="../../../../assets/img/inputs/close.svg"  alt="">
+  </a>
+ </div>
+  <div class="task-title">
+    <p>{{ task_details.title }}</p>
+  </div>
+  <div class="task-desc">
+    <p>{{ task_details.description }}</p>
+  </div>
+  <div class="task-dueDate">
+    <span class="task-item-label">Due date:</span>
+    <span class="date-date">{{ task_details.due_date }}</span>
+  </div>
+  <div class="prio-container">
+    <span class="task-item-label">Priority:</span>
+    <div class="priority" >
+
+      <span>{{ formatTaskPrioName(task_details.prio) }}</span>
+      <img [src]="formatTaskPrio(task_details.prio)" alt="">
+    </div>
+  </div>
+  <div>
+    <span class="task-item-label">Assigned to:</span>
+
+    <div *ngFor="let user of task_details.users" class="task-assigned">
+      <div class="circle" [style.background-color]="'#' + user.color">
+        <span>{{ user.acronym }}</span>
+      </div>
+      <span>{{ getUserDetails(user.color) }}</span>
+    </div>
+  </div>
+  <div>
+    <span class="task-item-label">Subtasks:</span>
+
+    <div *ngFor="let subtask of task_details.subTasks" class="subtasks-container">
+      <img src="../../../../assets/img/inputs/Check button mobile.svg" *ngIf="!subtask.checked" alt="" (click)="changeSubtaskStatus(subtask,1)">
+      <img src="../../../../assets/img/inputs/Check button mobile_checked.svg" *ngIf="subtask.checked" alt="" (click)="changeSubtaskStatus(subtask,0)">
+      {{ subtask.description }}
+    </div>
+
+  </div>
+  <div class="delete-edit-container">
+    <a (click)="deleteTask()"><img src="../../../../assets/img/buttons/delete.svg" alt="" > Delete</a>
+    <div></div>
+    <a ><img src="../../../../assets/img/buttons/edit.svg" alt=""> Edit</a>
+  </div>
+
+</div>
