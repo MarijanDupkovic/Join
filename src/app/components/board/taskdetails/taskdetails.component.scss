@@ -10,7 +10,10 @@
   gap: 0.5rem;
   @include dFlex(column, unset, unset);
 }
-
+app-edit-taskdetails{
+  width: 100%;
+  @include dFlex(row, center, center);
+}
 .cat-bg {
   height: 27px;
   border-radius: 8px;

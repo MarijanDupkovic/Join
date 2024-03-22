@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { TaskService } from '../../../services/task.service';
+import { EditTaskdetailsComponent } from '../edit-taskdetails/edit-taskdetails.component';
 
 @Component({
   selector: 'app-taskdetails',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,EditTaskdetailsComponent],
   templateUrl: './taskdetails.component.html',
   styleUrl: './taskdetails.component.scss'
 })
@@ -14,6 +15,8 @@ export class TaskdetailsComponent {
   public static task: any = [];
   task_details: any = TaskdetailsComponent.task;
   users: any = [];
+  isEdit: boolean = false;
+
   @Output() closeOverlay = new EventEmitter<void>();
   @Output() taskDeleted = new EventEmitter<void>();
   constructor(private contacts: ContactsService,private tasks:TaskService) { }
@@ -84,6 +87,10 @@ export class TaskdetailsComponent {
 
   }
 
+  openEditView() {
+    this.isEdit = true;
+    EditTaskdetailsComponent.task = this.task_details;
+  }
   getUserDetails(colorkey: string) {
     let name = '';
     this.users.forEach((user: any) => {

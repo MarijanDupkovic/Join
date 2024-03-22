@@ -1,0 +1,292 @@
+@import '../../../../mixins.scss';
+
+a.selected {
+  background-color: green;
+}
+
+a.selected:nth-child(1) {
+  background-color: red;
+}
+
+a.selected:nth-child(2) {
+  background-color: orange;
+}
+
+a.selected:nth-child(3) {
+  background-color: green;
+}
+
+select option:hover {
+  background-color: blue;
+}
+
+.details-box {
+  width: 100%;
+  @include dFlex(column, center, flex-start);
+}
+
+.input-container {
+  @include dFlex(column, center, flex-start);
+  width: 95%;
+}
+
+.inputs-frame {
+  width: 100%;
+  @include dFlex(column, flex-start, flex-start);
+  height: calc(100vh - 80px - 80px - 4rem);
+
+}
+
+.main-container {
+  padding: 0;
+  background-color: unset;
+  border-radius: unset;
+}
+
+.circle {
+  border-radius: 100%;
+  width: 42px;
+  height: 42px;
+  @include dFlex(row, center, center);
+  border: 1px solid #E5E5E5;
+  margin-left: 8px;
+  color: #FFFFFF;
+}
+
+.circle-name {
+  @include dFlex(row, center, center);
+  gap: 1rem;
+  height: 56px;
+  width: 100%;
+
+  label {
+    @include dFlex(row, unset, center);
+    width: 100%;
+  }
+}
+
+.contacts-overlay {
+  @include dFlex(row, space-between, center);
+  gap: 1rem;
+  border-radius: 10px;
+  width: 100%;
+
+  &:hover {
+    color: #FFFFFF;
+  }
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+.color-circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+input[type="text"],
+.dropdown,
+input[type="date"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #D1D1D1;
+  border-radius: 10px;
+  outline: none;
+  height: 43px;
+
+  &:focus {
+    border: 1px solid #29ABE2;
+  }
+}
+
+.dropdown {
+  background-color: #FFFFFF;
+  @include dFlex(row, space-between, center);
+
+}
+
+.dropdown-icon {
+
+  font-size: 0.8em;
+}
+
+textarea {
+  height: 77px;
+  resize: vertical;
+}
+
+.prio-container {
+  @include dFlex(row, center, center);
+  width: 85px;
+  height: 40px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  gap:0.5rem;
+  font-size: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.prio-frame {
+  width: 100%;
+  @include dFlex(row, space-between, center);
+}
+
+.input-fields {
+  width: 100%;
+  @include dFlex(column, flex-start, flex-start);
+  max-height: calc(100vh - 80px - 80px - 4rem);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+select,
+.dropdown {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 10px;
+  height: 47px;
+  font-size: 0.75rem;
+  gap: 0;
+}
+
+.option-container {
+  @include dFlex(column, center, center);
+  gap: 1rem;
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.selected-contacts {
+  @include dFlex(row, flex-start, center);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+
+
+.input-frame {
+  @include dFlex(column, center, center);
+  position: relative;
+  width: 100%;
+
+  .oneImg {
+    @include dFlex(row, center, center);
+    position: absolute;
+    top: 10;
+    right: 5%;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .moreImg {
+    @include dFlex(row, center, center);
+    gap: 0.5rem;
+    position: absolute;
+    top: 10;
+    right: 5%;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+
+    cursor: pointer;
+  }
+}
+.head-container{
+  @include dFlex(row, space-between, center);
+  width: 100%;
+
+}
+.upper-form {
+  width: 100%;
+  @include dFlex(column, unset, center);
+  height: calc(100vh - 80px - 80px - 145px);
+  width: 100%;
+  overflow-y: scroll;
+}
+
+button {
+  @include dFlex(row, space-around, center);
+}
+
+.button-container {
+  align-self: center;
+  margin-top: 1rem;
+  .save-btn {
+    width: 110px;
+    height: 43px;
+    @include dFlex(row, center, center);
+    gap: 1rem;
+  }
+}
+
+.btn-frame {
+  @include dFlex(row, space-between, center);
+
+  width: 100%;
+
+  div {
+    @include dFlex(row, flex-start, center);
+  }
+}
+
+.success-frame {
+  color: green;
+}
+
+.headline {
+  width: 90%;
+  @include dFlex(row, flex-start, center);
+}
+
+
+.edit-input {
+  border-bottom: 1px solid blue;
+}
+
+.list-item {
+  @include dFlex(row, space-between, center);
+  width: 100%;
+}
+
+.subtask-frame {
+  width: 100%;
+  @include dFlex(row, center, center);
+}
+
+.subtask-list-container {
+  width: 100%;
+  position: relative;
+
+  .option-img {
+    position: absolute;
+    right: 5%;
+    top: 20px;
+    gap: 0.5rem;
+    @include dFlex(row, center, center);
+  }
+}

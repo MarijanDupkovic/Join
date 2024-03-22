@@ -35,4 +35,10 @@ export class TaskService {
   changeSubtaskStatus(subtask: Object) {
     return lastValueFrom(this.http.post('./phpscripts/updateSubtaskStatus.php', subtask));
   }
+
+  updateTask(body: Object) {
+    return lastValueFrom(this.http.post('./phpscripts/updateTask.php', body));
+  }
+
+
 }
