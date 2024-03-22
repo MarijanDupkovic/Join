@@ -18,18 +18,27 @@
     width: 100%;
     @include dFlex(column, unset, flex-start);
 
-    .card {
-      width: 200px;
-      min-height: 180px;
-      background-color: #FFFFFF;
-      border-radius: 30px;
-      box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
-      padding: 1rem;
-      position: relative;
-    }
+
   }
 }
 
+.input-frame {
+  @include dFlex(column, center, center);
+  position: relative;
+
+  width: 100%;
+
+
+}
+.card {
+  width: 200px;
+  min-height: 180px;
+  background-color: #FFFFFF;
+  border-radius: 30px;
+  box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  position: relative;
+}
 .nav-arrows {
   position: absolute;
   top: 10px;
@@ -145,19 +154,25 @@
   margin-bottom: 0.5rem;
 }
 
-.addTask-btn {
-  background-color: #2A3647;
-  width: 40px;
-  height: 40px;
-  @include dFlex(row, center, center);
-  border-radius: 10px;
 
+.img-input{
+  position: absolute;
+  top: 10;
+  right: 5%;
+  @include dFlex(row, space-between, center);
+  width: 75px;
+  overflow: hidden;
   img {
     width: 20px;
     height: 20px;
   }
-}
+  .divider {
+    width:  100%;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    transform: rotate(90deg);
+  }
 
+}
 .headline {
   @include dFlex(row, space-between, center);
   width: 100%;
@@ -176,4 +191,21 @@
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+}
+input[type="text"],
+.dropdown,
+input[type="date"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #D1D1D1;
+  border-radius: 10px;
+  outline: none;
+  height: 43px;
+
+  &:focus {
+    border: 1px solid #29ABE2;
+  }
 }

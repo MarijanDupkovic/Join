@@ -16,7 +16,7 @@ export class EditTaskdetailsComponent {
   public static task: any = [];
   task_details: any = EditTaskdetailsComponent.task;
   taskPrio = 0;
-  @Output() close_edit = new EventEmitter();
+  @Output() closeOverlay = new EventEmitter();
   today = new Date().toISOString().split('T')[0];
   categories = ['Technical Task', 'Design Task', 'User Story', 'Other Task'];
   dropdownOpen = false;
@@ -52,7 +52,7 @@ export class EditTaskdetailsComponent {
   }
 
   close() {
-    this.close_edit.emit();
+    this.closeOverlay.emit();
   }
 
   isContactAssigned(contact:any) {

@@ -51,5 +51,5 @@
       <a (click)="openEditView()"><img src="../../../../assets/img/buttons/edit.svg" alt=""> Edit</a>
     </div>
   </ng-container>
-  <app-edit-taskdetails *ngIf="isEdit" (close_edit)="isEdit = false"></app-edit-taskdetails>
+  <app-edit-taskdetails *ngIf="isEdit" (closeOverlay)="isEdit = false;close()"></app-edit-taskdetails>
 </div>

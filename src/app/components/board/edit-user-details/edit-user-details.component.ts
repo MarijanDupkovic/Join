@@ -25,7 +25,7 @@ export class EditUserDetailsComponent {
   email: string = '';
   contact: any = [];
 
-  constructor(private http: HttpClient, private contacts: ContactsService) { }
+  constructor(private contacts: ContactsService) { }
 
   ngOnInit(): void {
     this.contacts.userDetailsEmail$.subscribe((email: string) => {

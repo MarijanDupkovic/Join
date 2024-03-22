@@ -14,6 +14,8 @@ import { TaskdetailsComponent } from '../taskdetails/taskdetails.component';
 })
 export class KbBoardComponent implements OnInit {
   loaded_tasks: any = [];
+  filtered_tasks: any = [];
+  isFiltered = false;
   users = [];
   acronyms: any = [];
   public isDetailView = false;
@@ -61,7 +63,7 @@ export class KbBoardComponent implements OnInit {
     return { totalSubtasks, completedSubtasks };
   }
 
-  async getUserDetails(email: any) {
+  async getUserDetails(email: string) {
     let body = { email: email }
     if (email) {
       let response: any = await this.contact.getUserDetails(body);
@@ -81,17 +83,32 @@ export class KbBoardComponent implements OnInit {
       return "../../../../assets/img/inputs/Prio media.svg";
     }
     if (prio == '3') {
-      return "Low";
+      return "../../../../assets/img/inputs/Prio baja.svg";
     } else {
       return "../../../../assets/img/inputs/Prio baja.svg";
     }
   }
+
   hasTasks(status: string) {
     return this.loaded_tasks.some((task: any) => task.status === status);
   }
 
   getTasksByStatus(status: string) {
     return this.loaded_tasks.filter((task: any) => task.status === status);
+  }
+
+  searchTasks(target: any) {
+    if (target.value === "") {
+      this.isFiltered = false;
+      this.filtered_tasks = [];
+      return;
+    }else{
+      this.isFiltered = true;
+      this.filtered_tasks = this.loaded_tasks.filter((task:any) =>
+      task.title.toLowerCase().includes(target.value.toLowerCase()) ||
+      task.description.toLowerCase().includes(target.value.toLowerCase())
+    );
+    }
   }
 
   drop(event: CdkDragDrop<string[]>) {
