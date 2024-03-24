@@ -1,6 +1,5 @@
-<div [ngStyle]="{'display': showFooter ? 'block' : 'flex'}">
+<div class="content-container">
   <app-sidebar *ngIf="!showFooter"></app-sidebar>
-
   <router-outlet></router-outlet>
-  <app-footer *ngIf="showFooter"></app-footer>
 </div>
+<app-footer *ngIf="showFooter"></app-footer>

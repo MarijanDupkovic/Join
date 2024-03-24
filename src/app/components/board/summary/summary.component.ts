@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterLink],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.scss'
 })
@@ -16,6 +18,8 @@ export class SummaryComponent {
   done = 0;
   urgent = 0;
   upcomingTask = '';
+  isMobile = window.innerWidth < 1000;
+
   constructor(private tasks: TaskService) { }
   ngOnInit() {
     this.tasks.tasks$.subscribe((data) => {
@@ -27,7 +31,10 @@ export class SummaryComponent {
     });
 
   }
-
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.isMobile = event.target.innerWidth < 1000;
+  }
   countStatus() {
 
     this.loaded_tasks.forEach((task: any) => {

@@ -1,12 +1,13 @@
 import { AuthService } from './../../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { SidebarComponent } from '../../board/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-post-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,SidebarComponent],
   templateUrl: './post-header.component.html',
   styleUrl: './post-header.component.scss'
 })
@@ -14,6 +15,8 @@ export class PostHeaderComponent {
   short_name: string = 'GG';
   openMenu: boolean = false;
   user_mail: string = '';
+  showFooter = window.innerWidth < 1000;
+
   constructor(private auth:AuthService,private route:Router) { }
 
 
@@ -34,5 +37,11 @@ export class PostHeaderComponent {
     this.auth.signOut(body).then(() => {
     this.route.navigate(['/']);
     });
+  }
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event:any) {
+    this.showFooter = event.target.innerWidth < 1000;
   }
 }

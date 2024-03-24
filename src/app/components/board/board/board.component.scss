@@ -1,0 +1,11 @@
+@import '../../../../mixins.scss';
+
+@media (min-width: 1000px) {
+
+  .content-container {
+    @include dFlex(row,flex-start,center);
+    width: 100%;
+  }
+}
+
+
