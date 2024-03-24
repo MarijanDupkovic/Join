@@ -13,8 +13,10 @@ export class TaskService {
 
 
   constructor(private http: HttpClient) {
-    this.getTasks();
-   }
+    this.getTasks().subscribe(tasks => {
+      this.tasks.next(tasks.tasks);
+    });
+  }
 
   createTask(task: any): Observable<any> {
     return this.http.post('./phpscripts/createTask', task);

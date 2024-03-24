@@ -1,0 +1,123 @@
+@import '../../../../mixins.scss';
+
+
+.summary-frame {
+  width: 100%;
+  @include dFlex(column, unset, center);
+  gap: 2rem;
+
+  .summary-title-frame {
+    width: 90%;
+    @include dFlex(column, unset, flex-start);
+
+    hr {
+      width: 20%;
+      margin: 0;
+      align-self: flex-start;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .cards-container {
+    @include dFlex(column, unset, center);
+    width: 90%;
+    gap: 1rem;
+
+    .card-value-container {
+      @include dFlex(column, center, center);
+    }
+    .card-number {
+      font-size: 2.9375rem;
+      font-weight: 600;
+    }
+
+    .card-text {
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+
+    .card-container {
+      @include dFlex(row, space-between, center);
+      width: 100%;
+
+      .first-line-card {
+        width: 150px;
+        height: 110px;
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
+        @include dFlex(row, center, center);
+        gap: 10px;
+      }
+
+
+
+      .third-line-card {
+        width: 110px;
+        height: 110px;
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
+        @include dFlex(column, center, center);
+
+      }
+
+
+    }
+    .summary-circles {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      @include dFlex(row, center, center);
+      background-color: #2A3647;
+    }
+
+    .urgent-circle {
+      background-color: #FF0000;
+    }
+    .second-line-card {
+      width: 100%;
+      height: 110px;
+      background-color: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0px 0 4px 0 rgba(0, 0, 0, 0.1);
+      @include dFlex(row, center, center);
+
+      .second-line-inner-card {
+        @include dFlex(row, center, center);
+        gap: 10px;
+        height: 69px;
+
+        .divider {
+          width: 1px;
+          height: 100%;
+          background-color: #E5E5E5;
+        }
+
+        .summary-urgent {
+          @include dFlex(column, center, center);
+        }
+
+        .summary-urgent-date {
+          @include dFlex(column, flex-start, flex-start);
+
+          .upcomingDate {
+            font-size: 1.1rem;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+

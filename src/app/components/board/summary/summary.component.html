@@ -1,3 +1,48 @@
-<div style="height:calc(100vh - 80px - 80px)">
+<div class="summary-frame" style="height:calc(100vh - 80px - 80px)">
+  <div class="summary-title-frame">
+    <h1>Join 360</h1>
+    <p>Key Metrics at a Glance</p>
+    <hr>
+  </div>
+  <div class="cards-container">
+    <div class="card-container">
+      <div class="first-line-card">
+        <div class="summary-circles"><img src="../../../../assets/img/buttons/todo_pen_summary.svg" alt=""></div>
+        <div class="card-value-container">
+          <span class="card-number"> {{ todos }} </span>
+          <span class="card-text">To-Do</span>
+        </div>
+      </div>
+      <div class="first-line-card">
+        <div class="summary-circles"><img src="../../../../assets/img/buttons/done_v_summary.svg" alt=""></div>
+        <div class="card-value-container">
+          <span class="card-number"> {{ done }} </span>
+          <span class="card-text">Done</span>
+        </div>
+      </div>
+    </div>
+    <div class="second-line-card">
+      <div class="second-line-inner-card">
+        <div class="summary-circles urgent-circle"><img src="../../../../assets/img/inputs/Prio alta active.svg" alt="">
+        </div>
+        <div class="summary-urgent">
+          <div class="card-value-container">
+            <span class="card-number"> {{ urgent }} </span>
+            <span class="card-text">Urgent</span>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="summary-urgent-date">
+          <span class="upcomingDate">{{format(upcomingTask)}}</span>
+          <span class="card-text">Upcoming Deadline</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-container">
+      <div class="third-line-card"><span class="card-number">{{ loaded_tasks.length }}</span><span>Tasks in</span><span>Board</span></div>
+      <div class="third-line-card"><span class="card-number">{{ inProgress }}</span><span>Tasks In</span><span>Progress</span> </div>
+      <div class="third-line-card"><span class="card-number">{{ awaitingFeedback }}</span> <span>Awaiting</span><span>feedback</span></div>
+    </div>
+  </div>
 
 </div>
