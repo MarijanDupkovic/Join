@@ -45,9 +45,9 @@
           <div class="third-line-card" [routerLink]="['/board/board']"><span class="card-number">{{ awaitingFeedback }}</span> <span>Awaiting</span><span>feedback</span></div>
         </div>
       </div>
-      <div style="width: 100%;" *ngIf="!isMobile">
-        <span class="greetings">Good Evening,</span>
-        <span>Test</span>
+      <div class="greetings-container" *ngIf="!isMobile">
+        <span class="greetings">{{getGreeting()}},</span>
+        <span class="greetings-name">{{ userName }}</span>
       </div>
     </div>
 

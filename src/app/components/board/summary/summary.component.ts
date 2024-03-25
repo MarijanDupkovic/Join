@@ -2,6 +2,8 @@ import { Component, HostListener } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+import { ContactsService } from '../../../services/contacts.service';
 
 @Component({
   selector: 'app-summary',
@@ -19,8 +21,11 @@ export class SummaryComponent {
   urgent = 0;
   upcomingTask = '';
   isMobile = window.innerWidth < 1000;
+  loaded_contacts: any = [];
+  loggedInMail = '';
+  userName: any;
 
-  constructor(private tasks: TaskService) { }
+  constructor(private tasks: TaskService, private auth: AuthService, private contacts: ContactsService) { }
   ngOnInit() {
     this.tasks.tasks$.subscribe((data) => {
       this.loaded_tasks = data;
@@ -29,12 +34,27 @@ export class SummaryComponent {
         this.getUpcomingTask();
       }
     });
+    this.auth.user_mail$.subscribe((data) => {
+      this.loggedInMail = data;
+    });
+    this.contacts.contacts$.subscribe((data) => {
+      this.loaded_contacts = data;
+
+      this.loaded_contacts.forEach((contact: any) => {
+        if (contact.email === this.loggedInMail) {
+          this.userName = contact.firstName + ' ' + contact.lastName;
+        }
+      });
+    });
+
 
   }
+
   @HostListener('window:resize', ['$event'])
-  onResize(event:any) {
+  onResize(event: any) {
     this.isMobile = event.target.innerWidth < 1000;
   }
+
   countStatus() {
 
     this.loaded_tasks.forEach((task: any) => {
@@ -56,6 +76,18 @@ export class SummaryComponent {
     });
   }
 
+
+  getGreeting() {
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      return 'Good Morning';
+    } else if (hour < 18) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  }
+
   getUpcomingTask() {
     let closest = Infinity;
     let upcomingTask: any = null;
@@ -73,7 +105,6 @@ export class SummaryComponent {
     if (upcomingTask) {
       this.upcomingTask = upcomingTask.due_date;
     }
-    console.log(this.upcomingTask);
   }
 
   format(date: string) {

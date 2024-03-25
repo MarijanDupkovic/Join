@@ -14,6 +14,7 @@
       width: 20%;
       margin: 0;
       align-self: flex-start;
+      max-width: 10rem;
     }
 
     p {
@@ -179,7 +180,11 @@
         @include dFlex(row, center, center);
         gap: 10px;
         height: 69px;
+        width: 100%;
 
+        @media(min-width:1048px){
+          gap: 3rem;
+        }
         .divider {
           width: 1px;
           height: 100%;
@@ -212,13 +217,53 @@
     width: 90%;
     @include dFlex(row, flex-start, center);
     margin-top: 5rem;
+    gap:4rem;
+  }
+
+  @media(min-width:1248px){
+    gap: 6rem;
+  }
+  @media(min-width:1348px){
+    gap: 8rem;
   }
 }
 
 
 .greetings {
-  font-size: 47px;
+  font-size: 1.9rem;
   font-weight: 500;
   margin: 0;
   color:#2A3647;
+  @media(min-width:1248px){
+    font-size: 2.2rem;
+  }
+  @media(min-width:1348px){
+    font-size: 2.5rem;
+  }
+  @media(min-width:1600px){
+    font-size: 3rem;
+  }
+}
+
+.greetings-container {
+  @include dFlex(column, center, flex-start);
+  gap: 1rem;
+  width: 100%;
+
+  .greetings-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    color:#29ABE2;
+
+    @media(min-width:1248px){
+      font-size: 2.5rem;
+    }
+    @media(min-width:1348px){
+      font-size: 3.275rem;
+    }
+    @media(min-width:1600px){
+      font-size: 4rem;
+    }
+  }
 }
