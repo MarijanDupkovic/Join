@@ -5,105 +5,177 @@
   background-color: unset;
   border-radius: unset;
   height: 100%;
-}
 
-.status-frame {
-  @include dFlex(column, unset, center);
-  gap: 1rem;
-  width: 90%;
-  padding: 1rem;
-  border-radius: 10px;
+  .head-search {
+    @include dFlex(column, center, center);
+    width: 90%;
+    gap: 1rem;
 
-  .status-container {
+    .headline {
+      @include dFlex(row, space-between, center);
+      width: 100%;
+    }
+    .input-frame {
+      @include dFlex(column, center, center);
+      position: relative;
+      width: 100%;
+
+      .img-input {
+        position: absolute;
+        top: 10;
+        right: 5%;
+        @include dFlex(row, space-between, center);
+        width: 75px;
+        overflow: hidden;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+
+        .divider {
+          width: 100%;
+          border: 1px solid rgba(0, 0, 0, 0.4);
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+  .tasks-main-frame {
+    @include dFlex(column, unset, center);
+    gap: 1rem;
     width: 100%;
-    @include dFlex(column, unset, flex-start);
+    height: 100%;
+    overflow-y: scroll;
 
+    @media (min-width: 1248px) {
+      @include dFlex(row, center, flex-start);
+      gap:0;
+      width: 90%;
+      align-self: center;
+    }
 
-  }
-}
+    .status-frame {
+      @include dFlex(column, unset, center);
+      gap: 1rem;
+      width: 90%;
+      padding: 1rem;
+      border-radius: 10px;
 
-.input-frame {
-  @include dFlex(column, center, center);
-  position: relative;
+      .status-container {
+        width: 100%;
+        @include dFlex(column, unset, flex-start);
 
-  width: 100%;
+        .cards-container {
+          @include dFlex(row, flex-start, center);
+          gap: 1rem;
+          width: 100%;
+          overflow-x: scroll;
+          padding: 1rem 0;
 
+          .empty-container {
+            @include dFlex(row, center, center);
+            width: 100%;
+            height: 48px;
+            border: 1px dashed #A8A8A8;
+            color: #A8A8A8;
+            background-color: #E7E7E7;
+            border-radius: 10px;
+          }
 
-}
-.card {
-  width: 200px;
-  min-height: 180px;
-  background-color: #FFFFFF;
-  border-radius: 30px;
-  box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
-  padding: 1rem;
-  position: relative;
-}
-.nav-arrows {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  @include dFlex(column, center, center);
-  gap: 0.5rem;
-  .down {
+          .card {
+            width: 200px;
+            min-height: 180px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+            box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
+            padding: 1rem;
+            position: relative;
 
-    img {
-      transform: rotate(90deg);
+            .cat-bg {
+              width: 113px;
+              height: 27px;
+              border-radius: 8px;
+              border: 1px solid rgba(0, 0, 0, 0.1);
+              @include dFlex(row, center, center);
+              color: #FFFFFF;
+              margin-bottom: 0.5rem;
+            }
 
-      width: 20px;
-      height: 20px;
+            .title {
+              font-size: 1rem;
+              font-weight: 700;
+
+              p {
+                margin: 0;
+                width: 220px;
+                height: 38px;
+              }
+            }
+            .description-frame {
+              color: #A8A8A8;
+              font-size: 1rem;
+
+              p {
+                margin: 0;
+                width: 220px;
+                height: 38px;
+              }
+            }
+
+            .progress-container {
+              @include dFlex(row, space-between, center);
+              font-size: 0.75rem;
+
+              progress {
+                width: 110px;
+                height: 0.75rem;
+              }
+            }
+            .acronym-prio-container {
+              @include dFlex(row, space-between, center);
+              width: 100%;
+              margin-top: 1rem;
+
+              .acronym-container {
+                @include dFlex(row, center, center);
+              }
+            }
+
+            .nav-arrows {
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              @include dFlex(column, center, center);
+              gap: 0.5rem;
+
+              .down {
+
+                img {
+                  transform: rotate(90deg);
+
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+
+              .up {
+
+                img {
+                  transform: rotate(-90deg);
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
-  .up {
-
-    img {
-      transform: rotate(-90deg);
-
-      width: 20px;
-      height: 20px;
-    }
-  }
 }
 
-.description-frame {
-  color: #A8A8A8;
-  font-size: 1rem;
-
-  p {
-    margin: 0;
-    width: 220px;
-    height: 38px;
-  }
-}
-
-.progress-container {
-  @include dFlex(row, space-between, center);
-  font-size: 0.75rem;
-
-  progress {
-    width: 110px;
-    height: 0.75rem;
-  }
-}
-
-.empty-container {
-  @include dFlex(row, center, center);
-  width: 100%;
-  height: 48px;
-  border: 1px dashed #A8A8A8;
-  color: #A8A8A8;
-  background-color: #E7E7E7;
-  border-radius: 10px;
-}
-
-.cards-container {
-  @include dFlex(row, flex-start, center);
-  gap: 1rem;
-  width: 100%;
-  overflow-x: scroll;
-  padding: 1rem 0;
-}
-.overlay-container{
+.overlay-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -113,6 +185,7 @@
   z-index: 100;
   @include dFlex(row, center, center);
 }
+
 .circle {
   width: 32px;
   height: 32px;
@@ -122,76 +195,6 @@
   @include dFlex(row, center, center);
 }
 
-.acronym-prio-container {
-  @include dFlex(row, space-between, center);
-  width: 100%;
-  margin-top: 1rem;
-
-  .acronym-container {
-    @include dFlex(row, center, center);
-
-  }
-}
-
-.title {
-  font-size: 1rem;
-  font-weight: 700;
-
-  p {
-    margin: 0;
-    width: 220px;
-    height: 38px;
-  }
-}
-
-.cat-bg {
-  width: 113px;
-  height: 27px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  @include dFlex(row, center, center);
-  color: #FFFFFF;
-  margin-bottom: 0.5rem;
-}
-
-
-.img-input{
-  position: absolute;
-  top: 10;
-  right: 5%;
-  @include dFlex(row, space-between, center);
-  width: 75px;
-  overflow: hidden;
-  img {
-    width: 20px;
-    height: 20px;
-  }
-  .divider {
-    width:  100%;
-    border: 1px solid rgba(0, 0, 0, 0.4);
-    transform: rotate(90deg);
-  }
-
-}
-.headline {
-  @include dFlex(row, space-between, center);
-  width: 100%;
-
-}
-
-.head-search {
-  @include dFlex(column, center, center);
-  width: 90%;
-  gap: 1rem;
-}
-
-.tasks-main-frame{
-  @include dFlex(column, unset, center);
-  gap: 1rem;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-}
 input[type="text"],
 .dropdown,
 input[type="date"],
