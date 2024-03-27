@@ -132,6 +132,7 @@
     </div>
     <form [formGroup]="taskForm" (submit)="createTask()">
       <div class="upper-form">
+      <div class="outer-input-frame">
         <div class="left-side">
           <div class="input-container">
             <label for="taskName">Title<span>*</span></label>
@@ -187,11 +188,11 @@
           <div class="input-container">
             <label for="taskPrio">Prio</label>
             <div class="prio-frame">
-              <a (click)="setTaskPrio(1)" [class.selected]="taskPrio === 1"
+              <a (click)="setTaskPrio(1)" (mouseenter)="setHoverPrio(1)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 1 || hoverPrio === 1"
                 class="prio-container"><span>Urgent</span><img [src]="getPrioImage(1)" alt=""></a>
-              <a (click)="setTaskPrio(2)" [class.selected]="taskPrio === 2"
+              <a (click)="setTaskPrio(2)" (mouseenter)="setHoverPrio(2)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 2 || hoverPrio === 2"
                 class="prio-container"><span>Medium</span><img [src]="getPrioImage(2)" alt=""></a>
-              <a (click)="setTaskPrio(3)" [class.selected]="taskPrio === 3" class="prio-container"><span>Low</span><img
+              <a (click)="setTaskPrio(3)" (mouseenter)="setHoverPrio(3)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 3 || hoverPrio === 3" class="prio-container"><span>Low</span><img
                   [src]="getPrioImage(3)" alt=""></a>
             </div>
           </div>
@@ -244,6 +245,7 @@
 
           </div>
         </div>
+      </div>
 
 
 

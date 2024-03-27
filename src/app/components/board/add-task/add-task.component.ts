@@ -24,6 +24,7 @@ interface Contact {
 export class AddTaskComponent {
   selectedCategory = '';
   taskPrio = 0;
+  hoverPrio = 0;
   today = new Date().toISOString().split('T')[0];
   categories = ['Technical Task', 'Design Task', 'User Story', 'Other Task'];
   contacts: Contact[] = [];
@@ -57,6 +58,9 @@ export class AddTaskComponent {
   setTaskPrio(prio: number) {
     this.taskPrio = this.taskPrio === prio ? 0 : prio;
   }
+  setHoverPrio(prio: number) {
+    this.hoverPrio = this.hoverPrio === prio ? 0 : prio;
+  }
 
   editSubTask(subtask: string) {
     this.isEditingSubtask = true;
@@ -82,29 +86,31 @@ export class AddTaskComponent {
   }
 
   getPrioImage(prio: number): string {
-    if (this.taskPrio === prio) {
-      switch (prio) {
-        case 1:
-          return '../../../../assets/img/inputs/Prio alta active.svg';
-        case 2:
-          return '../../../../assets/img/inputs/Prio media active.svg';
-        case 3:
-          return '../../../../assets/img/inputs/Prio baja active.svg';
-        default:
-          return '';
+
+      if (this.taskPrio === prio || this.hoverPrio === prio) {
+        switch (prio) {
+          case 1:
+            return '../../../../assets/img/inputs/Prio alta active.svg';
+          case 2:
+            return '../../../../assets/img/inputs/Prio media active.svg';
+          case 3:
+            return '../../../../assets/img/inputs/Prio baja active.svg';
+          default:
+            return '';
+        }
+      } else {
+        switch (prio) {
+          case 1:
+            return '../../../../assets/img/inputs/Prio alta.svg';
+          case 2:
+            return '../../../../assets/img/inputs/Prio media.svg';
+          case 3:
+            return '../../../../assets/img/inputs/Prio baja.svg';
+          default:
+            return '';
+        }
       }
-    } else {
-      switch (prio) {
-        case 1:
-          return '../../../../assets/img/inputs/Prio alta.svg';
-        case 2:
-          return '../../../../assets/img/inputs/Prio media.svg';
-        case 3:
-          return '../../../../assets/img/inputs/Prio baja.svg';
-        default:
-          return '';
-      }
-    }
+
   }
 
   get taskAssigned() {

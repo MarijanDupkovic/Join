@@ -102,7 +102,7 @@ select {
   border-radius: 10px;
   outline: none;
   height: 43px;
-
+  cursor: pointer;
   &:focus {
     border: 1px solid #29ABE2;
   }
@@ -111,6 +111,7 @@ select {
 .dropdown {
   background-color: #FFFFFF;
   @include dFlex(row, space-between, center);
+  cursor: pointer;
 
 }
 
@@ -122,6 +123,7 @@ select {
 textarea {
   height: 77px;
   resize: vertical;
+  cursor: pointer;
 }
 
 .prio-container {
@@ -132,11 +134,13 @@ textarea {
   border-radius: 10px;
   background-color: #FFFFFF;
   gap: 1rem;
+
 }
 
 .prio-frame {
   width: 100%;
   @include dFlex(row, center, center);
+  margin-top: 1rem;
   gap: 1rem;
 }
 
@@ -238,6 +242,7 @@ button {
 .headline {
   width: 90%;
   @include dFlex(row, flex-start, center);
+
 }
 
 
@@ -274,7 +279,7 @@ button {
   height: calc(100vh - 80px - 80px);
 
   @media (min-width: 1000px) {
-    height: calc(100vh - 80px);
+    height: unset;
   }
 }
 
@@ -283,15 +288,53 @@ button {
   display: none;
 
   @media (min-width: 1248px) {
-    @include dFlex(column, center, center);
+    @include dFlex(column, flex-start, center);
   }
 
   form {
-    @include dFlex(column, center, center);
 
+    @include dFlex(column, center, center);
     .upper-form {
-      @include dFlex(row, center, center);
-      width: 100%;
+      @include dFlex(column, flex-start, flex-start);
+      width: 95%;
+      overflow: hidden;
+
+      .outer-input-frame{
+        @include dFlex(row, space-between, flex-start);
+        width: 100%;
+        max-height: 700px;
+        max-width: 1024px;
+
+
+        .divider {
+          height: 80%;
+          border: 1px solid rgba(0, 0, 0, 0.3);
+          margin-top:2rem;
+        }
+
+        .left-side{
+          width: 98%;
+          @include dFlex(column, flex-start, flex-start);
+          gap: 5rem;
+          .input-container {
+            width: 100%;
+            max-width: 350px !important;
+          }
+        }
+        .right-side{
+          width: 98%;
+          @include dFlex(column, flex-start, flex-end);
+          gap: 2.8rem;
+          .input-container {
+            width: 100%;
+            max-width: 350px !important;
+
+
+          }
+        }
+      }
+
     }
   }
 }
+
