@@ -29,9 +29,17 @@ select option:hover {
   padding: 0;
   background-color: unset;
   border-radius: unset;
+
+  @media (min-width: 1000px) {
+    height: calc(100vh - 80px);
+  }
+
+  @media (min-width: 1248px) {
+    display: none !important;
+  }
 }
 
-.circle{
+.circle {
   border-radius: 100%;
   width: 42px;
   height: 42px;
@@ -41,21 +49,24 @@ select option:hover {
   color: #FFFFFF;
 }
 
-.circle-name{
-@include dFlex(row, center, center);
+.circle-name {
+  @include dFlex(row, center, center);
   gap: 1rem;
   height: 56px;
   width: 100%;
-  label{
+
+  label {
     @include dFlex(row, unset, center);
     width: 100%;
   }
 }
-.contacts-overlay{
+
+.contacts-overlay {
   @include dFlex(row, space-between, center);
   gap: 1rem;
   border-radius: 10px;
   width: 100%;
+
   &:hover {
     color: #FFFFFF;
   }
@@ -223,7 +234,8 @@ button {
 .success-frame {
   color: green;
 }
-.headline{
+
+.headline {
   width: 90%;
   @include dFlex(row, flex-start, center);
 }
@@ -233,25 +245,53 @@ button {
   border-bottom: 1px solid blue;
 }
 
-.list-item{
+.list-item {
   @include dFlex(row, space-between, center);
   width: 100%;
 }
 
-.subtask-frame{
+.subtask-frame {
   width: 100%;
   @include dFlex(row, center, center);
 }
 
-.subtask-list-container{
+.subtask-list-container {
   width: 100%;
   position: relative;
 
-  .option-img{
+  .option-img {
     position: absolute;
     right: 5%;
     top: 20px;
     gap: 0.5rem;
     @include dFlex(row, center, center);
+  }
+}
+
+
+
+.addTask-container {
+  height: calc(100vh - 80px - 80px);
+
+  @media (min-width: 1000px) {
+    height: calc(100vh - 80px);
+  }
+}
+
+
+.main-container-desktop {
+  display: none;
+
+  @media (min-width: 1248px) {
+    @include dFlex(column, center, center);
+  }
+
+  form {
+    @include dFlex(column, center, center);
+
+    .upper-form {
+      @include dFlex(row, center, center);
+      width: 100%;
+    }
   }
 }
