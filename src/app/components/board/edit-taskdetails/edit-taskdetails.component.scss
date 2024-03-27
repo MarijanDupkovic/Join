@@ -23,6 +23,8 @@ select option:hover {
 .details-box {
   width: 100%;
   @include dFlex(column, center, flex-start);
+
+
 }
 
 .input-container {
@@ -34,6 +36,10 @@ select option:hover {
   width: 100%;
   @include dFlex(column, flex-start, flex-start);
   height: calc(100vh - 80px - 80px - 4rem);
+  @media (min-height: 900px) {
+    height: unset;
+    max-height: 50%;
+  }
 
 }
 

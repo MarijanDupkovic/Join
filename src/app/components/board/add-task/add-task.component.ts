@@ -168,7 +168,7 @@ export class AddTaskComponent {
         subTasks: this.subTasks
       }
 
-      this.taskService.createTask(body).subscribe(response => {
+      this.taskService.createTask(body).then(response => {
         this.handleSuccessMessages('Task created successfully');
       }, error => {
         if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {

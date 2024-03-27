@@ -7,14 +7,13 @@ import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule
 @Component({
   selector: 'app-edit-taskdetails',
   standalone: true,
-  imports: [CommonModule,EditTaskdetailsComponent,ReactiveFormsModule],
+  imports: [CommonModule, EditTaskdetailsComponent, ReactiveFormsModule],
   templateUrl: './edit-taskdetails.component.html',
   styleUrl: './edit-taskdetails.component.scss'
 })
 export class EditTaskdetailsComponent {
   users: any = [];
-  public static task: any = [];
-  task_details: any = EditTaskdetailsComponent.task;
+  task_details: any = {};
   taskPrio = 0;
   @Output() closeOverlay = new EventEmitter();
   today = new Date().toISOString().split('T')[0];
@@ -31,39 +30,49 @@ export class EditTaskdetailsComponent {
     taskPrio: new FormControl(0)
   });
 
-  constructor(private contacts: ContactsService,private tasks:TaskService) {
-    console.log(this.task_details);
-   }
+  constructor(private contacts: ContactsService, private tasks: TaskService) {
 
-   ngOnInit(): void {
+  }
+
+  ngOnInit(): void {
+
     this.contacts.contacts$.subscribe((users) => {
       this.users = users;
     });
-    this.edit_taskForm.get('taskName')?.setValue(this.task_details['title']);
-    this.edit_taskForm.get('taskDescription')?.setValue(this.task_details['description']);
-    this.edit_taskForm.get('taskPrio')?.setValue(this.task_details['prio']);
-    this.setTaskPrio(this.task_details['prio']);
-    this.edit_taskForm.get('taskDueDate')?.setValue(this.task_details['due_date']);
-    this.edit_taskForm.get('taskCategory')?.setValue(this.task_details['category']);
-    for (let i = 0; i < this.task_details['assigned'].length; i++) {
-      this.taskAssigned.push(new FormControl(this.task_details['assigned'][i]));
+    this.tasks.selected_task$.subscribe((task) => {
+      console.log(task);
+      this.task_details = task;
+      console.log(this.task_details);
+      if (this.task_details['id']) {
+        this.edit_taskForm.get('taskName')?.setValue(this.task_details['title']);
+        this.edit_taskForm.get('taskDescription')?.setValue(this.task_details['description']);
+        this.edit_taskForm.get('taskPrio')?.setValue(this.task_details['prio']);
+        this.setTaskPrio(this.task_details['prio']);
+        this.edit_taskForm.get('taskDueDate')?.setValue(this.task_details['due_date']);
+        this.edit_taskForm.get('taskCategory')?.setValue(this.task_details['category']);
+        for (let i = 0; i < this.task_details['assigned'].length; i++) {
+          this.taskAssigned.push(new FormControl(this.task_details['assigned'][i]));
+          console.log(this.taskAssigned);
 
-    }
+        }
+      }
+
+    });
   }
 
   close() {
     this.closeOverlay.emit();
   }
 
-  isContactAssigned(contact:any) {
-    this.task_details['assigned'].forEach((assigned:any) => {
+  isContactAssigned(contact: any) {
+    this.task_details['assigned'].forEach((assigned: any) => {
       if (assigned === contact.email) {
         contact.assigned = true;
       }
     });
     return contact.assigned === true;
   }
-   getUserDetails(colorkey: string) {
+  getUserDetails(colorkey: string) {
     let name = '';
     this.users.forEach((user: any) => {
       if (user['color_key'] === colorkey) {
@@ -108,7 +117,7 @@ export class EditTaskdetailsComponent {
   }
 
   getInitials(email: string) {
-    const contact = this.users.find((c:any) => c.email === email);
+    const contact = this.users.find((c: any) => c.email === email);
     if (contact) {
       return contact.firstName[0] + contact.lastName[0];
     }
@@ -133,14 +142,15 @@ export class EditTaskdetailsComponent {
   }
 
   getColorKey(email: string) {
-    const contact = this.users.find((c:any) => c.email === email);
+    const contact = this.users.find((c: any) => c.email === email);
     if (contact) {
       return contact.color_key;
     }
     return '';
   }
 
-  saveTask() {
+  async saveTask() {
+    console.log(this.taskAssigned);
     let body = {
       id: this.task_details['id'],
       title: this.edit_taskForm.get('taskName')?.value,
@@ -148,13 +158,12 @@ export class EditTaskdetailsComponent {
       due_date: this.edit_taskForm.get('taskDueDate')?.value,
       category: this.edit_taskForm.get('taskCategory')?.value,
       prio: this.taskPrio,
-      assigned: this.edit_taskForm.get('taskAssigned')?.value,
+      assigned: this.taskAssigned.value,
     }
-    this.tasks.updateTask(body).then((response:any) => {
-      console.log(response);
-      if(response['status'] === 200){
-        this.close();
-      }
+
+    await this.tasks.updateTask(body).then((response: any) => {
+      this.tasks.getTasks();
+      this.close();
     });
   }
 }

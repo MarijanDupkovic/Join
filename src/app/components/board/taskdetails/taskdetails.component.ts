@@ -85,6 +85,7 @@ export class TaskdetailsComponent {
     this.tasks.deleteTask(body).then((response:any) => {
       if(response['status'] === 200){
         this.taskDeleted.emit();
+        this.tasks.getTasks();
         this.close();
       }
     });
@@ -93,8 +94,8 @@ export class TaskdetailsComponent {
 
   openEditView() {
     this.isEdit = true;
-    EditTaskdetailsComponent.task = this.task_details;
   }
+
   getUserDetails(colorkey: string) {
     let name = '';
     this.users.forEach((user: any) => {

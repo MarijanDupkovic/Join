@@ -3,7 +3,7 @@
     <div class="head-search">
       <div class="headline">
         <h1>Board</h1>
-        <a class="addTask-btn"><img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
+        <a class="addTask-btn" [routerLink]="['/board/addTask']"><img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
       </div>
       <div class="input-frame">
         <input type="text" class="form-control" (keyup)="searchTasks($event.target)">
@@ -11,8 +11,9 @@
           <div class="divider"></div>
           <img src="../../../../assets/img/inputs/search.svg" alt="">
         </div>
-
       </div>
+      <a class="addTask-btn-desktop" [routerLink]="['/board/addTask']" routerLinkActive="router-link-active" >Add Task<img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
+
     </div>
     <div class="tasks-main-frame">
       <div class="status-frame">
@@ -67,7 +68,7 @@
             </ng-container>
             <ng-container *ngIf="isFiltered">
               <ng-container *ngFor="let task of filtered_tasks">
-                <div class="card" *ngIf="task.status == 'inProgress'" (click)="openDetailsView(task)"
+                <div class="card" *ngIf="task.status == 'todo'" (click)="openDetailsView(task)"
                   style="align-self: flex-start;">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>

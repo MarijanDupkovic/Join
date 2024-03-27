@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../services/contacts.service';
 import { CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragRelease, CdkDragStart, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskdetailsComponent } from '../taskdetails/taskdetails.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-kb-board',
   standalone: true,
-  imports: [CommonModule, DragDropModule, TaskdetailsComponent],
+  imports: [CommonModule, DragDropModule, TaskdetailsComponent,RouterLink],
   templateUrl: './kb-board.component.html',
   styleUrl: './kb-board.component.scss'
 })
@@ -33,17 +34,26 @@ export class KbBoardComponent implements OnInit {
       this.loaded_tasks = data;
       if (this.loaded_tasks.length > 0) {
         this.loaded_tasks.forEach(async (task: any) => {
+          if (!task.users) {
           task.users = [];
           for (let email of task.assigned) {
             await this.getUserDetails(email).then((userDetails) => {
               task.users.push(userDetails);
             });
           }
+        }
         });
       }
     });
 
   }
+
+  ngOnDestroy() {
+    this.tasks.tasks$.subscribe().unsubscribe();
+    this.acronyms = [];
+    this.users = [];
+  }
+
   openDetailsView(task: any) {
     this.tasks.setSelectedTask(task);
     this.isDetailView = true;
@@ -122,15 +132,20 @@ export class KbBoardComponent implements OnInit {
 
   searchTasks(target: any) {
     if (target.value === "") {
+
       this.isFiltered = false;
       this.filtered_tasks = [];
       return;
     } else {
+      console.log(target.value);
+      console.log(this.loaded_tasks);
       this.isFiltered = true;
       this.filtered_tasks = this.loaded_tasks.filter((task: any) =>
+
         task.title.toLowerCase().includes(target.value.toLowerCase()) ||
         task.description.toLowerCase().includes(target.value.toLowerCase())
       );
+      console.log(this.filtered_tasks);
     }
   }
 
@@ -175,7 +190,9 @@ export class KbBoardComponent implements OnInit {
         status: newStatus
       };
 
-      this.tasks.updateTaskStatus(body);
+      this.tasks.updateTaskStatus(body).then(() => {
+        this.tasks.getTasks();
+      });
     }
   }
 }
