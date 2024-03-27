@@ -199,3 +199,21 @@ app-summary,app-kb-board, app-add-task,app-contacts {
       width: 100%;
   }
 }
+
+.close-button-overlays{
+  @include dFlex(row,center,center);
+  align-self: flex-start;
+  width:46px;
+  height:46px;
+
+  img{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  &:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+  }
+}

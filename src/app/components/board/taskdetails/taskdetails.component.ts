@@ -12,8 +12,7 @@ import { EditTaskdetailsComponent } from '../edit-taskdetails/edit-taskdetails.c
   styleUrl: './taskdetails.component.scss'
 })
 export class TaskdetailsComponent {
-  public static task: any = [];
-  task_details: any = TaskdetailsComponent.task;
+  task_details: any = [];
   users: any = [];
   isEdit: boolean = false;
 
@@ -22,6 +21,9 @@ export class TaskdetailsComponent {
   constructor(private contacts: ContactsService,private tasks:TaskService) { }
 
   ngOnInit(): void {
+    this.tasks.selected_task$.subscribe((task) => {
+      this.task_details = task;
+    });
     this.contacts.contacts$.subscribe((users) => {
       this.users = users;
     });
@@ -71,6 +73,8 @@ export class TaskdetailsComponent {
   }
 
   close(): void {
+    this.users = [];
+    this.task_details = [];
     this.closeOverlay.emit();
   }
 

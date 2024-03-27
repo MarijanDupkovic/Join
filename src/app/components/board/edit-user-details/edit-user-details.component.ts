@@ -78,6 +78,7 @@ export class EditUserDetailsComponent {
   }
 
   close(): void {
+
     this.closeOverlay.emit();
   }
 

@@ -1,4 +1,4 @@
-<div style="height:calc(100vh - 80px - 80px)">
+<div class="main-main">
   <div class="main-container contacts-container w-100">
     <div class="head-search">
       <div class="headline">
@@ -15,20 +15,22 @@
       </div>
     </div>
     <div class="tasks-main-frame">
-      <div class="status-frame" *ngFor="let status of ['todo', 'inProgress', 'awaitingFeedback', 'done']">
+      <div class="status-frame">
         <div class="status-container">
           <div class="status-headline">
-            <h3>{{ status }}</h3>
+            <h3>To-Do</h3>
           </div>
-          <div class="cards-container" cdkDropList [id]="status" [cdkDropListData]="getTasksByStatus(status)"
-            (cdkDropListDropped)="drop($event)">
-            <div class="empty-container" *ngIf="!hasTasks(status)">
-              <span>No Tasks {{ status }}</span>
+          <div class="cards-container" #todo="cdkDropList" [cdkDropListConnectedTo]="[inProgress,awaitingFeedback,done]" [class.dragging-over]="isDraggingOver === 'todo'" cdkDropList id="todo" [cdkDropListData]="getTasksByStatus('todo')"
+            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'todo')" (cdkDropListExited)="hidePreview($event)">
+            <div class="empty-container" *ngIf="!hasTasks('todo')">
+              <span>No Tasks To-Do</span>
             </div>
             <ng-container *ngIf="!isFiltered">
 
               <ng-container *ngFor="let task of loaded_tasks">
-                <div *ngIf="task.status == status" class="card" cdkDrag (click)="openDetailsView(task)">
+                <div *ngIf="task.status == 'todo'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
+                (cdkDragReleased)="dragEnd($event)"
+                draggable="true">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -65,7 +67,7 @@
             </ng-container>
             <ng-container *ngIf="isFiltered">
               <ng-container *ngFor="let task of filtered_tasks">
-                <div class="card" *ngIf="task.status == status" (click)="openDetailsView(task)"
+                <div class="card" *ngIf="task.status == 'inProgress'" (click)="openDetailsView(task)"
                   style="align-self: flex-start;">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
@@ -102,6 +104,290 @@
               </ng-container>
             </ng-container>
 
+
+
+          </div>
+        </div>
+      </div>
+      <div class="status-frame">
+        <div class="status-container">
+          <div class="status-headline">
+            <h3>In Progress</h3>
+          </div>
+          <div class="cards-container" #inProgress="cdkDropList" [cdkDropListConnectedTo]="[todo,awaitingFeedback,done]" [class.dragging-over]="isDraggingOver === 'inProgress'" cdkDropList id="inProgress" [cdkDropListData]="getTasksByStatus('inProgress')"
+            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'inProgress')" (cdkDropListExited)="hidePreview($event)">
+            <div class="empty-container" *ngIf="!hasTasks('inProgress')">
+              <span>No Tasks in Progress</span>
+            </div>
+            <ng-container *ngIf="!isFiltered">
+
+              <ng-container *ngFor="let task of loaded_tasks">
+                <div *ngIf="task.status == 'inProgress'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
+                (cdkDragReleased)="dragEnd($event)"
+                draggable="true">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="isFiltered">
+              <ng-container *ngFor="let task of filtered_tasks">
+                <div class="card" *ngIf="task.status == 'inProgress'" (click)="openDetailsView(task)"
+                  style="align-self: flex-start;">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="status-frame">
+        <div class="status-container">
+          <div class="status-headline">
+            <h3>Awaiting feeback</h3>
+          </div>
+          <div class="cards-container" #awaitingFeedback="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,done]" [class.dragging-over]="isDraggingOver === 'awaitingFeedback'" cdkDropList id="awaitingFeedback" [cdkDropListData]="getTasksByStatus('awaitingFeedback')"
+            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'awaitingFeedback')" (cdkDropListExited)="hidePreview($event)">
+            <div class="empty-container" *ngIf="!hasTasks('awaitingFeedback')">
+              <span>No Tasks awaiting Feedback</span>
+            </div>
+            <ng-container *ngIf="!isFiltered">
+
+              <ng-container *ngFor="let task of loaded_tasks">
+                <div *ngIf="task.status == 'awaitingFeedback'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
+                (cdkDragReleased)="dragEnd($event)"
+                draggable="true">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="isFiltered">
+              <ng-container *ngFor="let task of filtered_tasks">
+                <div class="card" *ngIf="task.status == 'awaitingFeedback'" (click)="openDetailsView(task)"
+                  style="align-self: flex-start;">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="status-frame">
+        <div class="status-container">
+          <div class="status-headline">
+            <h3>Done</h3>
+          </div>
+          <div class="cards-container" #done="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,awaitingFeedback]" [class.dragging-over]="isDraggingOver === 'done'" cdkDropList id="done" [cdkDropListData]="getTasksByStatus('done')"
+            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'done')" (cdkDropListExited)="hidePreview($event)">
+            <div class="empty-container" *ngIf="!hasTasks('done')">
+              <span>No Tasks done</span>
+            </div>
+            <ng-container *ngIf="!isFiltered">
+
+              <ng-container *ngFor="let task of loaded_tasks">
+                <div *ngIf="task.status == 'done'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
+                (cdkDragReleased)="dragEnd($event)"
+                draggable="true">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="isFiltered">
+              <ng-container *ngFor="let task of filtered_tasks">
+                <div class="card" *ngIf="task.status == 'done'" (click)="openDetailsView(task)"
+                  style="align-self: flex-start;">
+                  <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
+                    <span>{{ task['category'] }}</span>
+                  </div>
+                  <div class="title">
+                    <p>{{ task['title'] }}</p>
+                  </div>
+                  <div class="description-frame">
+                    <p>{{ task['description'] }}</p>
+                  </div>
+                  <div class="progress-container">
+                    <progress value="{{getSubtaskProgress(task).completedSubtasks}}"
+                      max="{{getSubtaskProgress(task).totalSubtasks}}"></progress>
+                    <span>{{getSubtaskProgress(task).completedSubtasks}}/{{getSubtaskProgress(task).totalSubtasks}}
+                      Subtasks</span>
+                  </div>
+                  <div class="acronym-prio-container">
+                    <div class="acronym-container">
+                      <div *ngFor="let user of task.users" class="circle" [style.background-color]="'#' + user.color">
+                        {{ user.acronym }}
+                      </div>
+                    </div>
+                    <div>
+                      <img [src]="formatTaskPrio(task['prio'])">
+                    </div>
+                  </div>
+                  <div class="nav-arrows">
+                    <a (click)="moveTask(task,'up')" class="up"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                    <a (click)="moveTask(task,'down')" class="down"><img
+                        src="../../../../assets/img/navigation/arrowIconMobile.svg" alt=""></a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+
+
           </div>
         </div>
       </div>
@@ -112,4 +398,4 @@
   </div>
 </div>
 <app-taskdetails *ngIf="isDetailView" class="overlay-container" (taskDeleted)="init()"
-  (closeOverlay)="isDetailView = false;init()"></app-taskdetails>
+  (closeOverlay)="isDetailView = false;"></app-taskdetails>

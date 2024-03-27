@@ -8,101 +8,156 @@
   box-shadow: 0px 0 4px 0px rgba(0, 0, 0, 0.16);
   padding: 2rem;
   gap: 0.5rem;
+  max-width: 320px;
   @include dFlex(column, unset, unset);
-}
-app-edit-taskdetails{
-  width: 100%;
-  @include dFlex(row, center, center);
-}
-.cat-bg {
-  height: 27px;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  @include dFlex(row, center, center);
-  color: #FFFFFF;
-  margin-bottom: 0.5rem;
-  padding: 0 0.5rem;
-  font-size: 1rem;
-}
-.headline-frame{
-  @include dFlex(row, space-between, center);
-  width: 100%;
 
-}
-.task-title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  @include dFlex(row, unset, flex-start);
-  max-height: 86px;
-  width: 100%;
+  @media (min-width:1248px) {
+    gap: 2rem;
+  }
 
-  p {
-    margin: 0;
-    padding: 0;
+  .headline-frame {
+    @include dFlex(row, space-between, center);
+    width: 100%;
+
+    .cat-bg {
+      height: 27px;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      @include dFlex(row, center, center);
+      color: #FFFFFF;
+      margin-bottom: 0.5rem;
+      padding: 0 0.5rem;
+      font-size: 1rem;
+
+      @media(min-width: 1248px) {
+        height: 48px;
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .task-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    @include dFlex(row, unset, flex-start);
+    max-height: 86px;
+    width: 100%;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .task-desc {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 1rem 0;
+    width: 100%;
+    max-height: 57px;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .task-dueDate {
+    @include dFlex(row, flex-start, center);
+    width: 100%;
+    gap: 1.5625rem;
+    font-size: 1rem;
+
+    .date-date {
+      font-weight: 400;
+      color: #000000;
+    }
+  }
+
+  .prio-container {
+    @include dFlex(row, flex-start, center);
+    width: 100%;
+    gap: 2.25rem;
+
+    .priority {
+      @include dFlex(row, center, center);
+      gap: 1rem;
+    }
   }
 }
 
-.prio-container{
-  @include dFlex(row, flex-start, center);
+app-edit-taskdetails {
   width: 100%;
-  gap: 2.25rem;
-}
-
-.priority{
   @include dFlex(row, center, center);
-  gap: 1rem;
 }
 
-.delete-edit-container{
+
+
+
+
+
+
+
+.delete-edit-container {
   align-self: flex-end;
-  @include dFlex(row, center, center);
+  @include dFlex(row, unset, center);
   gap: 1rem;
   overflow: hidden;
   height: 24px;
-  div{
+  font-weight: 400;
+  width: 200px;
+  div {
     height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.1);
   }
-  a{
+
+  a {
     @include dFlex(row, center, center);
     gap: 0.5rem;
+    width: 100%;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      fill:#2A3647;
+    }
+
+    &:hover {
+      color:#29ABE2 ;
+      font-weight: 700;
+
+      svg{
+        fill: #29ABE2;
+      }
+
+    }
   }
+
+
 }
 
 .subtasks-container {
   width: 100%;
   gap: 1rem;
   @include dFlex(row, flex-start, center);
-
+  .subtask-line{
+    @include dFlex(row, flex-start, center);
+    gap: 1rem;
+    width: 100%;
+  }
   image {
     width: 20px;
     height: 20px;
   }
-}
 
-.task-desc {
-  font-size: 1rem;
-  font-weight: 400;
-  margin: 1rem 0;
-  width: 100%;
-  max-height: 57px;
-
-  p {
-    margin: 0;
-    padding: 0;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
   }
 }
 
-.task-dueDate {
-  @include dFlex(row, flex-start, center);
-  width: 100%;
-  gap: 1.5625rem;
-  font-size: 1rem;
-  .date-date {
-    font-weight: 400;
-    color: #000000;
-  }
-}
+
+
 
 .task-item-label {
   font-weight: 700;

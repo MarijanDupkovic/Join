@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ElementRef } from '@angular/core';
 import { TaskService } from '../../../services/task.service';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../services/contacts.service';
-import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnter, CdkDragExit, CdkDragRelease, CdkDragStart, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskdetailsComponent } from '../taskdetails/taskdetails.component';
 
 @Component({
@@ -21,27 +21,42 @@ export class KbBoardComponent implements OnInit {
   public isDetailView = false;
   static isDetailView: boolean;
   detailsView: any;
+  isDraggingOver = '';
   constructor(private tasks: TaskService, private contact: ContactsService) { }
   ngOnInit(): void {
     this.init();
+
   }
   init() {
-    this.tasks.getTasks().subscribe(async (tasks) => {
-      this.loaded_tasks = tasks.tasks;
-      for (let task of this.loaded_tasks) {
-        task.users = [];
-        for (let email of task.assigned) {
-          let userDetails = await this.getUserDetails(email);
-          task.users.push(userDetails);
-        }
+
+    this.tasks.tasks$.subscribe((data) => {
+      this.loaded_tasks = data;
+      if (this.loaded_tasks.length > 0) {
+        this.loaded_tasks.forEach(async (task: any) => {
+          task.users = [];
+          for (let email of task.assigned) {
+            await this.getUserDetails(email).then((userDetails) => {
+              task.users.push(userDetails);
+            });
+          }
+        });
       }
     });
+
   }
   openDetailsView(task: any) {
+    this.tasks.setSelectedTask(task);
     this.isDetailView = true;
-    TaskdetailsComponent.task = task;
+
+
+  }
+  dragStart(event: CdkDragStart) {
+    event.source.element.nativeElement.classList.add('dragging');
   }
 
+  dragEnd(event: CdkDragRelease) {
+    event.source.element.nativeElement.classList.remove('dragging');
+  }
   getCategoryColor(category: string) {
     switch (category) {
       case 'Technical Task':
@@ -55,6 +70,14 @@ export class KbBoardComponent implements OnInit {
       default:
         return 'white';
     }
+  }
+
+  showPreview(event: CdkDragEnter, status: string) {
+    this.isDraggingOver = status;
+  }
+
+  hidePreview(event: CdkDragExit) {
+    this.isDraggingOver = '';
   }
 
   getSubtaskProgress(task: any) {
@@ -102,40 +125,36 @@ export class KbBoardComponent implements OnInit {
       this.isFiltered = false;
       this.filtered_tasks = [];
       return;
-    }else{
+    } else {
       this.isFiltered = true;
-      this.filtered_tasks = this.loaded_tasks.filter((task:any) =>
-      task.title.toLowerCase().includes(target.value.toLowerCase()) ||
-      task.description.toLowerCase().includes(target.value.toLowerCase())
-    );
+      this.filtered_tasks = this.loaded_tasks.filter((task: any) =>
+        task.title.toLowerCase().includes(target.value.toLowerCase()) ||
+        task.description.toLowerCase().includes(target.value.toLowerCase())
+      );
     }
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (event.event.target instanceof HTMLElement && event.event.target.id) {
-      let status = event.event.target.id;
-      if (event.container.id === event.event.target!.id) {
+    this.isDraggingOver = '';
+
+    if (event.item.dropContainer && event.item.dropContainer.id) {
+      let status = event.item.dropContainer.id;
+      if (event.container.id === status) {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
         let body = {
-          id: event.container.data[event.previousIndex as number]['id' as any],
-          status: status
+          id: event.item.dropContainer.data[0].id,
+          status: event.container.id
         }
+
         this.tasks.updateTaskStatus(body).then(() => {
-          this.tasks.getTasks().subscribe(async (tasks) => {
-            this.loaded_tasks = tasks.tasks;
-            for (let task of this.loaded_tasks) {
-              task.users = [];
-              for (let email of task.assigned) {
-                let userDetails = await this.getUserDetails(email);
-                task.users.push(userDetails);
-              }
-            }
-          });
+          this.tasks.getTasks();
         });
       }
     }
   }
+
+
 
   moveTask(task: any, direction: string) {
     const statuses = ["todo", "inProgress", "awaitingFeedback", "done"];
@@ -156,18 +175,7 @@ export class KbBoardComponent implements OnInit {
         status: newStatus
       };
 
-      this.tasks.updateTaskStatus(body).then(() => {
-        this.tasks.getTasks().subscribe(async (tasks) => {
-          this.loaded_tasks = tasks.tasks;
-          for (let task of this.loaded_tasks) {
-            task.users = [];
-            for (let email of task.assigned) {
-              let userDetails = await this.getUserDetails(email);
-              task.users.push(userDetails);
-            }
-          }
-        });
-      });
+      this.tasks.updateTaskStatus(body);
     }
   }
 }
