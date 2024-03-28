@@ -1,5 +1,5 @@
-<div class="frame" style="height:calc(100vh - 80px - 80px)">
-  <div class="main-container contacts-container w-100">
+<div class="frame" >
+  <div class="main-container contacts-container">
 
     <div *ngFor="let group of loaded_contacts" class="w-100">
       <div *ngIf="group.value.length > 0" class="group-container">
@@ -22,6 +22,7 @@
       <img src="../../../../assets/img/buttons/person_add.svg" alt="">
     </div>
   </div>
+  <app-user-details  class="user-details-comp user-details-comp-desktop" (closeOverlay)="isUserDetailsVisible = false"></app-user-details>
 
 </div>
 <app-user-details *ngIf="isUserDetailsVisible" class="user-details-comp" (closeOverlay)="isUserDetailsVisible = false"></app-user-details>

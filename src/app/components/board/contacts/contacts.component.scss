@@ -77,4 +77,47 @@ hr{
   left: 0;
   bottom:80px;
   background-color: #F6F7F8;
+
+  @media (min-width:1000px){
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    left: 232px;
+    padding-top: 3rem;
+  }
+
+  @media (min-width:1248px){
+    display: none;
+  }
+}
+
+
+.user-details-comp-desktop{
+  display: none;
+
+  @media (min-width:1248px){
+
+    display: block;
+    position: unset;
+    width: 100%;
+    padding-top: 3rem;
+    background-color: #F6F7F8;
+  }
+
+}
+
+.main-container{
+  height:calc(100vh - 80px - 80px);
+@media (min-width:1248px){
+  width: 50%;
+  max-width: 550px;
+  height: calc(100vh - 80px);
+}
+}
+
+
+.frame{
+  @include dFlex(row, flex-start, flex-start);
+
 }
