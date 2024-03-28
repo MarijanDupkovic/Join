@@ -16,6 +16,8 @@ export class UserDetailsComponent {
   isEditContactVisible = false;
   email: string = '';
   contact: any = [];
+  editHover = false;
+  deleteHover = false;
   @ViewChild('editOptions')
   editOptions!: ElementRef;
   constructor(private contacts: ContactsService, private elementRef: ElementRef) { }

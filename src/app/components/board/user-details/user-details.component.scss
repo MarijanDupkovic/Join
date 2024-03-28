@@ -8,19 +8,62 @@
   border: 1px solid #E5E5E5;
   margin-left: 8px;
   color: #FFFFFF;
+
+  @media (min-width: 1248px){
+    width: 120px;
+    height: 120px;
+    font-size: 2.9375rem;
+  }
 }
 .details-frame{
   width: 100%;
   @include dFlex(column, center, center);
   margin-top: 1rem;
-
+  @media (min-width: 1248px){
+    gap:1rem;
+  }
 }
 
 .headline-frame{
   @include dFlex(row, space-between, center);
   width: 100%;
+
   a{
     align-self: flex-start;
+
+    @media (min-width: 1248px){
+      display: none;
+    }
+  }
+  @media (min-width: 1248px){
+    h1{
+      font-size: 3.75rem;
+    }
+  }
+}
+
+.edit-delete-desktop{
+  display: none ;
+  @media (min-width: 1248px){
+    @include dFlex(row, flex-start, center);
+    gap: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    width: 250px;
+    a{
+      @include dFlex(row, flex-start, center);
+      gap: 0.5rem;
+      width: 50%;
+      img{
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+      }
+      &:hover{
+        color: #29ABE2;
+        font-weight: 700;
+      }
+    }
   }
 }
 
@@ -31,6 +74,12 @@
 .pre-details{
   font-size: 1.75rem;
   font-weight: 700;
+
+  @media (min-width: 1248px){
+    @include dFlex(column, space-evenly, flex-start);
+    height: 122px;
+    font-size: 2.9375rem;
+  }
 
 }
 hr{
@@ -43,11 +92,17 @@ hr{
   width: 90%;
   @include dFlex(row, flex-start, center);
   margin-top: 1rem;
+
+
 }
 
 .contact-details-inner-frame{
   @include dFlex(column, flex-start, center);
   gap: 0.5rem;
+  @media (min-width: 1248px){
+    gap: 1rem;
+
+  }
 
   .contact-details-name-frame{
     @include dFlex(row, flex-start, center);
@@ -73,6 +128,14 @@ h5{
 .contact-details-info-frame{
   @include dFlex(column, flex-start, flex-start);
   width: 100%;
+  @media (min-width: 1248px){
+    gap: 1rem;
+
+    h4{
+      font-size: 1.5rem;
+
+    }
+  }
 }
 .addButton{
   position: absolute;
@@ -88,6 +151,10 @@ h5{
     width: 32px;
     height: 32px;
     object-fit: contain;
+  }
+
+  @media (min-width: 1248px){
+    display: none !important;
   }
 }
 
@@ -116,5 +183,9 @@ h5{
   span{
     font-size: 1rem;
     font-weight: 400;
+  }
+
+  @media (min-width: 1248px){
+    display: none;
   }
 }

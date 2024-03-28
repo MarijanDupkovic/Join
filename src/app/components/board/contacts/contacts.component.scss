@@ -68,6 +68,9 @@ hr{
     height: 32px;
     object-fit: contain;
   }
+  @media (min-width:1248px){
+    display: none;
+  }
 }
 
 .user-details-comp{
