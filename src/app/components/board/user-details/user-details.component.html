@@ -9,7 +9,7 @@
   </div>
 
   <div class="contact-details-frame">
-    @if(contact.email){
+    @if(contact && contact.email){
     <div class="contact-details-inner-frame">
       <div class="contact-details-name-frame">
         <div class="circle" [style.background-color]="'#' + contact.color_key">

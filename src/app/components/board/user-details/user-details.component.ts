@@ -24,8 +24,11 @@ export class UserDetailsComponent {
 
   ngOnInit(): void {
     this.contacts.userDetailsEmail$.subscribe((email: string) => {
-      this.email = email;
+      if (email) {
+        this.email = email;
       this.getUserDetails();
+      }
+
     });
     this.contacts.userDetailsChanged.subscribe(() => {
       this.getUserDetails();
