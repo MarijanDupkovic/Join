@@ -31,7 +31,7 @@
               <ng-container *ngFor="let task of loaded_tasks">
                 <div *ngIf="task.status == 'todo'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
                 (cdkDragReleased)="dragEnd($event)"
-                draggable="true">
+                draggable="true" [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -125,7 +125,7 @@
               <ng-container *ngFor="let task of loaded_tasks">
                 <div *ngIf="task.status == 'inProgress'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
                 (cdkDragReleased)="dragEnd($event)"
-                draggable="true">
+                draggable="true" [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -219,7 +219,7 @@
               <ng-container *ngFor="let task of loaded_tasks">
                 <div *ngIf="task.status == 'awaitingFeedback'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
                 (cdkDragReleased)="dragEnd($event)"
-                draggable="true">
+                draggable="true" [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -313,7 +313,7 @@
               <ng-container *ngFor="let task of loaded_tasks">
                 <div *ngIf="task.status == 'done'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
                 (cdkDragReleased)="dragEnd($event)"
-                draggable="true">
+                draggable="true" [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>

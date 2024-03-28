@@ -55,6 +55,12 @@ export class AddTaskComponent {
     });
   }
 
+  resetForm() {
+    this.taskForm.reset();
+    this.taskPrio = 0;
+    this.subTasks = [];
+  }
+
   setTaskPrio(prio: number) {
     this.taskPrio = this.taskPrio === prio ? 0 : prio;
   }

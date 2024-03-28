@@ -158,7 +158,7 @@ export class KbBoardComponent implements OnInit {
         moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       } else {
         let body = {
-          id: event.item.dropContainer.data[0].id,
+          id: event.item.data.id,
           status: event.container.id
         }
 

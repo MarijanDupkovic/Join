@@ -132,120 +132,123 @@
     </div>
     <form [formGroup]="taskForm" (submit)="createTask()">
       <div class="upper-form">
-      <div class="outer-input-frame">
-        <div class="left-side">
-          <div class="input-container">
-            <label for="taskName">Title<span>*</span></label>
-            <input type="text" id="taskName" class="form-control" placeholder="Enter a title"
-              formControlName="taskName">
-          </div>
-          <div class="input-container">
-            <label for="taskDescription">Description</label>
-            <textarea type="textarea" id="taskDescription" class="form-control" placeholder="Enter a description"
-              formControlName="taskDescription"></textarea>
-          </div>
-          <div class="input-container">
-            <label>Assigned to</label>
-            <div class="dropdown" (click)="dropdownOpen = !dropdownOpen">Select Contacts</div>
-            <div class="option-container" [style.display]="dropdownOpen ? 'flex' : 'none'">
-              <div *ngFor="let contact of contacts; let i = index" class="contacts-overlay"
-                [style.background-color]="contact.isSelected ? '#2A3647' : 'unset'"
-                [style.color]="contact.isSelected ? '#FFFFFF' : 'unset'">
-                <div class="circle-name">
-
-                  <label [for]="'taskAssigned' + i">
-                    <div class="circle" [style.background-color]="'#' + contact.color_key">
-                      <span>{{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}</span>
-                    </div>
-                    {{contact.firstName}} {{contact.lastName}}
-                  </label>
-                </div>
-                <input type="checkbox" [id]="'taskAssigned' + i" [value]="contact.email"
-                  (change)="onCheckboxChange($event, contact)">
-              </div>
+        <div class="outer-input-frame">
+          <div class="left-side">
+            <div class="input-container">
+              <label for="taskName">Title<span>*</span></label>
+              <input type="text" id="taskName" class="form-control" placeholder="Enter a title"
+                formControlName="taskName">
             </div>
-            <div class="selected-contacts">
-              <div *ngFor="let email of taskAssigned.value">
-                <div class="contact-circle">
-                  <div class="circle" [style.background-color]="'#' + getColorKey(email)">
-                    <span>{{getInitials(email)}}</span>
+            <div class="input-container">
+              <label for="taskDescription">Description</label>
+              <textarea type="textarea" id="taskDescription" class="form-control" placeholder="Enter a description"
+                formControlName="taskDescription"></textarea>
+            </div>
+            <div class="input-container">
+              <label>Assigned to</label>
+              <div class="dropdown" (click)="dropdownOpen = !dropdownOpen">Select Contacts</div>
+              <div class="option-container" [style.display]="dropdownOpen ? 'flex' : 'none'">
+                <div *ngFor="let contact of contacts; let i = index" class="contacts-overlay"
+                  [style.background-color]="contact.isSelected ? '#2A3647' : 'unset'"
+                  [style.color]="contact.isSelected ? '#FFFFFF' : 'unset'">
+                  <div class="circle-name">
+
+                    <label [for]="'taskAssigned' + i">
+                      <div class="circle" [style.background-color]="'#' + contact.color_key">
+                        <span>{{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}</span>
+                      </div>
+                      {{contact.firstName}} {{contact.lastName}}
+                    </label>
+                  </div>
+                  <input type="checkbox" [id]="'taskAssigned' + i" [value]="contact.email"
+                    (change)="onCheckboxChange($event, contact)">
+                </div>
+              </div>
+              <div class="selected-contacts">
+                <div *ngFor="let email of taskAssigned.value">
+                  <div class="contact-circle">
+                    <div class="circle" [style.background-color]="'#' + getColorKey(email)">
+                      <span>{{getInitials(email)}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
 
-        </div>
+          <div class="divider"></div>
 
-        <div class="divider"></div>
-
-        <div class="right-side">
-          <div class="input-container">
-            <label for="taskDueDate">Due date<span>*</span></label>
-            <input type="date" id="taskDueDate" class="form-control" placeholder="Enter a description"
-              formControlName="taskDueDate" [min]="today">
-          </div>
-          <div class="input-container">
-            <label for="taskPrio">Prio</label>
-            <div class="prio-frame">
-              <a (click)="setTaskPrio(1)" (mouseenter)="setHoverPrio(1)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 1 || hoverPrio === 1"
-                class="prio-container"><span>Urgent</span><img [src]="getPrioImage(1)" alt=""></a>
-              <a (click)="setTaskPrio(2)" (mouseenter)="setHoverPrio(2)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 2 || hoverPrio === 2"
-                class="prio-container"><span>Medium</span><img [src]="getPrioImage(2)" alt=""></a>
-              <a (click)="setTaskPrio(3)" (mouseenter)="setHoverPrio(3)" (mouseleave)="setHoverPrio(0)" [class.selected]="taskPrio === 3 || hoverPrio === 3" class="prio-container"><span>Low</span><img
-                  [src]="getPrioImage(3)" alt=""></a>
+          <div class="right-side">
+            <div class="input-container">
+              <label for="taskDueDate">Due date<span>*</span></label>
+              <input type="date" id="taskDueDate" class="form-control" placeholder="Enter a description"
+                formControlName="taskDueDate" [min]="today">
             </div>
-          </div>
-          <div class="input-container">
-            <label for="taskCategory">Categories<span>*</span></label>
-            <select id="taskCategory" class="form-control" formControlName="taskCategory">
-              <option value="" disabled>Select task category</option>
-              <option *ngFor="let category of categories" [value]="category">{{category}}</option>
-            </select>
-          </div>
-          <div class="input-container">
-            <label for="subTasks">Subtasks</label>
-            <div *ngIf="!isSubtaskActive" class="input-frame">
-              <input readonly type="text" class="form-control" placeholder="Enter a title">
-              <div class="oneImg">
-                <img src="../../../../assets/img/inputs/add.svg" (click)="isSubtaskActive = !isSubtaskActive" alt="">
+            <div class="input-container">
+              <label for="taskPrio">Prio</label>
+              <div class="prio-frame">
+                <a (click)="setTaskPrio(1)" (mouseenter)="setHoverPrio(1)" (mouseleave)="setHoverPrio(0)"
+                  [class.selected]="taskPrio === 1 || hoverPrio === 1" class="prio-container"><span>Urgent</span><img
+                    [src]="getPrioImage(1)" alt=""></a>
+                <a (click)="setTaskPrio(2)" (mouseenter)="setHoverPrio(2)" (mouseleave)="setHoverPrio(0)"
+                  [class.selected]="taskPrio === 2 || hoverPrio === 2" class="prio-container"><span>Medium</span><img
+                    [src]="getPrioImage(2)" alt=""></a>
+                <a (click)="setTaskPrio(3)" (mouseenter)="setHoverPrio(3)" (mouseleave)="setHoverPrio(0)"
+                  [class.selected]="taskPrio === 3 || hoverPrio === 3" class="prio-container"><span>Low</span><img
+                    [src]="getPrioImage(3)" alt=""></a>
               </div>
             </div>
-            <div *ngIf="isSubtaskActive" class="input-frame">
-              <input type="text" id="subTasks" class="form-control" placeholder="Enter a title"
-                formControlName="subTasks">
-              <div class="moreImg">
-                <img src="../../../../assets/img/inputs/close.svg" (click)="resetSubTask()" alt="">
-                <div class="divider"></div>
-                <img src="../../../../assets/img/inputs/check.svg" (click)="addSubTask()" alt="">
-              </div>
-
+            <div class="input-container">
+              <label for="taskCategory">Categories<span>*</span></label>
+              <select id="taskCategory" class="form-control" formControlName="taskCategory">
+                <option value="" disabled>Select task category</option>
+                <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+              </select>
             </div>
-          </div>
-
-          <div style="width: 95%;">
-
-            <div *ngFor="let subtask of subTasks; let i = index" class="subtask-frame">
-              <div *ngIf="editingSubtask !== subtask" class="list-item">
-                <li>{{subtask}}</li>
-                <div>
-                  <img src="../../../../assets/img/buttons/edit.svg" (click)="editSubTask(subtask)" alt="">
-                  <img src="../../../../assets/img/buttons/delete.svg" (click)="removeSubTask(subtask)" alt="">
+            <div class="input-container">
+              <label for="subTasks">Subtasks</label>
+              <div *ngIf="!isSubtaskActive" class="input-frame">
+                <input readonly type="text" class="form-control" placeholder="Enter a title">
+                <div class="oneImg">
+                  <img src="../../../../assets/img/inputs/add.svg" (click)="isSubtaskActive = !isSubtaskActive" alt="">
                 </div>
               </div>
-              <div *ngIf="editingSubtask === subtask" class="subtask-list-container">
-                <input #editSubtaskInput type="text" [value]="subtask" class="edit-input form-control">
-                <div class="option-img">
-                  <img src="../../../../assets/img/buttons/delete.svg" (click)="removeSubTask(subtask)" alt="">
-                  <img src="../../../../assets/img/inputs/check.svg"
-                    (click)="saveSubTask(editSubtaskInput.value, subtask)" alt="">
+              <div *ngIf="isSubtaskActive" class="input-frame">
+                <input type="text" id="subTasks" class="form-control" placeholder="Enter a title"
+                  formControlName="subTasks">
+                <div class="moreImg">
+                  <img src="../../../../assets/img/inputs/close.svg" (click)="resetSubTask()" alt="">
+                  <div class="divider"></div>
+                  <img src="../../../../assets/img/inputs/check.svg" (click)="addSubTask()" alt="">
                 </div>
+
               </div>
             </div>
 
+            <div style="width: 95%;">
+
+              <div *ngFor="let subtask of subTasks; let i = index" class="subtask-frame">
+                <div *ngIf="editingSubtask !== subtask" class="list-item">
+                  <li>{{subtask}}</li>
+                  <div>
+                    <img src="../../../../assets/img/buttons/edit.svg" (click)="editSubTask(subtask)" alt="">
+                    <img src="../../../../assets/img/buttons/delete.svg" (click)="removeSubTask(subtask)" alt="">
+                  </div>
+                </div>
+                <div *ngIf="editingSubtask === subtask" class="subtask-list-container">
+                  <input #editSubtaskInput type="text" [value]="subtask" class="edit-input form-control">
+                  <div class="option-img">
+                    <img src="../../../../assets/img/buttons/delete.svg" (click)="removeSubTask(subtask)" alt="">
+                    <img src="../../../../assets/img/inputs/check.svg"
+                      (click)="saveSubTask(editSubtaskInput.value, subtask)" alt="">
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
-      </div>
 
 
 
@@ -256,8 +259,12 @@
         <div>
           <span>*</span><span>This field is required</span>
         </div>
-        <button type="submit" [disabled]="!taskForm.valid" class="blue-btn">Create Task<img
-            src="../../../../assets/img/buttons/check.svg" alt=""></button>
+        <div class="addTaskbtns">
+          <a class="white-btn a-btn" (click)="resetForm()">Clear</a>
+          <button type="submit" [disabled]="!taskForm.valid" class="blue-btn">Create Task<img
+              src="../../../../assets/img/buttons/check.svg" alt=""></button>
+        </div>
+
       </div>
     </form>
   </div>
