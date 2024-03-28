@@ -1,52 +1,57 @@
 @import '../../../../mixins.scss';
 
 .contacts-container {
-  height: 100%;
+  height: calc(100vh - 80px - 80px);
   border-radius: unset;
   padding: 0;
   box-shadow: none;
   justify-content: flex-start !important;
+
+  @media (min-width:1000px) {
+    height: calc(100vh - 80px);
+
+  }
 }
 
-.contacts-frame{
-  width:90%;
+.contacts-frame {
+  width: 90%;
   @include dFlex(column, flex-start, center);
 
-  h4{
+  h4 {
     align-self: flex-start;
     padding: 0 24px;
 
   }
 }
 
-.contacts-inner-frame{
+.contacts-inner-frame {
   @include dFlex(row, flex-start, center);
-  gap:2.1875rem;
+  gap: 2.1875rem;
   width: 100%;
   margin-top: 1rem;
   height: 75px;
   cursor: pointer;
 
-  &:hover{
-    background-color:#2A3647;
+  &:hover {
+    background-color: #2A3647;
     color: #FFFFFF;
     border-radius: 10px;
   }
 }
 
-.selected{
-  background-color:#2A3647;
+.selected {
+  background-color: #2A3647;
   color: #FFFFFF;
   border-radius: 10px;
 }
 
-hr{
+hr {
   width: 100%;
   border: 1px solid #E5E5E5;
   margin: 0;
 }
 
-.circle{
+.circle {
   border-radius: 100%;
   width: 42px;
   height: 42px;
@@ -56,26 +61,28 @@ hr{
   color: #FFFFFF;
 }
 
-.pre-details{
+.pre-details {
   @include dFlex(column, flex-start, flex-start);
   gap: 0.5rem;
 
 }
 
-.email-color{
+.email-color {
   color: #29ABE2;
 }
 
-.group-container{
+.group-container {
   @include dFlex(column, center, center);
   width: 100%;
 }
-.addButton-Desktop{
+
+.addButton-Desktop {
   display: none;
-  @media (min-width:1248px){
+
+  @media (min-width:1248px) {
     cursor: pointer;
     @include dFlex(row, center, center);
-    background-color: #2A3647 ;
+    background-color: #2A3647;
     border-radius: 10px;
     width: 90%;
     height: 56px;
@@ -83,11 +90,12 @@ hr{
     margin-top: 1rem;
     font-size: 1.5rem;
     gap: 1rem;
-    &:hover{
+
+    &:hover {
       background-color: #29ABE2;
     }
 
-    img{
+    img {
       width: 32px;
       height: 32px;
       object-fit: contain;
@@ -95,35 +103,37 @@ hr{
   }
 
 }
-.addButton{
+
+.addButton {
   position: absolute;
   top: 75%;
   right: 5%;
   @include dFlex(row, center, center);
-  background-color: #2A3647 ;
+  background-color: #2A3647;
   border-radius: 100%;
   width: 56px;
   height: 56px;
 
-  img{
+  img {
     width: 32px;
     height: 32px;
     object-fit: contain;
   }
-  @media (min-width:1248px){
+
+  @media (min-width:1248px) {
     display: none;
   }
 }
 
-.user-details-comp{
+.user-details-comp {
   position: absolute;
-  top:80px;
+  top: 80px;
   right: 0;
   left: 0;
-  bottom:80px;
+  bottom: 80px;
   background-color: #F6F7F8;
 
-  @media (min-width:1000px){
+  @media (min-width:1000px) {
     right: 0;
     top: 0;
     bottom: 0;
@@ -132,16 +142,16 @@ hr{
     padding-top: 3rem;
   }
 
-  @media (min-width:1248px){
+  @media (min-width:1248px) {
     display: none;
   }
 }
 
 
-.user-details-comp-desktop{
+.user-details-comp-desktop {
   display: none;
 
-  @media (min-width:1248px){
+  @media (min-width:1248px) {
 
     display: block;
     position: unset;
@@ -152,17 +162,21 @@ hr{
 
 }
 
-.main-container{
-  height:calc(100vh - 80px - 80px);
-@media (min-width:1248px){
-  width: 50%;
-  max-width: 550px;
-  height: calc(100vh - 80px);
-}
+.main-container {
+  height: calc(100vh - 80px - 80px);
+  width: 100%;
+
+  @media (min-width:1000px) {
+    height: calc(100vh - 80px);
+  }
+  @media (min-width:1248px) {
+    width: 50%;
+    max-width: 550px;
+  }
 }
 
 
-.frame{
+.frame {
   @include dFlex(row, flex-start, flex-start);
 
 }

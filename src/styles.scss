@@ -176,7 +176,11 @@ h1 {
 .frame {
   width: 100%;
   @include dFlex(column, space-around, center);
-  height: calc(100vh - 80px);
+  height: calc(100vh - 80px - 80px);
+
+  @media(min-width: 1000px) {
+    height: calc(100vh - 80px);
+  }
 }
 
 .main-container {

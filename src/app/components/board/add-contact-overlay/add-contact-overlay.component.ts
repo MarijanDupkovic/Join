@@ -22,6 +22,7 @@ export class AddContactOverlayComponent {
   errorCode?: number;
   errorMessage?: string;
   loading: boolean = false;
+  close_btn_hover: boolean = false;
   constructor(private contacts:ContactsService) {}
   onSubmit(): void {
     let body = {
