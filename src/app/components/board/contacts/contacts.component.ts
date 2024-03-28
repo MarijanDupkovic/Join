@@ -27,6 +27,7 @@ export class ContactsComponent implements OnInit {
   public isAddContactOverlayVisible = false;
   static isAddContactOverlayVisible: boolean;
   isUserDetailsVisible: boolean = false;
+  selectedContact: any;
   constructor(private contactsService: ContactsService) { }
 
   ngOnInit(): void {
@@ -53,6 +54,7 @@ export class ContactsComponent implements OnInit {
   }
 
   openUserDetails(email:string): void {
+    this.selectedContact = email;
     this.contactsService.changeEmail(email);
     this.isUserDetailsVisible = !this.isUserDetailsVisible;
 

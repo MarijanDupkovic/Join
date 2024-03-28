@@ -1,18 +1,21 @@
 <div class="frame" >
   <div class="main-container contacts-container">
-
+    <div class="addButton-Desktop" (click)="toggleAddContact()">
+     <span>Invite new contact</span>
+      <img src="../../../../assets/img/buttons/person_add.svg" alt="">
+    </div>
     <div *ngFor="let group of loaded_contacts" class="w-100">
       <div *ngIf="group.value.length > 0" class="group-container">
         <div class="contacts-frame">
           <h4>{{ group.key }}</h4>
           <hr>
-          <div class="contacts-inner-frame" *ngFor="let contact of group.value" (click)="openUserDetails(contact.email)">
+          <div class="contacts-inner-frame" *ngFor="let contact of group.value" (click)="openUserDetails(contact.email)" [class.selected]="selectedContact == contact.email">
               <div class="circle" [style.background-color]="'#' + contact.color_key" >
                 <span>{{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}</span>
               </div>
             <div class="pre-details">
               <span>{{ contact.firstName }} {{ contact.lastName }}</span>
-              <span>{{ contact.email }}</span>
+              <span class="email-color">{{ contact.email }}</span>
             </div>
           </div>
         </div>
