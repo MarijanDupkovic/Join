@@ -40,7 +40,9 @@ form {
 
 
 
-
+.main-container{
+  max-width: 650px;
+ }
 
 .checkBox-frame{
   @include dFlex(row, center, center);
