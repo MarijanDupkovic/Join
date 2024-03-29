@@ -1,5 +1,7 @@
 <div class="frame">
   <div class="logo-frame">
-    <img src="../../../../assets/img/logos/logo.svg" alt="">
+    <img src="../../../../assets/img/logos/logo.svg" alt="" *ngIf="animationend">
   </div>
+  <img src="../../../../assets/img/logos/logo.svg" alt="" class="flying-img" (animationend)="onAnimationFinished()">
+
 </div>

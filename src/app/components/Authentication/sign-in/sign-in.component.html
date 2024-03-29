@@ -1,45 +1,50 @@
-<div class="frame">
-  <div class="main-container">
-    <div>
-      <h1>Log in</h1>
-      <hr>
+
+<ng-container *ngIf="isAnimation">
+
+  <div class="frame sign-in"  >
+    <div class="main-container" >
+      <div>
+        <h1>Log in</h1>
+        <hr>
+      </div>
+
+      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <div class="w-100 input-frame">
+          <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email"
+            autocomplete="false">
+          <img src="../../../../assets/img/inputs/mail.svg" alt="">
+        </div>
+        <div class="w-100 input-frame">
+          <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password"
+            autocomplete="false">
+          <img src="../../../../assets/img/inputs/lock.svg" alt="">
+        </div>
+        <div class="checkBox-frame">
+          <input type="checkbox" formControlName="remember" id="remember-me"> <span>Remember me</span>
+        </div>
+
+
+        <div class="btn-frame">
+          <button type="submit" class="blue-btn">Log in</button>
+          <button class="white-btn">Guest Log in</button>
+        </div>
+
+
+      </form>
+    </div>
+    <div class="toSignUp-frame">
+      <span>Not a Join user?</span><a href="/signup" class="blue-btn a-btn"> Sign up</a>
+    </div>
+    <div class="legal-frame">
+      <a href="/privacy">Privacy policy</a>
+      <a href="/legalnotice">Legal notice</a>
     </div>
 
-    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-      <div class="w-100 input-frame">
-        <input type="email" id="email" formControlName="email" class="form-control" placeholder="Email" autocomplete="false">
-        <img src="../../../../assets/img/inputs/mail.svg" alt="">
-      </div>
-      <div class="w-100 input-frame">
-        <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password"
-          autocomplete="false">
-        <img src="../../../../assets/img/inputs/lock.svg" alt="">
-      </div>
-      <div class="checkBox-frame">
-        <input type="checkbox" formControlName="remember" id="remember-me"> <span>Remember me</span>
-      </div>
-
-
-      <div class="btn-frame">
-        <button type="submit" class="blue-btn">Log in</button>
-        <button class="white-btn">Guest Log in</button>
-      </div>
-
-
-    </form>
   </div>
-  <div class="toSignUp-frame">
-    <span>Not a Join user?</span><a href="/signup" class="blue-btn a-btn"> Sign up</a>
-  </div>
-  <div class="legal-frame">
-    <a href="/privacy">Privacy policy</a>
-    <a href="/legalnotice">Legal notice</a>
-  </div>
-
-</div>
+</ng-container>
 
 <div *ngIf="errorCode && errorMessage" class="overlay">
-  <div  class="error-frame">
+  <div class="error-frame">
     <h1>Error</h1>
     <hr>
     <span>{{errorCode}}</span>

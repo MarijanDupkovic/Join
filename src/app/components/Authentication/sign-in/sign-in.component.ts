@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { AnimationServiceService } from '../../../services/animation-service.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,8 +23,9 @@ export class SignInComponent {
   errorCode?: number;
   errorMessage?: string;
   loading: boolean = false;
-
-  constructor(private auth: AuthService, private router: Router) { }
+  public  isAnimation = false;
+  static  isAnimation:boolean;
+  constructor(private auth: AuthService, private router: Router,private animationService: AnimationServiceService) { }
 
   ngOnInit(): void {
 
@@ -31,7 +33,9 @@ export class SignInComponent {
       this.setLoading(false);
       this.router.navigateByUrl('/board/summary');
     }
-
+    this.animationService.animationFinished$.subscribe(() => {
+      this.isAnimation = true;
+    });
   }
 
 
@@ -55,6 +59,11 @@ export class SignInComponent {
         }
       }
     );
+  }
+
+ public showSignIn(){
+    console.log('showSignIn');
+    this.isAnimation = true;
   }
 
   setLoading(loading: boolean) {
