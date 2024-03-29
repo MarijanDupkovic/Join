@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { AnimationServiceService } from '../../../services/animation-service.service';
@@ -15,17 +15,37 @@ import { AnimationServiceService } from '../../../services/animation-service.ser
 })
 export class SignInComponent {
   signInForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('',[Validators.required, Validators.email]),
+    password: new FormControl('',[Validators.required, Validators.minLength(8)]),
     remember: new FormControl(''),
   });
+
+  savedEmail: string | null;
+  savedPassword: string | null;
+  savedRemember: string | null;
 
   errorCode?: number;
   errorMessage?: string;
   loading: boolean = false;
-  public  isAnimation = false;
-  static  isAnimation:boolean;
-  constructor(private auth: AuthService, private router: Router,private animationService: AnimationServiceService) { }
+  public isAnimation = false;
+  static isAnimation: boolean;
+
+
+  showPassword = true;
+
+  constructor(private auth: AuthService, private router: Router,private animationService: AnimationServiceService) {
+    this.savedEmail = localStorage.getItem('email');
+    this.savedPassword = localStorage.getItem('password');
+    this.savedRemember = localStorage.getItem('remember');
+
+    if (this.savedEmail && this.savedPassword && this.savedRemember) {
+      this.signInForm.setValue({
+        email: this.savedEmail,
+        password: this.savedPassword,
+        remember: this.savedRemember
+      });
+    }
+  }
 
   ngOnInit(): void {
 
@@ -37,11 +57,21 @@ export class SignInComponent {
       this.isAnimation = true;
     });
   }
-
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit() {
     this.setLoading(true);
-
+    if (this.signInForm.value.remember) {
+      localStorage.setItem('email', this.signInForm.value.email!);
+      localStorage.setItem('password', this.signInForm.value.password!);
+      localStorage.setItem('remember', this.signInForm.value.remember!);
+    } else {
+      localStorage.removeItem('email');
+      localStorage.removeItem('password');
+      localStorage.removeItem('remember');
+    }
     let body: Object = {
       email: this.signInForm.value.email,
       password: this.signInForm.value.password,
