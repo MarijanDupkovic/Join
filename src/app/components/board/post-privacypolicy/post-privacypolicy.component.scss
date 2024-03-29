@@ -1,7 +1,7 @@
 .frame{
   height: calc(100vh - 160px) !important;
   justify-content: flex-start;
-  overflow-x: scroll;
+  overflow-y: scroll;
 
   @media (min-width:1000px){
     height: calc(100vh - 80px) !important;
