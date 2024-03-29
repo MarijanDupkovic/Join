@@ -14,8 +14,8 @@
 </div>
 <div *ngIf="openMenu" class="mobile-links-container">
   <div class="mobile-links">
-    <a>Legal Notice</a>
-    <a>Privacy policy</a>
+    <a [routerLink]="['/board/legalnotice']" (click)="toggleMenu()"  >Legal notice</a>
+    <a [routerLink]="['/board/privacypolicy']" (click)="toggleMenu()" >Privacy policy</a>
     <a (click)="logout()">Logout</a>
   </div>
 </div>

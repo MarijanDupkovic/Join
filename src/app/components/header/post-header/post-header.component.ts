@@ -1,14 +1,14 @@
 import { AuthService } from './../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SidebarComponent } from '../../board/sidebar/sidebar.component';
 import { ContactsService } from '../../../services/contacts.service';
 
 @Component({
   selector: 'app-post-header',
   standalone: true,
-  imports: [CommonModule,SidebarComponent],
+  imports: [CommonModule,SidebarComponent,RouterLink],
   templateUrl: './post-header.component.html',
   styleUrl: './post-header.component.scss'
 })
