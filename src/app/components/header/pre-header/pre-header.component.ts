@@ -13,15 +13,16 @@ import { NavigationEnd, Router } from '@angular/router';
 export class PreHeaderComponent {
   isSignIn: boolean = false;
   animationend: boolean = false;
+  isImg: boolean = false;
   constructor(private animationService: AnimationServiceService, private router: Router) {
     router.events.subscribe(event => {
+
       if (event instanceof NavigationEnd) {
         if (event.urlAfterRedirects === '/login') {
           this.isSignIn = event.urlAfterRedirects === '/login';
-        } else if (event.urlAfterRedirects === '/signup') {
-          console.log('signup');
+        }else{
+          this.isImg = true;
 
-          this.animationend = true;
         }
       }
     });
@@ -30,6 +31,14 @@ export class PreHeaderComponent {
   onAnimationFinished() {
     this.animationService.animationFinished();
     this.animationend = true;
+    this.isImg = true;
+
+
+  }
+
+  resetAnimation() {
+    this.animationend = false;
+    this.animationService.resetAnimation();
   }
 
 

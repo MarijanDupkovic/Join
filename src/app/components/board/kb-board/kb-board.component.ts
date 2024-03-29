@@ -137,15 +137,13 @@ export class KbBoardComponent implements OnInit {
       this.filtered_tasks = [];
       return;
     } else {
-      console.log(target.value);
-      console.log(this.loaded_tasks);
+
       this.isFiltered = true;
       this.filtered_tasks = this.loaded_tasks.filter((task: any) =>
 
         task.title.toLowerCase().includes(target.value.toLowerCase()) ||
         task.description.toLowerCase().includes(target.value.toLowerCase())
       );
-      console.log(this.filtered_tasks);
     }
   }
 

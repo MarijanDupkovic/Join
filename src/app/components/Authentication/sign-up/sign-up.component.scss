@@ -7,6 +7,10 @@ hr {
   border: 2px solid #29ABE2;
 }
 
+.frame{
+  height: calc(100vh - 160px);
+}
+
 input[type="text"], input[type="password"], input[type="email"]{
   width: 95%;
   padding: 10px;
@@ -15,6 +19,7 @@ input[type="text"], input[type="password"], input[type="email"]{
   border-radius: 10px;
   outline: none;
   height: 24px;
+
   cursor: pointer;
   &:focus {
     border: 1px solid #29ABE2;
@@ -24,6 +29,10 @@ input[type="text"], input[type="password"], input[type="email"]{
 .input-frame{
   @include dFlex(column, center, center);
   position: relative;
+  max-width: 350px;
+  .ng-invalid.ng-dirty{
+    border: 1px solid red;
+  }
   img{
     position: absolute;
     top:10;
@@ -60,6 +69,12 @@ form {
   border: 1px solid #D1D1D1;
   height: 48px;
   position: relative;
+  max-width: 350px;
+
+  .ng-invalid.ng-dirty{
+    border: 1px solid red;
+  }
+
   input {
     border: none;
     width: 100%;
@@ -72,7 +87,11 @@ form {
     width: 30px;
   }
 }
-
+.disabled{
+  cursor: not-allowed;
+  background-color: #D1D1D1;
+  color: #fff;
+}
 
 
 
@@ -84,3 +103,5 @@ form {
   @include dFlex(row, start, center);
   width: 100%;
 }
+
+

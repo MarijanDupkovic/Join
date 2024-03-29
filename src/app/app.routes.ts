@@ -8,10 +8,14 @@ import { SummaryComponent } from './components/board/summary/summary.component';
 import { KbBoardComponent } from './components/board/kb-board/kb-board.component';
 import { AddTaskComponent } from './components/board/add-task/add-task.component';
 import { ContactsComponent } from './components/board/contacts/contacts.component';
+import { LegalnoticeComponent } from './components/legalnotice/legalnotice.component';
+import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
 
 export const routes: Routes = [
   { path: 'login', component:SignInComponent, pathMatch: 'full'},
   { path: 'signup', component:SignUpComponent, pathMatch: 'full'},
+  { path: 'legalnotice', component:LegalnoticeComponent, pathMatch: 'full'},
+  { path: 'privacypolicy', component:PrivacypolicyComponent, pathMatch: 'full'},
   { path: 'activate/:email', component:UserActivationComponent, pathMatch: 'full'},
 
   {path:'board',component:BoardComponent, canActivate: [AuthguardService],

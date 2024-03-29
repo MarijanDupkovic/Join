@@ -1,5 +1,8 @@
 <div class="frame">
   <div class="main-container">
+    <a [routerLink]="['/login']" class="close-button-overlays close-btn-desktop" style="align-self: flex-end;">
+      <img src="../../../assets/img/buttons/close_black.svg" alt="">
+    </a>
     <div>
       <h1>Sign up</h1>
       <hr>
@@ -19,22 +22,24 @@
         <img src="../../../../assets/img/inputs/mail.svg" alt="">
       </div>
       <div class="w-100 input-frame">
-        <input type="password" id="password" formControlName="password" class="form-control" placeholder="Password"
+        <input [type]="showPassword ? 'text':'password'" id="password" formControlName="password" class="form-control" placeholder="Password"
           autocomplete="false" >
-        <img src="../../../../assets/img/inputs/lock.svg" alt="">
+          <img [src]="showPassword ? '../../../../assets/img/inputs/visibility.svg' : '../../../../assets/img/inputs/visibility_off.svg'" alt="" (click)="toggleShowPassword(1)">
+
       </div>
-      <div class="w-100 input-frame">
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" placeholder="Confirm password"
+      <div class="w-100 input-frame" >
+        <input [type]="showPassword2 ? 'text':'password'" id="confirmPassword" formControlName="confirmPassword" class="form-control" placeholder="Confirm password"
           autocomplete="false" >
-        <img src="../../../../assets/img/inputs/lock.svg" alt="">
+          <img [src]="showPassword2 ? '../../../../assets/img/inputs/visibility.svg' : '../../../../assets/img/inputs/visibility_off.svg'" alt="" (click)="toggleShowPassword(2)">
+
       </div>
       <div class="checkBox-frame">
-        <input type="checkbox" id="remember-me" > <span>I accept the <a>Privacy policy!</a></span>
+        <input type="checkbox" formControlName="privacy_policy"> <span>I accept the <a>Privacy policy!</a></span>
       </div>
 
 
-      <div class="btn-frame">
-        <button type="submit" class="blue-btn">Sign up</button>
+      <div class="btn-frame" >
+        <button type="submit"  class="blue-btn" [disabled]="!signUpForm.valid"  [class.disabled]="!signUpForm.valid">Sign up</button>
       </div>
 
 
@@ -42,8 +47,8 @@
   </div>
 
   <div class="legal-frame">
-    <a href="/privacy">Privacy policy</a>
-    <a href="/legalnotice">Legal notice</a>
+    <a routerLink="/privacypolicy">Privacy policy</a>
+      <a routerLink="/legalnotice">Legal notice</a>
   </div>
 
 </div>

@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AnimationServiceService } from '../../../services/animation-service.service';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,RouterLink],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
@@ -28,7 +28,6 @@ export class SignInComponent {
   errorMessage?: string;
   loading: boolean = false;
   public isAnimation = false;
-  static isAnimation: boolean;
 
 
   showPassword = true;
@@ -53,13 +52,16 @@ export class SignInComponent {
       this.setLoading(false);
       this.router.navigateByUrl('/board/summary');
     }
-    this.animationService.animationFinished$.subscribe(() => {
-      this.isAnimation = true;
+    this.animationService.animationFinished$.subscribe((animation:any) => {
+      this.isAnimation = animation;
     });
   }
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }
+
+
+
 
   onSubmit() {
     this.setLoading(true);
@@ -92,7 +94,6 @@ export class SignInComponent {
   }
 
  public showSignIn(){
-    console.log('showSignIn');
     this.isAnimation = true;
   }
 

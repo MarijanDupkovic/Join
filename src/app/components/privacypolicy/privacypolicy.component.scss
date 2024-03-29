@@ -1,0 +1,18 @@
+.frame{
+  height: calc(100vh - 160px) !important;
+  justify-content: flex-start;
+
+  .main-container{
+    max-width: 650px;
+    margin-top: 3rem;
+    align-items: center;
+    justify-content: flex-start;
+    gap:1rem;
+    overflow-y: scroll;
+  }
+}
+
+p{
+text-align: center;
+}
+

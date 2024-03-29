@@ -40,9 +40,7 @@ export class EditTaskdetailsComponent {
       this.users = users;
     });
     this.tasks.selected_task$.subscribe((task) => {
-      console.log(task);
       this.task_details = task;
-      console.log(this.task_details);
       if (this.task_details['id']) {
         this.edit_taskForm.get('taskName')?.setValue(this.task_details['title']);
         this.edit_taskForm.get('taskDescription')?.setValue(this.task_details['description']);
@@ -52,7 +50,6 @@ export class EditTaskdetailsComponent {
         this.edit_taskForm.get('taskCategory')?.setValue(this.task_details['category']);
         for (let i = 0; i < this.task_details['assigned'].length; i++) {
           this.taskAssigned.push(new FormControl(this.task_details['assigned'][i]));
-          console.log(this.taskAssigned);
 
         }
       }
@@ -150,7 +147,6 @@ export class EditTaskdetailsComponent {
   }
 
   async saveTask() {
-    console.log(this.taskAssigned);
     let body = {
       id: this.task_details['id'],
       title: this.edit_taskForm.get('taskName')?.value,
