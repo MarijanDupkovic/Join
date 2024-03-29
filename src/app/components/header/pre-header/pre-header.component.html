@@ -2,6 +2,6 @@
   <div class="logo-frame">
     <img src="../../../../assets/img/logos/logo.svg" alt="" *ngIf="animationend">
   </div>
-  <img src="../../../../assets/img/logos/logo.svg" alt="" class="flying-img" (animationend)="onAnimationFinished()">
+  <img src="../../../../assets/img/logos/logo.svg" alt="" *ngIf="isSignIn" class="flying-img" (animationend)="onAnimationFinished()">
 
 </div>
