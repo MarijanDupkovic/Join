@@ -1,6 +1,6 @@
 import { ContactsComponent } from './../contacts/contacts.component';
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../services/contacts.service';
 
@@ -13,10 +13,10 @@ import { ContactsService } from '../../../services/contacts.service';
 })
 export class AddContactOverlayComponent {
   createUserForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl(''),
+    firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
+    lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
+    email: new FormControl('', [Validators.required, Validators.email,]),
+    phone: new FormControl('',),
   });
   @Output() closeOverlay = new EventEmitter<void>();
   errorCode?: number;
