@@ -1,0 +1,15 @@
+.frame{
+  height: calc(100vh - 160px) !important;
+  justify-content: flex-start;
+  overflow-x: scroll;
+
+  @media (min-width:1000px){
+    height: calc(100vh - 80px) !important;
+
+  }
+}
+
+p{
+text-align: center;
+}
+

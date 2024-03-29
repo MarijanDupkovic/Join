@@ -70,3 +70,21 @@
   gap: 1rem;
   width: 150px;
 }
+
+
+
+
+
+.legal-container{
+  @include dFlex(column, center, center);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  a{
+    text-decoration: none;
+    color: #CDCDCD;
+
+    &:hover{
+      color:#29ABE2;
+    }
+  }
+}

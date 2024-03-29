@@ -10,6 +10,8 @@ import { AddTaskComponent } from './components/board/add-task/add-task.component
 import { ContactsComponent } from './components/board/contacts/contacts.component';
 import { LegalnoticeComponent } from './components/legalnotice/legalnotice.component';
 import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { PostLegalnoticeComponent } from './components/board/post-legalnotice/post-legalnotice.component';
+import { PostPrivacypolicyComponent } from './components/board/post-privacypolicy/post-privacypolicy.component';
 
 export const routes: Routes = [
   { path: 'login', component:SignInComponent, pathMatch: 'full'},
@@ -24,6 +26,8 @@ export const routes: Routes = [
     { path: 'board', component:KbBoardComponent, pathMatch: 'full'},
     { path: 'addTask', component:AddTaskComponent, pathMatch: 'full'},
     { path: 'contacts', component:ContactsComponent, pathMatch: 'full'},
+    { path: 'legalnotice', component:PostLegalnoticeComponent, pathMatch: 'full'},
+    { path: 'privacypolicy', component:PostPrivacypolicyComponent, pathMatch: 'full'},
 
   ]},
   { path: '', redirectTo: 'login', pathMatch: 'full'}
