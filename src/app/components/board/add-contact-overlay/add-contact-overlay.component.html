@@ -38,7 +38,7 @@
       <div class="btn-frame">
         <a (click)="close()" [class.close-hover]="close_btn_hover" (mouseenter)="close_btn_hover = true" (mouseleave)="close_btn_hover = false" class="white-btn a-btn addContact-close">Cancel
           <img [src]="close_btn_hover ? '../../../../assets/img/buttons/close_blue.svg': '../../../../assets/img/buttons/close_black.svg'" alt=""></a>
-        <button type="submit" class="blue-btn" [disabled]="!createUserForm.valid">Create contact <img src="../../../../assets/img/buttons/check.svg"
+        <button type="submit" class="blue-btn" [disabled]="!createUserForm.valid" [class.disabled]="!createUserForm.valid">Create contact <img src="../../../../assets/img/buttons/check.svg"
             alt=""></button>
       </div>
 

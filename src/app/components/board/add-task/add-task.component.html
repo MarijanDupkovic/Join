@@ -113,7 +113,7 @@
         <div>
           <span>*</span><span>This field is required</span>
         </div>
-        <button type="submit" [disabled]="!taskForm.valid" class="blue-btn">Create Task<img
+        <button type="submit" [disabled]="!taskForm.valid" [class.disabled]="!taskForm.valid" class="blue-btn">Create Task<img
             src="../../../../assets/img/buttons/check.svg" alt=""></button>
       </div>
     </form>
@@ -261,7 +261,7 @@
         </div>
         <div class="addTaskbtns">
           <a class="white-btn a-btn" (click)="resetForm()">Clear</a>
-          <button type="submit" [disabled]="!taskForm.valid" class="blue-btn">Create Task<img
+          <button type="submit"  [disabled]="!taskForm.valid" [class.disabled]="!taskForm.valid" class="blue-btn">Create Task<img
               src="../../../../assets/img/buttons/check.svg" alt=""></button>
         </div>
 

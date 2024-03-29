@@ -46,7 +46,11 @@ select option:hover {
     display: none !important;
   }
 }
-
+.disabled{
+  cursor: not-allowed;
+  background-color: #D1D1D1;
+  color: #fff;
+}
 .circle {
   border-radius: 100%;
   width: 42px;
