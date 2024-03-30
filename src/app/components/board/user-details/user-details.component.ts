@@ -73,6 +73,12 @@ export class UserDetailsComponent {
     };
 
     this.contacts.deleteContact(body).then((response: any) => {
+      this.isEditContactVisible = false;
+      this.email = '';
+      this.contact = [];
+      this.editHover = false;
+      this.deleteHover = false;
+      this.contacts.changeEmail('');
       this.contacts.getContacts();
       this.close();
     });
