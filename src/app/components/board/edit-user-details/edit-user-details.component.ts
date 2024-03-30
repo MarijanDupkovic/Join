@@ -19,6 +19,7 @@ export class EditUserDetailsComponent {
     phone: new FormControl('',[Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
   @Output() closeOverlay = new EventEmitter<void>();
+  @Output() userDeleted = new EventEmitter<void>();
   errorCode?: number;
   errorMessage?: string;
   loading: boolean = false;
@@ -30,9 +31,14 @@ export class EditUserDetailsComponent {
   ngOnInit(): void {
     this.contacts.userDetailsEmail$.subscribe((email: string) => {
       this.email = email;
-      this.getUserDetails().then(() => {
-        this.setUserDetails();
-      });
+      if(this.email !== '') {
+        this.getUserDetails().then(() => {
+          this.setUserDetails();
+        });
+      }else {
+        this.contact = [];
+      }
+
     });
   }
 
@@ -122,6 +128,9 @@ export class EditUserDetailsComponent {
     };
 
     this.contacts.deleteContact(body).then((response: any) => {
+      this.contacts.changeEmail('');
+      console.log('User Deleted');
+      this.userDeleted.emit();
       this.contacts.getContacts();
       this.close();
     });

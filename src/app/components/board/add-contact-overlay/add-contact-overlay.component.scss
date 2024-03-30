@@ -28,11 +28,21 @@
     width: 30px;
   }
 }
+
+.success-frame {
+  color: green;
+
+  @media (min-width: 1000px) {
+    font-size: 3rem !important;
+  }
+}
+
 .disabled{
   cursor: not-allowed;
   background-color: #D1D1D1;
   color: #fff;
 }
+
 .input-frame {
   @include dFlex(column, center, center);
   position: relative;

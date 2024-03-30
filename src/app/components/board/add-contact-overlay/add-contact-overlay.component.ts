@@ -23,8 +23,11 @@ export class AddContactOverlayComponent {
   errorMessage?: string;
   loading: boolean = false;
   close_btn_hover: boolean = false;
+  success: boolean = false;
+
   constructor(private contacts:ContactsService) {}
   onSubmit(): void {
+    this.setLoading(true);
     let body = {
       firstName: this.createUserForm.value.firstName,
       lastName: this.createUserForm.value.lastName,
@@ -33,11 +36,10 @@ export class AddContactOverlayComponent {
     };
     this.contacts.createUser(body).then(
       (response) => {
-        setTimeout(() => {
-          this.contacts.getContacts();
-          this.close();
-          this.setLoading(false);
-        }, 1000);
+          this.handleSuccessMessages('User created successfully');
+
+
+
       },
       (error) => {
         if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
@@ -81,6 +83,25 @@ export class AddContactOverlayComponent {
       this.setErrorCode(undefined);
       this.setErrorMessage(undefined);
       this.createUserForm.reset();
+    }, 5000);
+  }
+
+  handleSuccessMessages(error: any): void {
+    setTimeout(() => {
+      this.setLoading(false);
+      this.setErrorMessage(error);
+      this.success = true;
+    }, 1000);
+    this.resetSuccessMessages();
+  }
+
+  resetSuccessMessages(): void {
+    setTimeout(() => {
+      this.setErrorMessage(undefined);
+      this.success = false;
+      this.createUserForm.reset();
+      this.contacts.getContacts();
+      this.close();
     }, 5000);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { CommonModule } from '@angular/common';
 import { AddContactOverlayComponent } from '../add-contact-overlay/add-contact-overlay.component';
@@ -28,6 +28,7 @@ export class ContactsComponent implements OnInit {
   static isAddContactOverlayVisible: boolean;
   isUserDetailsVisible: boolean = false;
   selectedContact: any;
+  @ViewChild(UserDetailsComponent) userDetailsComponent!: UserDetailsComponent;
   constructor(private contactsService: ContactsService) { }
 
   ngOnInit(): void {

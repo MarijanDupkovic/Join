@@ -25,9 +25,9 @@
       <img src="../../../../assets/img/buttons/person_add.svg" alt="">
     </div>
   </div>
-  <app-user-details  class="user-details-comp user-details-comp-desktop" (closeOverlay)="isUserDetailsVisible = false"></app-user-details>
+  <app-user-details class="user-details-comp user-details-comp-desktop" (closeOverlay)="isUserDetailsVisible = false"></app-user-details>
 
 </div>
-<app-user-details *ngIf="isUserDetailsVisible" class="user-details-comp" (closeOverlay)="isUserDetailsVisible = false"></app-user-details>
+<app-user-details *ngIf="isUserDetailsVisible" class="user-details-comp" (closeOverlay)="isUserDetailsVisible = false" ></app-user-details>
 <app-add-contact-overlay *ngIf="isAddContactOverlayVisible" (closeOverlay)="isAddContactOverlayVisible = false"></app-add-contact-overlay>
 

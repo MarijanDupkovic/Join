@@ -1,4 +1,4 @@
-<div class="details-frame">
+<div class="details-frame"  >
   <div class="contact-title-frame">
     <div class="headline-frame">
       <h1>Contacts</h1>
@@ -51,7 +51,7 @@
   <img src="../../../../assets/img/buttons/more_vert.svg" alt="">
 </div>
 <app-edit-user-details *ngIf="isEditContactVisible" (closeOverlay)="isEditContactVisible = false"
-  class="edit-user-detail-comp"></app-edit-user-details>
+  class="edit-user-detail-comp" (userDeleted)="clearUserDetails()"></app-edit-user-details>
 
 <div class="edit-options-frame" *ngIf="isMenuVisible" #editOptions>
   <a (click)="openEditContact()"><img src="../../../../assets/img/buttons/edit.svg" alt=""><span>Edit</span></a>
