@@ -91,6 +91,20 @@ export class AddTaskComponent {
     }
   }
 
+  toggleCheckbox(i: number, contact: any, event: any) {
+    event.preventDefault();
+    event.stopPropagation();
+    const checkbox = event.target.parentElement.parentElement.children[1];
+    if (checkbox) {
+
+      checkbox.checked = !checkbox.checked;
+      const newEvent = {
+        target: checkbox
+      };
+      this.onCheckboxChange(newEvent, contact);
+    }
+  }
+
   getPrioImage(prio: number): string {
 
       if (this.taskPrio === prio || this.hoverPrio === prio) {
@@ -162,8 +176,10 @@ export class AddTaskComponent {
   }
 
   addSubTask() {
-    this.subTasks.push(this.taskForm.get('subTasks')!.value!);
-    this.resetSubTask();
+    if (this.taskForm.get('subTasks')?.value) {
+      this.subTasks.push(this.taskForm.get('subTasks')!.value!);
+      this.resetSubTask();
+    }
   }
 
   createTask() {

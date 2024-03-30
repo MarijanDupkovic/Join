@@ -66,19 +66,27 @@ select option:hover {
   gap: 1rem;
   height: 56px;
   width: 100%;
-
   label {
     @include dFlex(row, unset, center);
     width: 100%;
+      cursor: pointer;
+
   }
 }
-
+.contact-circle{
+  .circle{
+    margin-right: -1rem;
+  }
+}
 .contacts-overlay {
   @include dFlex(row, space-between, center);
   gap: 1rem;
   border-radius: 10px;
   width: 100%;
-
+  cursor: pointer;
+  input[type="checkbox"] {
+    cursor: pointer;
+  }
   &:hover {
     color: #FFFFFF;
   }
@@ -266,6 +274,10 @@ button {
 
 .success-frame {
   color: green;
+
+  @media (min-width: 1000px) {
+    font-size: 3rem !important;
+  }
 }
 
 .headline {

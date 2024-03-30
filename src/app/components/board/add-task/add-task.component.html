@@ -150,10 +150,10 @@
               <div class="option-container" [style.display]="dropdownOpen ? 'flex' : 'none'">
                 <div *ngFor="let contact of contacts; let i = index" class="contacts-overlay"
                   [style.background-color]="contact.isSelected ? '#2A3647' : 'unset'"
-                  [style.color]="contact.isSelected ? '#FFFFFF' : 'unset'">
+                  [style.color]="contact.isSelected ? '#FFFFFF' : 'unset'" (click)="toggleCheckbox(i,contact,$event)">
                   <div class="circle-name">
 
-                    <label [for]="'taskAssigned' + i">
+                    <label  >
                       <div class="circle" [style.background-color]="'#' + contact.color_key">
                         <span>{{ contact.firstName.charAt(0) }}{{ contact.lastName.charAt(0) }}</span>
                       </div>
