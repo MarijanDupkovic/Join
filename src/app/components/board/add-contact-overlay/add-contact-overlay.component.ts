@@ -16,7 +16,7 @@ export class AddContactOverlayComponent {
     firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     email: new FormControl('', [Validators.required, Validators.email,]),
-    phone: new FormControl('',),
+    phone: new FormControl('',[Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
   @Output() closeOverlay = new EventEmitter<void>();
   errorCode?: number;

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../services/contacts.service';
 import { CommonModule } from '@angular/common';
 
@@ -13,10 +13,10 @@ import { CommonModule } from '@angular/common';
 })
 export class EditUserDetailsComponent {
   createUserForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl(''),
+    firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('',[Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
   @Output() closeOverlay = new EventEmitter<void>();
   errorCode?: number;

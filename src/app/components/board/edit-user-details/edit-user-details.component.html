@@ -29,14 +29,14 @@
         <img src="../../../../assets/img/inputs/mail.svg" alt="">
       </div>
       <div class="input-frame">
-        <input type="text" id="phone" pattern="[0-9]" formControlName="phone" class="form-control" placeholder="Phone"
+        <input type="text" id="phone" formControlName="phone" class="form-control" placeholder="Phone"
           autocomplete="false">
         <img src="../../../../assets/img/inputs/call.svg" alt="">
       </div>
 
       <div class="btn-frame">
         <button type="button" (click)="deleteContact($event)" class="white-btn">Delete</button>
-        <button type="submit" class="blue-btn">Save<img src="../../../../assets/img/buttons/check.svg" alt=""></button>
+        <button type="submit" [disabled]="!createUserForm.valid" [class.disabled]="!createUserForm.valid" class="blue-btn">Save<img src="../../../../assets/img/buttons/check.svg" alt=""></button>
       </div>
 
 
