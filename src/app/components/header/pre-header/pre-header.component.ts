@@ -16,13 +16,13 @@ export class PreHeaderComponent {
   isImg: boolean = false;
   constructor(private animationService: AnimationServiceService, private router: Router) {
     router.events.subscribe(event => {
-      console.log(event);
+
       if (event instanceof NavigationEnd) {
         if (event.urlAfterRedirects === '/login') {
-          this.isSignIn = event.urlAfterRedirects === '/login';
-        }else{
-          this.isImg = true;
 
+          this.isSignIn = event.urlAfterRedirects === '/login';
+        } else {
+          this.isImg = true;
         }
       }
     });

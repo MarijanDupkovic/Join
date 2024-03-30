@@ -39,6 +39,7 @@ export class AuthService {
       sessionStorage.removeItem('isLoggedIn');
       sessionStorage.removeItem('user');
       this.setLoggedIn(false);
+      location.reload();
     });
   }
 
