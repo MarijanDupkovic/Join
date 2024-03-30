@@ -10,14 +10,12 @@ a.selected:nth-child(1) {
   background-color: red;
   font-weight: 600;
   color: white;
-
 }
 
 a.selected:nth-child(2) {
   background-color: orange;
   color: white;
   font-weight: 600;
-
 }
 
 a.selected:nth-child(3) {
@@ -46,11 +44,13 @@ select option:hover {
     display: none !important;
   }
 }
-.disabled{
+
+.disabled {
   cursor: not-allowed;
   background-color: #D1D1D1;
   color: #fff;
 }
+
 .circle {
   border-radius: 100%;
   width: 42px;
@@ -108,16 +108,21 @@ input[type="date"],
 input[type="email"],
 textarea,
 select {
-  width: 100%;
+  width: calc(100% - 2rem);
   margin: 10px 0;
   border: 1px solid #D1D1D1;
   border-radius: 10px;
   outline: none;
   height: 43px;
   cursor: pointer;
+  padding: 0 1rem;
   &:focus {
     border: 1px solid #29ABE2;
   }
+}
+
+select{
+  width: -webkit-fill-available;
 }
 
 .dropdown {
@@ -126,6 +131,8 @@ select {
   cursor: pointer;
 
 }
+
+
 
 .dropdown-icon {
 
@@ -136,6 +143,7 @@ textarea {
   height: 77px;
   resize: vertical;
   cursor: pointer;
+  padding-top: 1rem;
 }
 
 .prio-container {
@@ -206,6 +214,8 @@ select,
     img {
       width: 20px;
       height: 20px;
+      cursor: pointer;
+
     }
   }
 
@@ -219,6 +229,8 @@ select,
     img {
       width: 20px;
       height: 20px;
+      cursor: pointer;
+
     }
 
     cursor: pointer;
@@ -228,9 +240,10 @@ select,
 .upper-form {
   width: 100%;
   @include dFlex(column, unset, center);
-  height: calc(100vh - 80px - 80px - 145px);
+  height: calc(100vh - 80px - 80px - 170px);
   width: 100%;
   overflow-y: scroll;
+
   @media(min-width: 1000px) {
     margin-top: 3rem;
   }
@@ -245,6 +258,7 @@ button {
   align-self: flex-start;
   width: 100%;
   max-width: 1024px;
+
   div {
     @include dFlex(row, flex-start, center);
   }
@@ -257,13 +271,14 @@ button {
 .headline {
   width: 90%;
   @include dFlex(row, flex-start, center);
-
+  margin-top: 1rem;
 }
 
 .addTaskbtns {
   @include dFlex(row, center, center);
   gap: 1rem;
 }
+
 .edit-input {
   border-bottom: 1px solid blue;
 }
@@ -312,12 +327,13 @@ button {
   form {
 
     @include dFlex(column, center, center);
+
     .upper-form {
       @include dFlex(column, flex-start, flex-start);
       width: 95%;
       overflow: hidden;
 
-      .outer-input-frame{
+      .outer-input-frame {
         @include dFlex(row, space-between, flex-start);
         width: 100%;
         max-height: 700px;
@@ -327,22 +343,25 @@ button {
         .divider {
           height: 80%;
           border: 1px solid rgba(0, 0, 0, 0.3);
-          margin-top:2rem;
+          margin-top: 2rem;
         }
 
-        .left-side{
+        .left-side {
           width: 98%;
           @include dFlex(column, flex-start, flex-start);
           gap: 5rem;
+
           .input-container {
             width: 100%;
             max-width: 350px !important;
           }
         }
-        .right-side{
+
+        .right-side {
           width: 98%;
           @include dFlex(column, flex-start, flex-end);
           gap: 2.8rem;
+
           .input-container {
             width: 100%;
             max-width: 350px !important;
@@ -355,4 +374,3 @@ button {
     }
   }
 }
-

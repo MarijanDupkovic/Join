@@ -60,7 +60,11 @@
     <p>{{errorMessage}}</p>
   </div>
 </div>
-
+<div *ngIf="success" class="overlay">
+  <div class="error-frame success-frame">
+    <p>{{errorMessage}}</p>
+  </div>
+</div>
 <div *ngIf="loading">
   <div class="overlay">
     <div class="loader"></div>

@@ -2,14 +2,19 @@
 
 a.selected {
   background-color: green;
+  color: white;
+  font-weight: 600;
 }
 
 a.selected:nth-child(1) {
   background-color: red;
+  color: white;
+  font-weight: 600;
 }
 
 a.selected:nth-child(2) {
   background-color: orange;
+
 }
 
 a.selected:nth-child(3) {

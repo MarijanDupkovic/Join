@@ -10,7 +10,9 @@ hr {
 .frame{
   height: calc(100vh - 160px);
 }
-
+.success-frame {
+  color: green;
+}
 input[type="text"], input[type="password"], input[type="email"]{
   width: 95%;
   padding: 10px;

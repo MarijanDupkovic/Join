@@ -37,199 +37,200 @@
         }
 
 
-      @media (min-width: 1248px) {
-        display: none !important;
+        @media (min-width: 1248px) {
+          display: none !important;
+        }
+      }
+    }
+
+    .input-frame {
+      @include dFlex(column, center, center);
+      position: relative;
+      width: 100%;
+      cursor: pointer;
+
+      @media (min-width: 1000px) {
+        max-width: 400px;
+      }
+
+      .img-input {
+        position: absolute;
+        top: 10;
+        right: 5%;
+        @include dFlex(row, space-between, center);
+        width: 75px;
+        overflow: hidden;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+
+        .divider {
+          width: 100%;
+          border: 1px solid rgba(0, 0, 0, 0.4);
+          transform: rotate(90deg);
+        }
       }
     }
   }
 
-  .input-frame {
-    @include dFlex(column, center, center);
-    position: relative;
-    width: 100%;
-    cursor: pointer;
-
-    @media (min-width: 1000px) {
-      max-width: 400px;
-    }
-
-    .img-input {
-      position: absolute;
-      top: 10;
-      right: 5%;
-      @include dFlex(row, space-between, center);
-      width: 75px;
-      overflow: hidden;
-
-      img {
-        width: 20px;
-        height: 20px;
-      }
-
-      .divider {
-        width: 100%;
-        border: 1px solid rgba(0, 0, 0, 0.4);
-        transform: rotate(90deg);
-      }
-    }
-  }
-}
-
-.tasks-main-frame {
-  @include dFlex(column, unset, center);
-  gap: 1rem;
-  width: 100%;
-  height: 100%;
-  overflow-y: scroll;
-
-  @media (min-width: 1248px) {
-    @include dFlex(row, center, flex-start);
-    gap: 0;
-    width: 90%;
-    align-self: center;
-  }
-
-  .status-frame {
+  .tasks-main-frame {
     @include dFlex(column, unset, center);
     gap: 1rem;
-    width: 90%;
-    padding: 1rem;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
 
     @media (min-width: 1248px) {
-      padding: 0;
-      width: 100%;
+      @include dFlex(row, center, flex-start);
+      gap: 0;
+      width: 90%;
+      align-self: center;
     }
 
-    .status-container {
-      width: 100%;
-      @include dFlex(column, unset, flex-start);
+    .status-frame {
+      @include dFlex(column, unset, center);
+      gap: 1rem;
+      width: 90%;
+      padding: 1rem;
+      border-radius: 10px;
 
-      .cards-container {
-        @include dFlex(row, flex-start, center);
-        gap: 1rem;
+      @media (min-width: 1248px) {
+        padding: 0;
         width: 100%;
-        overflow-x: scroll;
-        padding: 1rem 0;
+      }
 
-        @media(min-width:1000px){
-          max-width: unset;
-        }
+      .status-container {
+        width: 100%;
+        @include dFlex(column, unset, flex-start);
 
-        @media (min-width: 1248px) {
-          max-width: 275px;
+        .cards-container {
+          @include dFlex(row, flex-start, center);
+          gap: 1rem;
+          width: 100%;
+          overflow-x: scroll;
+          padding: 1rem 0;
 
-          min-height: 500px;
-          @include dFlex(column, flex-start, center);
-          overflow-x: hidden;
-        }
-
-        .empty-container {
-          @include dFlex(row, center, center);
-          width: 90%;
-          height: 48px;
-          border: 1px dashed #A8A8A8;
-          color: #A8A8A8;
-          background-color: #E7E7E7;
-          border-radius: 10px;
-        }
-
-
-        .card {
-          width: 200px;
-          min-height: 180px;
-          background-color: #FFFFFF;
-          border-radius: 30px;
-          box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
-          padding: 1rem;
-          position: relative;
-
-
-          &:hover {
-            cursor: pointer;
-            transform: scale(1.05);
-            transition: 225ms;
+          @media(min-width:1000px) {
+            max-width: unset;
           }
 
-          .cat-bg {
-            width: 113px;
-            height: 27px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
+          @media (min-width: 1248px) {
+            max-width: 275px;
+
+            min-height: 500px;
+            @include dFlex(column, flex-start, center);
+            overflow-x: hidden;
+          }
+
+          .empty-container {
             @include dFlex(row, center, center);
-            color: #FFFFFF;
-            margin-bottom: 0.5rem;
-          }
-
-          .title {
-            font-size: 1rem;
-            font-weight: 700;
-
-            p {
-              margin: 0;
-              width: 220px;
-              height: 38px;
-            }
-          }
-
-          .description-frame {
+            width: 90%;
+            height: 48px;
+            border: 1px dashed #A8A8A8;
             color: #A8A8A8;
-            font-size: 1rem;
-
-            p {
-              margin: 0;
-              width: 220px;
-              height: 38px;
-            }
+            background-color: #E7E7E7;
+            border-radius: 10px;
           }
 
-          .progress-container {
-            @include dFlex(row, space-between, center);
-            font-size: 0.75rem;
 
-            progress {
-              width: 110px;
-              height: 0.75rem;
+          .card {
+            width: 200px;
+            min-height: 180px;
+            background-color: #FFFFFF;
+            border-radius: 30px;
+            box-shadow: 0px 0 10px 3px rgba(0, 0, 0, 0.08);
+            padding: 1rem;
+            position: relative;
+
+
+            &:hover {
+              cursor: pointer;
+              transform: scale(1.05);
+              transition: 225ms;
             }
-          }
 
-          .acronym-prio-container {
-            @include dFlex(row, space-between, center);
-            width: 100%;
-            margin-top: 1rem;
-
-            .acronym-container {
+            .cat-bg {
+              width: 113px;
+              height: 27px;
+              border-radius: 8px;
+              border: 1px solid rgba(0, 0, 0, 0.1);
               @include dFlex(row, center, center);
-            }
-          }
-
-          .nav-arrows {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            @include dFlex(column, center, center);
-            gap: 0.5rem;
-
-            @media (min-width: 1248px) {
-              display: none;
+              color: #FFFFFF;
+              margin-bottom: 0.5rem;
             }
 
-            .down {
+            .title {
+              font-size: 1rem;
+              font-weight: 700;
 
-              img {
-                transform: rotate(90deg);
-
-                width: 20px;
-                height: 20px;
+              p {
+                margin: 0;
+                width: 220px;
+                height: 38px;
               }
             }
 
-            .up {
+            .description-frame {
+              color: #A8A8A8;
+              font-size: 1rem;
 
-              img {
-                transform: rotate(-90deg);
-                width: 20px;
-                height: 20px;
+              p {
+                margin: 0;
+                width: 220px;
+                height: 38px;
+              }
+            }
+
+            .progress-container {
+              @include dFlex(row, space-between, center);
+              font-size: 0.75rem;
+
+              progress {
+                width: 110px;
+                height: 0.75rem;
+              }
+            }
+
+            .acronym-prio-container {
+              @include dFlex(row, space-between, center);
+              width: 100%;
+              margin-top: 1rem;
+
+              .acronym-container {
+                @include dFlex(row, center, center);
+              }
+            }
+
+            .nav-arrows {
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              @include dFlex(column, center, center);
+              gap: 0.5rem;
+
+              @media (min-width: 1248px) {
+                display: none;
+              }
+
+              .down {
+
+                img {
+                  transform: rotate(90deg);
+
+                  width: 20px;
+                  height: 20px;
+                }
+              }
+
+              .up {
+
+                img {
+                  transform: rotate(-90deg);
+                  width: 20px;
+                  height: 20px;
+                }
               }
             }
           }
@@ -237,7 +238,6 @@
       }
     }
   }
-}
 }
 
 .overlay-container {
@@ -257,6 +257,8 @@
   border-radius: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #FFFFFF;
+  margin-right: -8px;
+
   @include dFlex(row, center, center);
 }
 

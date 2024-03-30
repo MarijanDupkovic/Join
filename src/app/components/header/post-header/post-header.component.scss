@@ -23,6 +23,12 @@
       width: 40px;
       height: 40px;
       cursor: pointer;
+
+      &:hover {
+        transform: scale(1.1);
+        background-color: #2A3647
+
+      }
     }
   }
 }
@@ -39,6 +45,7 @@
   border-radius: 20px 0 20px 20px;
   width: 150px;
   height: 158px;
+  z-index: 999;
   .mobile-links {
     @include dFlex(column, center, center);
     gap:1rem;

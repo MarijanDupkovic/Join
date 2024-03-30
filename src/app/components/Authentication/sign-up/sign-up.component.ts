@@ -4,6 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-sign-up',
@@ -17,8 +18,8 @@ export class SignUpComponent {
     firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     lastName: new FormControl('',[Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     email: new FormControl('',[Validators.required, Validators.email]),
-    password: new FormControl('',[Validators.required,Validators.minLength(8),Validators.maxLength(20),],  ),
-    confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8),Validators.maxLength(20),]),
+    password: new FormControl('',[Validators.required,Validators.minLength(8),],  ),
+    confirmPassword: new FormControl('',[Validators.required,Validators.minLength(8),]),
     privacy_policy: new FormControl('',[Validators.requiredTrue]),
   },);
   errorCode?: number;
@@ -27,6 +28,7 @@ export class SignUpComponent {
   showPassword = false;
   showPassword2 = false;
   isPWMatch: boolean = this.signUpForm.value.password === this.signUpForm.value.confirmPassword;
+  success: boolean = false;
 
   constructor(private http:HttpClient,private auth:AuthService,private router:Router) {}
 
@@ -42,9 +44,8 @@ export class SignUpComponent {
 
     this.auth.signUp(body).subscribe(
       (response) => {
-        setTimeout(() => {
-          this.setLoading(false);
-        }, 1000);
+        this.handleSuccessMessages('User created successfully');
+
       },
       (error) => {
         if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
@@ -97,6 +98,25 @@ export class SignUpComponent {
       this.setErrorCode(undefined);
       this.setErrorMessage(undefined);
       this.signUpForm.reset();
+    }, 5000);
+  }
+
+  handleSuccessMessages(error: any): void {
+    setTimeout(() => {
+      this.setLoading(false);
+      this.setErrorMessage(error);
+      this.success = true;
+    }, 1000);
+    this.resetSuccessMessages();
+  }
+
+  resetSuccessMessages(): void {
+    setTimeout(() => {
+      this.setErrorMessage(undefined);
+      this.success = false;
+      this.signUpForm.reset();
+      this.router.navigate(['/login']);
+
     }, 5000);
   }
 }

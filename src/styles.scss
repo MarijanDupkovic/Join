@@ -7,7 +7,27 @@ body {
   background-color: #F6F7F8;
   height:100vh;
 }
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: none;
+    scrollbar-color: #2175c4 #4f4040;
+  }
 
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 1px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #4f4040;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #2175c4;
+    border-radius: 94px;
+    border: -12px double #5b2424;
+  }
 
 
 .w-100 {

@@ -70,14 +70,14 @@
 
         <div class="input-container">
           <label for="subTasks">Subtasks</label>
-          <div *ngIf="!isSubtaskActive" class="input-frame">
-            <input readonly type="text" class="form-control" placeholder="Enter a title">
+          <div *ngIf="!isSubtaskActive" class="input-frame" (click)="isSubtaskActive = !isSubtaskActive">
+            <input readonly type="text" class="form-control subtask-input" placeholder="Enter a title">
             <div class="oneImg">
-              <img src="../../../../assets/img/inputs/add.svg" (click)="isSubtaskActive = !isSubtaskActive" alt="">
+              <img src="../../../../assets/img/inputs/add.svg"  alt="">
             </div>
           </div>
           <div *ngIf="isSubtaskActive" class="input-frame">
-            <input type="text" id="subTasks" class="form-control" placeholder="Enter a title"
+            <input type="text" id="subTasks" class="form-control subtask-input" placeholder="Enter a title"
               formControlName="subTasks">
             <div class="moreImg">
               <img src="../../../../assets/img/inputs/close.svg" (click)="resetSubTask()" alt="">
@@ -183,7 +183,7 @@
             <div class="input-container">
               <label for="taskDueDate">Due date<span>*</span></label>
               <input type="date" id="taskDueDate" class="form-control" placeholder="Enter a description"
-                formControlName="taskDueDate" [min]="today">
+                formControlName="taskDueDate" [min]="today" >
             </div>
             <div class="input-container">
               <label for="taskPrio">Prio</label>
@@ -208,14 +208,14 @@
             </div>
             <div class="input-container">
               <label for="subTasks">Subtasks</label>
-              <div *ngIf="!isSubtaskActive" class="input-frame">
-                <input readonly type="text" class="form-control" placeholder="Enter a title">
+              <div *ngIf="!isSubtaskActive" class="input-frame" (click)="isSubtaskActive = !isSubtaskActive">
+                <input readonly type="text" class="form-control subtask-input" placeholder="Enter a title">
                 <div class="oneImg">
-                  <img src="../../../../assets/img/inputs/add.svg" (click)="isSubtaskActive = !isSubtaskActive" alt="">
+                  <img src="../../../../assets/img/inputs/add.svg"  alt="">
                 </div>
               </div>
               <div *ngIf="isSubtaskActive" class="input-frame">
-                <input type="text" id="subTasks" class="form-control" placeholder="Enter a title"
+                <input type="text" id="subTasks" class="form-control subtask-input" placeholder="Enter a title"
                   formControlName="subTasks">
                 <div class="moreImg">
                   <img src="../../../../assets/img/inputs/close.svg" (click)="resetSubTask()" alt="">
@@ -226,7 +226,7 @@
               </div>
             </div>
 
-            <div style="width: 95%;">
+            <div style="width: 90%;">
 
               <div *ngFor="let subtask of subTasks; let i = index" class="subtask-frame">
                 <div *ngIf="editingSubtask !== subtask" class="list-item">

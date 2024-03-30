@@ -6,6 +6,7 @@
   padding: 0;
   box-shadow: none;
   justify-content: flex-start !important;
+  overflow-y: scroll;
 
   @media (min-width:1000px) {
     height: calc(100vh - 80px);
@@ -59,6 +60,7 @@ hr {
   border: 1px solid #E5E5E5;
   margin-left: 8px;
   color: #FFFFFF;
+  line-height: 120%;
 }
 
 .pre-details {
@@ -168,6 +170,7 @@ hr {
   @media (min-width:1000px) {
     height: calc(100vh - 80px);
   }
+
   @media (min-width:1248px) {
     width: 50%;
     max-width: 550px;

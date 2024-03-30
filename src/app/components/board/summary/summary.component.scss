@@ -13,7 +13,7 @@
   .summary-title-frame {
     width: 90%;
     @include dFlex(column, unset, flex-start);
-
+    margin-top: 1rem;
     hr {
       width: 20%;
       margin: 0;
