@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { AnimationServiceService } from '../../../services/animation-service.service';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
