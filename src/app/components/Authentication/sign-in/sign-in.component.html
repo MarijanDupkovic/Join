@@ -25,7 +25,7 @@
 
         <div class="btn-frame">
           <button type="submit" class="blue-btn" [disabled]="!signInForm.valid" [class.disabled]="!signInForm.valid">Log in</button>
-          <button class="white-btn">Guest Log in</button>
+          <a class="white-btn a-btn" (click)="guestLogin()">Guest Log in</a>
         </div>
       </form>
     </div>

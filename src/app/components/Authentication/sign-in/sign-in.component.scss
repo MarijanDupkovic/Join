@@ -21,7 +21,9 @@ input[type="text"], input[type="password"], input[type="email"]{
   }
 }
 
-
+.white-btn{
+  width: 100%;
+}
 
 .input-frame{
   @include dFlex(column, center, center);

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { AnimationServiceService } from '../../../services/animation-service.service';
-
+import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
@@ -60,7 +59,28 @@ export class SignInComponent {
     this.showPassword = !this.showPassword;
   }
 
-
+  guestLogin() {
+    this.setLoading(true);
+    this.signInForm.controls.email.setValue(environment.email);
+    this.signInForm.controls.password.setValue(environment.password);
+    let body: Object = {
+      email: environment.email,
+      password: environment.password,
+    };
+    this.auth.signIn(body).then(
+      (response:any) => {
+        setTimeout(() => {
+          this.setLoading(false);
+          this.router.navigateByUrl('/board/summary');
+        }, 1000);
+      },
+      (error) => {
+        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
+          this.handleErrorMessages(error);
+        }
+      }
+    );
+  }
 
 
   onSubmit() {
