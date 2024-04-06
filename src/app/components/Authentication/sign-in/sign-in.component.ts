@@ -5,33 +5,44 @@ import { AuthService } from '../../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { AnimationServiceService } from '../../../services/animation-service.service';
 import { environment } from '../../../../../environments/environment';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { ErrorService } from '../../../services/error.service';
+
+interface SignInBody {
+  email: string;
+  password: string;
+}
+
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,RouterLink],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {
   signInForm = new FormGroup({
-    email: new FormControl('',[Validators.required, Validators.email]),
-    password: new FormControl('',[Validators.required, Validators.minLength(8)]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     remember: new FormControl(''),
   });
 
-  savedEmail: string | null;
-  savedPassword: string | null;
-  savedRemember: string | null;
+  savedEmail!: string | null;
+  savedPassword!: string | null;
+  savedRemember!: string | null;
 
-  errorCode?: number;
-  errorMessage?: string;
   loading: boolean = false;
   public isAnimation = false;
 
-
+  animationSubscription: Subscription = new Subscription;
   showPassword = true;
+  errorCode$ = this.errorService.errorCode$;
+  errorMessage$ = this.errorService.errorMessage$;
+  constructor(private auth: AuthService, private router: Router, private animationService: AnimationServiceService, private errorService: ErrorService) {
 
-  constructor(private auth: AuthService, private router: Router,private animationService: AnimationServiceService) {
+  }
+
+  ngOnInit(): void {
     this.savedEmail = localStorage.getItem('email');
     this.savedPassword = localStorage.getItem('password');
     this.savedRemember = localStorage.getItem('remember');
@@ -43,48 +54,60 @@ export class SignInComponent {
         remember: this.savedRemember
       });
     }
-  }
-
-  ngOnInit(): void {
-
     if (this.auth.loggedIn$) {
       this.setLoading(false);
       this.router.navigateByUrl('/board/summary');
     }
-    this.animationService.animationFinished$.subscribe((animation:any) => {
+    this.animationSubscription = this.animationService.animationFinished$.subscribe((animation: boolean) => {
       this.isAnimation = animation;
     });
   }
+
+  ngOnDestroy(): void {
+    this.animationSubscription.unsubscribe();
+  }
+
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
   }
 
   guestLogin() {
     this.setLoading(true);
-    this.signInForm.controls.email.setValue(environment.email);
-    this.signInForm.controls.password.setValue(environment.password);
-    let body: Object = {
+    this.setFormValues(environment.email, environment.password);
+    let body: SignInBody = {
       email: environment.email,
       password: environment.password,
     };
-    this.auth.signIn(body).then(
-      (response:any) => {
-        setTimeout(() => {
-          this.setLoading(false);
-          this.router.navigateByUrl('/board/summary');
-        }, 1000);
-      },
-      (error) => {
-        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
-          this.handleErrorMessages(error);
-        }
-      }
-    );
+    this.signIn(body)
   }
 
+  private async signIn(body: SignInBody): Promise<void> {
+    try {
+      await this.auth.signIn(body);
+      this.router.navigateByUrl('/board/summary');
+    } catch (error) {
+      this.errorService.handleError(error);
+    } finally {
+      this.setLoading(false);
+    }
+  }
 
-  onSubmit() {
+  async onSubmit(): Promise<void> {
     this.setLoading(true);
+    this.saveFormValues();
+    this.signIn({ email: String(this.signInForm.value.email), password: String(this.signInForm.value.password) });
+  }
+
+  public showSignIn() {
+    this.isAnimation = true;
+  }
+
+  private setFormValues(email: string, password: string): void {
+    this.signInForm.controls.email.setValue(email);
+    this.signInForm.controls.password.setValue(password);
+  }
+
+  private saveFormValues(): void {
     if (this.signInForm.value.remember) {
       localStorage.setItem('email', this.signInForm.value.email!);
       localStorage.setItem('password', this.signInForm.value.password!);
@@ -94,60 +117,9 @@ export class SignInComponent {
       localStorage.removeItem('password');
       localStorage.removeItem('remember');
     }
-    let body: Object = {
-      email: this.signInForm.value.email,
-      password: this.signInForm.value.password,
-    };
-    this.auth.signIn(body).then(
-      (response:any) => {
-        setTimeout(() => {
-          this.setLoading(false);
-          this.router.navigateByUrl('/board/summary');
-        }, 1000);
-      },
-      (error) => {
-        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
-          this.handleErrorMessages(error);
-        }
-      }
-    );
-  }
-
- public showSignIn(){
-    this.isAnimation = true;
   }
 
   setLoading(loading: boolean) {
     this.loading = loading;
   }
-
-  setErrorCode(errorCode: number | undefined) {
-    this.errorCode = errorCode;
-  }
-
-  setErrorMessage(errorMessage: string | undefined) {
-    this.errorMessage = errorMessage;
-  }
-
-  handleErrorMessages(error: any): void {
-    this.setErrorMessages(error);
-    this.resetErrorMessages();
-  }
-
-  setErrorMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorCode(error.status);
-      this.setErrorMessage(error.error.error);
-    }, 1000);
-  }
-
-  resetErrorMessages(): void {
-    setTimeout(() => {
-      this.setErrorCode(undefined);
-      this.setErrorMessage(undefined);
-      this.signInForm.reset();
-    }, 5000);
-  }
-
 }
