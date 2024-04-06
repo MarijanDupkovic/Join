@@ -44,7 +44,6 @@ export class SignUpComponent {
   showPassword = false;
   showPassword2 = false;
   isPWMatch: boolean = this.signUpForm.value.password === this.signUpForm.value.confirmPassword;
-  success: boolean = false;
 
   constructor(private http: HttpClient, private auth: AuthService, private router: Router, private errorService: ErrorService) { }
 
@@ -62,9 +61,6 @@ export class SignUpComponent {
 
   async onSubmit() {
     this.setLoading(true);
-
-
-
     this.signUp(this.signUpForm.value);
   }
 

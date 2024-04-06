@@ -3,11 +3,13 @@ import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ContactsService } from '../../../services/contacts.service';
+import { ErrorService } from '../../../services/error.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-add-contact-overlay',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule,ContactsComponent],
+  imports: [ReactiveFormsModule, CommonModule, ContactsComponent],
   templateUrl: './add-contact-overlay.component.html',
   styleUrl: './add-contact-overlay.component.scss'
 })
@@ -16,17 +18,35 @@ export class AddContactOverlayComponent {
     firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20),]),
     email: new FormControl('', [Validators.required, Validators.email,]),
-    phone: new FormControl('',[Validators.maxLength(12), Validators.pattern('[0-9]*')]),
+    phone: new FormControl('', [Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
   @Output() closeOverlay = new EventEmitter<void>();
-  errorCode?: number;
-  errorMessage?: string;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
   loading: boolean = false;
   close_btn_hover: boolean = false;
-  success: boolean = false;
 
-  constructor(private contacts:ContactsService) {}
-  onSubmit(): void {
+  constructor(private contacts: ContactsService, private errorService: ErrorService) { }
+
+  ngOnInit(): void {
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+  }
+
+  async onSubmit() {
     this.setLoading(true);
     let body = {
       firstName: this.createUserForm.value.firstName,
@@ -34,19 +54,20 @@ export class AddContactOverlayComponent {
       email: this.createUserForm.value.email,
       phone: this.createUserForm.value.phone,
     };
-    this.contacts.createUser(body).then(
-      (response) => {
-          this.handleSuccessMessages('User created successfully');
+    try {
+      await this.contacts.createUser(body);
+      this.errorService.handleSuccessMessages('User created successfully');
+      setTimeout(() => {
+        this.contacts.getContacts();
+        this.createUserForm.reset();
+        this.close();
+      }, 3000);
 
-
-
-      },
-      (error) => {
-        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
-          this.handleErrorMessages(error);
-        }
-      }
-    );
+    } catch (error) {
+      this.errorService.handleError(error);
+    } finally {
+      this.setLoading(false);
+    }
   }
 
   close(): void {
@@ -57,51 +78,4 @@ export class AddContactOverlayComponent {
     this.loading = loading;
   }
 
-  setErrorCode(errorCode: number | undefined) {
-    this.errorCode = errorCode;
-  }
-
-  setErrorMessage(errorMessage: string | undefined) {
-    this.errorMessage = errorMessage;
-  }
-
-  handleErrorMessages(error: any): void {
-    this.setErrorMessages(error);
-    this.resetErrorMessages();
-  }
-
-  setErrorMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorCode(error.status);
-      this.setErrorMessage(error.error.error);
-    }, 1000);
-  }
-
-  resetErrorMessages(): void {
-    setTimeout(() => {
-      this.setErrorCode(undefined);
-      this.setErrorMessage(undefined);
-      this.createUserForm.reset();
-    }, 5000);
-  }
-
-  handleSuccessMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorMessage(error);
-      this.success = true;
-    }, 1000);
-    this.resetSuccessMessages();
-  }
-
-  resetSuccessMessages(): void {
-    setTimeout(() => {
-      this.setErrorMessage(undefined);
-      this.success = false;
-      this.createUserForm.reset();
-      this.contacts.getContacts();
-      this.close();
-    }, 5000);
-  }
 }

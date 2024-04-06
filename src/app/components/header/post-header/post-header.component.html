@@ -1,21 +1,17 @@
-
 <div class="post-header-container">
   <div class="inner-container">
-    <img src="../../../../assets/img/logos/logo.svg" alt="" >
+    <img src="../../../../assets/img/logos/logo.svg" alt="">
     <div>
-      <div class="menu-container" (click)="toggleMenu()" [style.background-color]="'#' + color_key" >
+      <div class="menu-container" (click)="toggleMenu()" [style.background-color]="'#' + color_key">
         <span>{{ short_name }}</span>
-
-
       </div>
-
     </div>
   </div>
 </div>
 <div *ngIf="openMenu" class="mobile-links-container">
   <div class="mobile-links">
-    <a [routerLink]="['/board/legalnotice']" (click)="toggleMenu()"  >Legal notice</a>
-    <a [routerLink]="['/board/privacypolicy']" (click)="toggleMenu()" >Privacy policy</a>
+    <a [routerLink]="['/board/legalnotice']" (click)="toggleMenu()">Legal notice</a>
+    <a [routerLink]="['/board/privacypolicy']" (click)="toggleMenu()">Privacy policy</a>
     <a (click)="logout()">Logout</a>
   </div>
 </div>
