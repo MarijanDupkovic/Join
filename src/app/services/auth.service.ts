@@ -30,8 +30,8 @@ export class AuthService {
 
   }
 
-  signUp(body: Object) {
-    return this.http.post('./phpscripts/signUp.php', body);
+  async signUp(body: Object) {
+    return lastValueFrom(this.http.post('./phpscripts/signUp.php', body));
   }
 
   async signOut(body: Object) {

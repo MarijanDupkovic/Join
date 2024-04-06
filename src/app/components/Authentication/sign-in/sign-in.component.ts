@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,6 +8,7 @@ import { AnimationServiceService } from '../../../services/animation-service.ser
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ErrorService } from '../../../services/error.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface SignInBody {
   email: string;
@@ -36,13 +38,25 @@ export class SignInComponent {
 
   animationSubscription: Subscription = new Subscription;
   showPassword = true;
-  errorCode$ = this.errorService.errorCode$;
-  errorMessage$ = this.errorService.errorMessage$;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
+
   constructor(private auth: AuthService, private router: Router, private animationService: AnimationServiceService, private errorService: ErrorService) {
 
   }
 
   ngOnInit(): void {
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    }
+    );
     this.savedEmail = localStorage.getItem('email');
     this.savedPassword = localStorage.getItem('password');
     this.savedRemember = localStorage.getItem('remember');
@@ -82,11 +96,15 @@ export class SignInComponent {
   }
 
   private async signIn(body: SignInBody): Promise<void> {
+
     try {
       await this.auth.signIn(body);
       this.router.navigateByUrl('/board/summary');
-    } catch (error) {
+
+    } catch (error:any) {
+
       this.errorService.handleError(error);
+
     } finally {
       this.setLoading(false);
     }
