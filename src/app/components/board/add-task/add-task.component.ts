@@ -3,6 +3,8 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskService } from '../../../services/task.service';
+import { ErrorService } from '../../../services/error.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 interface Contact {
   firstName: string;
@@ -29,10 +31,16 @@ export class AddTaskComponent {
   categories = ['Technical Task', 'Design Task', 'User Story', 'Other Task'];
   contacts: Contact[] = [];
   dropdownOpen = false;
-  errorCode?: number;
-  errorMessage?: string;
+
   loading: boolean = false;
-  success: boolean = false;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
   isSubtaskActive = false;
   subTasks: string[] = [];
   isEditingSubtask: boolean = false;
@@ -47,9 +55,18 @@ export class AddTaskComponent {
     subTasks: new FormControl(''),
     taskPrio: new FormControl(0)
   });
-  constructor(private contactsService: ContactsService, private taskService: TaskService) { }
+  constructor(private contactsService: ContactsService, private taskService: TaskService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
     this.contactsService.contacts$.subscribe((contacts: any) => {
       this.contacts = contacts;
     });
@@ -96,7 +113,6 @@ export class AddTaskComponent {
     event.stopPropagation();
     const checkbox = event.target.parentElement.parentElement.children[1];
     if (checkbox) {
-
       checkbox.checked = !checkbox.checked;
       const newEvent = {
         target: checkbox
@@ -107,29 +123,29 @@ export class AddTaskComponent {
 
   getPrioImage(prio: number): string {
 
-      if (this.taskPrio === prio || this.hoverPrio === prio) {
-        switch (prio) {
-          case 1:
-            return '../../../../assets/img/inputs/Prio alta active.svg';
-          case 2:
-            return '../../../../assets/img/inputs/Prio media active.svg';
-          case 3:
-            return '../../../../assets/img/inputs/Prio baja active.svg';
-          default:
-            return '';
-        }
-      } else {
-        switch (prio) {
-          case 1:
-            return '../../../../assets/img/inputs/Prio alta.svg';
-          case 2:
-            return '../../../../assets/img/inputs/Prio media.svg';
-          case 3:
-            return '../../../../assets/img/inputs/Prio baja.svg';
-          default:
-            return '';
-        }
+    if (this.taskPrio === prio || this.hoverPrio === prio) {
+      switch (prio) {
+        case 1:
+          return '../../../../assets/img/inputs/Prio alta active.svg';
+        case 2:
+          return '../../../../assets/img/inputs/Prio media active.svg';
+        case 3:
+          return '../../../../assets/img/inputs/Prio baja active.svg';
+        default:
+          return '';
       }
+    } else {
+      switch (prio) {
+        case 1:
+          return '../../../../assets/img/inputs/Prio alta.svg';
+        case 2:
+          return '../../../../assets/img/inputs/Prio media.svg';
+        case 3:
+          return '../../../../assets/img/inputs/Prio baja.svg';
+        default:
+          return '';
+      }
+    }
 
   }
 
@@ -182,83 +198,45 @@ export class AddTaskComponent {
     }
   }
 
-  createTask() {
+  async createTask() {
     this.setLoading(true);
 
     if (this.taskForm.valid) {
-      const body = {
-        title: this.taskForm.get('taskName')!.value!,
-        description: this.taskForm.get('taskDescription')!.value!,
-        dueDate: this.taskForm.get('taskDueDate')!.value!,
-        category: this.taskForm.get('taskCategory')!.value!,
-        priority: this.taskPrio,
-        assigned: this.taskForm.get('taskAssigned')!.value!,
-        subTasks: this.subTasks
-      }
-
-      this.taskService.createTask(body).then(response => {
-        this.handleSuccessMessages('Task created successfully');
-      }, error => {
-        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
-          this.handleErrorMessages(error);
-        }
-      });
+      const task = this.getTaskFromForm();
+      this.saveTask(task);
+    }
+  }
+  getTaskFromForm() {
+    return {
+      title: this.taskForm.get('taskName')!.value!,
+      description: this.taskForm.get('taskDescription')!.value!,
+      dueDate: this.taskForm.get('taskDueDate')!.value!,
+      category: this.taskForm.get('taskCategory')!.value!,
+      priority: this.taskPrio,
+      assigned: this.taskForm.get('taskAssigned')!.value!,
+      subTasks: this.subTasks
+    };
+  }
+  async saveTask(task: any) {
+    try {
+      await this.taskService.createTask(task);
+      this.handleTaskCreationSuccess();
+    } catch (error) {
+      this.errorService.handleError(error);
+    } finally {
+      this.setLoading(false);
     }
   }
 
+  handleTaskCreationSuccess() {
+    this.errorService.handleSuccessMessages('Task created successfully');
+    setTimeout(() => {
+      this.taskService.getTasks();
+      this.resetForm();
+    }, 3000);
+  }
   setLoading(loading: boolean) {
     this.loading = loading;
-  }
-
-  setErrorCode(errorCode: number | undefined) {
-    this.errorCode = errorCode;
-  }
-
-  setErrorMessage(errorMessage: string | undefined) {
-    this.errorMessage = errorMessage;
-  }
-
-  handleErrorMessages(error: any): void {
-    this.setErrorMessages(error);
-    this.resetErrorMessages();
-  }
-
-  handleSuccessMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorMessage(error);
-      this.success = true;
-    }, 1000);
-    this.resetSuccessMessages();
-  }
-
-  resetSuccessMessages(): void {
-    setTimeout(() => {
-      this.setErrorMessage(undefined);
-      this.success = false;
-      this.taskForm.reset();
-      this.taskPrio = 0;
-      this.subTasks = [];
-    }, 5000);
-  }
-
-  setErrorMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorCode(error.status);
-      this.setErrorMessage(error.error.error);
-    }, 1000);
-  }
-
-  resetErrorMessages(): void {
-    setTimeout(() => {
-      this.setErrorCode(undefined);
-      this.setErrorMessage(undefined);
-      this.taskForm.reset();
-      this.taskPrio = 0;
-      this.subTasks = [];
-
-    }, 5000);
   }
 
 }
