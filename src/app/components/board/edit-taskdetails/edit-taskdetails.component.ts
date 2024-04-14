@@ -3,6 +3,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { TaskService } from '../../../services/task.service';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-edit-taskdetails',
@@ -20,6 +22,16 @@ export class EditTaskdetailsComponent {
   categories = ['Technical Task', 'Design Task', 'User Story', 'Other Task'];
   dropdownOpen = false;
 
+  loading: boolean = false;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
+
   edit_taskForm = new FormGroup({
     taskName: new FormControl('', [Validators.required, Validators.minLength(3)]),
     taskDescription: new FormControl('', [Validators.minLength(5)]),
@@ -30,12 +42,21 @@ export class EditTaskdetailsComponent {
     taskPrio: new FormControl(0)
   });
 
-  constructor(private contacts: ContactsService, private tasks: TaskService) {
+  constructor(private contacts: ContactsService, private tasks: TaskService, private errorService: ErrorService) {
 
   }
 
   ngOnInit(): void {
 
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
     this.contacts.contacts$.subscribe((users) => {
       this.users = users;
     });
@@ -69,6 +90,7 @@ export class EditTaskdetailsComponent {
     });
     return contact.assigned === true;
   }
+
   getUserDetails(colorkey: string) {
     let name = '';
     this.users.forEach((user: any) => {
@@ -156,10 +178,26 @@ export class EditTaskdetailsComponent {
       prio: this.taskPrio,
       assigned: this.taskAssigned.value,
     }
+    this.setLoading(true);
+    try {
+      await this.tasks.updateTask(body);
+      this.errorService.handleSuccessMessages('Task edited successfully');
+      setTimeout(async() => {
+        this.tasks.getTasks();
+        this.close();
 
-    await this.tasks.updateTask(body).then((response: any) => {
-      this.tasks.getTasks();
-      this.close();
-    });
+      }, 3000);
+
+  } catch(error) {
+    this.errorService.handleError(error);
+  } finally {
+    setTimeout(() => {
+      this.setLoading(false);
+    }, 1000);
   }
+  }
+
+setLoading(loading: boolean) {
+  this.loading = loading;
+}
 }
