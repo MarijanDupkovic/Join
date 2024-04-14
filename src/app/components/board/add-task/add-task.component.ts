@@ -224,7 +224,9 @@ export class AddTaskComponent {
     } catch (error) {
       this.errorService.handleError(error);
     } finally {
-      this.setLoading(false);
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
     }
   }
 

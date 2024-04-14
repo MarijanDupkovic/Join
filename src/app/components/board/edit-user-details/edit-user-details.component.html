@@ -1,8 +1,7 @@
 <div class="addContactOverlay">
-
   <div class="addContactOverlayContent">
     <a (click)="close()" class="close-button-overlays close-btn-desktop">
-      <img src="../../../../assets/img/buttons/close_black.svg"  alt="">
+      <img src="../../../../assets/img/buttons/close_black.svg" alt="">
     </a>
     <div class="addContactOverlayTitle">
       <a (click)="close()" class="close-btn">
@@ -11,7 +10,6 @@
       <h1>Edit Contact</h1>
       <hr>
     </div>
-
     <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
       <div class="name-frame">
         <div class="name-input-frame">
@@ -33,16 +31,14 @@
           autocomplete="false">
         <img src="../../../../assets/img/inputs/call.svg" alt="">
       </div>
-
       <div class="btn-frame">
         <button type="button" (click)="deleteContact($event)" class="white-btn">Delete</button>
-        <button type="submit" [disabled]="!createUserForm.valid" [class.disabled]="!createUserForm.valid" class="blue-btn">Save<img src="../../../../assets/img/buttons/check.svg" alt=""></button>
+        <button type="submit" [disabled]="!createUserForm.valid" [class.disabled]="!createUserForm.valid"
+          class="blue-btn">Save<img src="../../../../assets/img/buttons/check.svg" alt=""></button>
       </div>
-
-
     </form>
-
   </div>
+
   <div *ngIf="errorCode && errorMessage" class="overlay">
     <div class="error-frame">
       <h1>Error</h1>
@@ -51,7 +47,11 @@
       <p>{{errorMessage}}</p>
     </div>
   </div>
-
+  <div *ngIf="successMessage" class="overlay">
+    <div class="error-frame success-frame">
+      <p>{{successMessage}}</p>
+    </div>
+  </div>
   <div *ngIf="loading">
     <div class="overlay">
       <div class="loader"></div>

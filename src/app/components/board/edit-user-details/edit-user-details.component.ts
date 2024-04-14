@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactsService } from '../../../services/contacts.service';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-edit-user-details',
@@ -16,26 +17,41 @@ export class EditUserDetailsComponent {
     firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('',[Validators.maxLength(12), Validators.pattern('[0-9]*')]),
+    phone: new FormControl('', [Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
   @Output() closeOverlay = new EventEmitter<void>();
   @Output() userDeleted = new EventEmitter<void>();
-  errorCode?: number;
-  errorMessage?: string;
-  loading: boolean = false;
+
   email: string = '';
   contact: any = [];
+  loading: boolean = false;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
 
-  constructor(private contacts: ContactsService) { }
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
+  constructor(private contacts: ContactsService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
     this.contacts.userDetailsEmail$.subscribe((email: string) => {
       this.email = email;
-      if(this.email !== '') {
+      if (this.email !== '') {
         this.getUserDetails().then(() => {
           this.setUserDetails();
         });
-      }else {
+      } else {
         this.contact = [];
       }
 
@@ -60,31 +76,32 @@ export class EditUserDetailsComponent {
       this.contact = response['data'];
     });
   }
-  onSubmit(): void {
+  async onSubmit() {
     let body = {
       firstName: this.createUserForm.value.firstName,
       lastName: this.createUserForm.value.lastName,
       email: this.createUserForm.value.email,
       phone: this.createUserForm.value.phone,
     };
-    this.contacts.editContact(body).then(
-      (response) => {
-        setTimeout(() => {
-          this.contacts.getContacts();
-          this.setLoading(false);
-          this.close();
-        }, 1000);
-      },
-      (error) => {
-        if (error.status === 401 || error.status === 403 || error.status === 404 || error.status === 500) {
-          this.handleErrorMessages(error);
-        }
-      }
-    );
+    this.setLoading(true);
+    try {
+      await this.contacts.editContact(body);
+      this.errorService.handleSuccessMessages('Task edited successfully');
+      setTimeout(async () => {
+        this.contacts.getContacts();
+        this.close();
+
+      }, 3000);
+    } catch (error) {
+      this.errorService.handleError(error);
+    } finally {
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
+    }
   }
 
   close(): void {
-
     this.closeOverlay.emit();
   }
 
@@ -92,36 +109,8 @@ export class EditUserDetailsComponent {
     this.loading = loading;
   }
 
-  setErrorCode(errorCode: number | undefined) {
-    this.errorCode = errorCode;
-  }
 
-  setErrorMessage(errorMessage: string | undefined) {
-    this.errorMessage = errorMessage;
-  }
-
-  handleErrorMessages(error: any): void {
-    this.setErrorMessages(error);
-    this.resetErrorMessages();
-  }
-
-  setErrorMessages(error: any): void {
-    setTimeout(() => {
-      this.setLoading(false);
-      this.setErrorCode(error.status);
-      this.setErrorMessage(error.error.error);
-    }, 1000);
-  }
-
-  resetErrorMessages(): void {
-    setTimeout(() => {
-      this.setErrorCode(undefined);
-      this.setErrorMessage(undefined);
-      this.createUserForm.reset();
-    }, 5000);
-  }
-
-  deleteContact(event:any): void {
+  deleteContact(event: any): void {
     event.stopPropagation();
     let body = {
       "email": this.email
@@ -129,7 +118,6 @@ export class EditUserDetailsComponent {
 
     this.contacts.deleteContact(body).then((response: any) => {
       this.contacts.changeEmail('');
-      console.log('User Deleted');
       this.userDeleted.emit();
       this.contacts.getContacts();
       this.close();
