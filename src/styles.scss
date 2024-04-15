@@ -148,7 +148,13 @@ h1 {
 
 
 }
+.success-frame {
+  color: green;
 
+  @media (min-width: 1000px) {
+    font-size: 3rem !important;
+  }
+}
 .overlay {
   position: absolute;
   width: 100%;
