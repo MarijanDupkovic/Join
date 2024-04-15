@@ -31,6 +31,7 @@ export class UserDetailsComponent {
 
   errorMessage: string = '';
   errorCode: number | undefined;
+  isMessageFromThisComponent: boolean = false;
   constructor(private contacts: ContactsService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
@@ -92,14 +93,24 @@ export class UserDetailsComponent {
       "email": this.email
     };
     this.loading = true;
+    this.isMessageFromThisComponent = true;
     try {
-      await this.contacts.deleteContact(body);
-      this.errorService.handleSuccessMessages('Contact successfully deleted');
-      setTimeout(() => {
-        this.afterContactDeleted();
-      }, 3000);
+      if (this.isMessageFromThisComponent) {
+        await this.contacts.deleteContact(body);
+        this.errorService.handleSuccessMessages('Contact successfully deleted');
+        setTimeout(() => {
+          this.afterContactDeleted();
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+
+      }
     } catch (error) {
-      this.errorService.handleError(error);
+      if (this.isMessageFromThisComponent) {
+        this.errorService.handleError(error);
+        setTimeout(() => {
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
     } finally {
       setTimeout(() => {
         this.loading = false;

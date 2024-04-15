@@ -57,6 +57,9 @@
   <a (click)="openEditContact()"><img src="../../../../assets/img/buttons/edit.svg" alt=""><span>Edit</span></a>
   <a (click)="deleteContact()"><img src="../../../../assets/img/buttons/delete.svg" alt=""><span>Delete</span></a>
 </div>
+
+<ng-container *ngIf="isMessageFromThisComponent">
+
 <div *ngIf="errorCode && errorMessage" class="overlay">
   <div class="error-frame">
     <h1>Error</h1>
@@ -75,3 +78,4 @@
     <div class="loader"></div>
   </div>
 </div>
+</ng-container>

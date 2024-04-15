@@ -31,7 +31,7 @@ export class AddContactOverlayComponent {
   errorCode: number | undefined;
   loading: boolean = false;
   close_btn_hover: boolean = false;
-
+  isMessageFromThisComponent: boolean = false;
   constructor(private contacts: ContactsService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
@@ -54,19 +54,30 @@ export class AddContactOverlayComponent {
       email: this.createUserForm.value.email,
       phone: this.createUserForm.value.phone,
     };
+    this.isMessageFromThisComponent = true;
     try {
       await this.contacts.createUser(body);
-      this.errorService.handleSuccessMessages('User created successfully');
-      setTimeout(() => {
-        this.contacts.getContacts();
-        this.createUserForm.reset();
-        this.close();
-      }, 3000);
+      if (this.isMessageFromThisComponent) {
+        this.errorService.handleSuccessMessages('User created successfully');
+        setTimeout(() => {
+          this.contacts.getContacts();
+          this.createUserForm.reset();
+          this.close();
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
 
     } catch (error) {
-      this.errorService.handleError(error);
+      if (this.isMessageFromThisComponent) {
+        this.errorService.handleError(error);
+        setTimeout(() => {
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
     } finally {
-      this.setLoading(false);
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
     }
   }
 

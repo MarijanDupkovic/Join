@@ -33,6 +33,8 @@ export class EditUserDetailsComponent {
 
   errorMessage: string = '';
   errorCode: number | undefined;
+  isMessageFromThisComponent: boolean = false;
+
   constructor(private contacts: ContactsService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
@@ -84,16 +86,24 @@ export class EditUserDetailsComponent {
       phone: this.createUserForm.value.phone,
     };
     this.setLoading(true);
+    this.isMessageFromThisComponent = true;
     try {
-      await this.contacts.editContact(body);
-      this.errorService.handleSuccessMessages('Task edited successfully');
-      setTimeout(async () => {
-        this.contacts.getContacts();
-        this.close();
-
-      }, 3000);
+      if (this.isMessageFromThisComponent) {
+        await this.contacts.editContact(body);
+        this.errorService.handleSuccessMessages('Contact edited successfully');
+        setTimeout(() => {
+          this.contacts.getContacts();
+          this.close();
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
     } catch (error) {
-      this.errorService.handleError(error);
+      if (this.isMessageFromThisComponent) {
+        this.errorService.handleError(error);
+        setTimeout(() => {
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
     } finally {
       setTimeout(() => {
         this.setLoading(false);
@@ -110,17 +120,37 @@ export class EditUserDetailsComponent {
   }
 
 
-  deleteContact(event: any): void {
+  async deleteContact(event: any) {
     event.stopPropagation();
     let body = {
       "email": this.email
     };
+    this.setLoading(true);
+    this.isMessageFromThisComponent = true;
+    try {
+      if (this.isMessageFromThisComponent) {
+        await this.contacts.deleteContact(body);
 
-    this.contacts.deleteContact(body).then((response: any) => {
-      this.contacts.changeEmail('');
-      this.userDeleted.emit();
-      this.contacts.getContacts();
-      this.close();
-    });
+        this.errorService.handleSuccessMessages('Contact deleted successfully');
+        setTimeout(() => {
+          this.contacts.changeEmail('');
+          this.userDeleted.emit();
+          this.contacts.getContacts();
+          this.close();
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
+    } catch (error) {
+      if (this.isMessageFromThisComponent) {
+        this.errorService.handleError(error);
+        setTimeout(() => {
+          this.isMessageFromThisComponent = false;
+        }, 3000);
+      }
+    } finally {
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
+    }
   }
 }

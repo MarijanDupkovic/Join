@@ -38,6 +38,7 @@
       </div>
     </form>
   </div>
+  <ng-container *ngIf="isMessageFromThisComponent">
 
   <div *ngIf="errorCode && errorMessage" class="overlay">
     <div class="error-frame">
@@ -57,3 +58,4 @@
       <div class="loader"></div>
     </div>
   </div>
+  </ng-container>
