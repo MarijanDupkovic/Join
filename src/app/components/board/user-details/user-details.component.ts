@@ -2,11 +2,13 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewC
 import { ContactsService } from '../../../services/contacts.service';
 import { CommonModule } from '@angular/common';
 import { EditUserDetailsComponent } from '../edit-user-details/edit-user-details.component';
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-user-details',
   standalone: true,
-  imports: [CommonModule,EditUserDetailsComponent],
+  imports: [CommonModule, EditUserDetailsComponent],
   templateUrl: './user-details.component.html',
   styleUrl: './user-details.component.scss'
 })
@@ -20,15 +22,32 @@ export class UserDetailsComponent {
   deleteHover = false;
   @ViewChild('editOptions')
   editOptions!: ElementRef;
-  constructor(private contacts: ContactsService, private elementRef: ElementRef) { }
+  loading: boolean = false;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
+  constructor(private contacts: ContactsService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
     this.contacts.userDetailsEmail$.subscribe((email: string) => {
       if (email) {
         this.email = email;
-      this.getUserDetails();
+        this.getUserDetails();
       }
-
     });
     this.contacts.userDetailsChanged.subscribe(() => {
       this.getUserDetails();
@@ -59,6 +78,7 @@ export class UserDetailsComponent {
     this.isMenuVisible = !this.isMenuVisible;
     event.stopPropagation();
   }
+
   @HostListener('document:click', ['$event'])
   clickout(event: any) {
 
@@ -67,19 +87,33 @@ export class UserDetailsComponent {
     }
   }
 
-  deleteContact(): void {
+  async deleteContact() {
     let body = {
       "email": this.email
     };
-
-    this.contacts.deleteContact(body).then((response: any) => {
-      this.contacts.getContacts();
-      this.clearUserDetails();
-
-      this.close();
-    });
+    this.loading = true;
+    try {
+      await this.contacts.deleteContact(body);
+      this.errorService.handleSuccessMessages('Contact successfully deleted');
+      setTimeout(() => {
+        this.afterContactDeleted();
+      }, 3000);
+    } catch (error) {
+      this.errorService.handleError(error);
+    } finally {
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    }
   }
-  clearUserDetails(){
+
+  afterContactDeleted() {
+    this.contacts.getContacts();
+    this.clearUserDetails();
+    this.close();
+  }
+
+  clearUserDetails() {
     this.isEditContactVisible = false;
     this.email = '';
     this.contact = [];

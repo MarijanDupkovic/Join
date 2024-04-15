@@ -110,7 +110,7 @@ export class TaskdetailsComponent {
         this.afterTaskDeleted();
       }, 3000);
     } catch (error) {
-      console.log(error);
+      this.errorService.handleError(error);
     } finally {
       setTimeout(() => {
         this.loading = false;
