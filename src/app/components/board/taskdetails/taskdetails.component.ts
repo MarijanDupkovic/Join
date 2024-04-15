@@ -3,11 +3,13 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { ContactsService } from '../../../services/contacts.service';
 import { TaskService } from '../../../services/task.service';
 import { EditTaskdetailsComponent } from '../edit-taskdetails/edit-taskdetails.component';
+import { Subscription } from 'rxjs';
+import { ErrorService } from '../../../services/error.service';
 
 @Component({
   selector: 'app-taskdetails',
   standalone: true,
-  imports: [CommonModule,EditTaskdetailsComponent],
+  imports: [CommonModule, EditTaskdetailsComponent],
   templateUrl: './taskdetails.component.html',
   styleUrl: './taskdetails.component.scss'
 })
@@ -16,11 +18,29 @@ export class TaskdetailsComponent {
   users: any = [];
   isEdit: boolean = false;
 
+  loading: boolean = false;
+  errorSubscription: Subscription = new Subscription;
+  errorCodeSubscription: Subscription = new Subscription;
+
+  successMessageSubscription: Subscription = new Subscription;
+  successMessage: string = '';
+
+  errorMessage: string = '';
+  errorCode: number | undefined;
   @Output() closeOverlay = new EventEmitter<void>();
   @Output() taskDeleted = new EventEmitter<void>();
-  constructor(private contacts: ContactsService,private tasks:TaskService) { }
+  constructor(private contacts: ContactsService, private tasks: TaskService, private errorService: ErrorService) { }
 
   ngOnInit(): void {
+    this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
+      this.errorCode = errorCode;
+    });
+    this.errorSubscription = this.errorService.errorMessage$.subscribe((error: any) => {
+      this.errorMessage = error;
+    });
+    this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
+      this.successMessage = successMessage;
+    });
     this.tasks.selected_task$.subscribe((task) => {
       this.task_details = task;
     });
@@ -78,18 +98,30 @@ export class TaskdetailsComponent {
     this.closeOverlay.emit();
   }
 
-  deleteTask() {
+  async deleteTask() {
     let body = {
       task_id: this.task_details['id']
     };
-    this.tasks.deleteTask(body).then((response:any) => {
-      if(response['status'] === 200){
-        this.taskDeleted.emit();
-        this.tasks.getTasks();
-        this.close();
-      }
-    });
+    this.loading = true;
+    try {
+      await this.tasks.deleteTask(body);
+      this.errorService.handleSuccessMessages('Task successfully deleted');
+      setTimeout(() => {
+        this.afterTaskDeleted();
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        this.loading = false;
+      }, 1000);
+    }
+  }
 
+  afterTaskDeleted() {
+    this.taskDeleted.emit();
+    this.tasks.getTasks();
+    this.close();
   }
 
   openEditView() {

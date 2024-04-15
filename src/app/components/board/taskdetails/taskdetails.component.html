@@ -75,3 +75,21 @@
   </ng-container>
   <app-edit-taskdetails *ngIf="isEdit" (closeOverlay)="isEdit = false;close()"></app-edit-taskdetails>
 </div>
+<div *ngIf="errorCode && errorMessage" class="overlay">
+  <div class="error-frame">
+    <h1>Error</h1>
+    <hr>
+    <span>{{errorCode}}</span>
+    <p>{{errorMessage}}</p>
+  </div>
+</div>
+<div *ngIf="successMessage" class="overlay">
+  <div class="error-frame success-frame">
+    <p>{{successMessage}}</p>
+  </div>
+</div>
+<div *ngIf="loading">
+  <div class="overlay">
+    <div class="loader"></div>
+  </div>
+</div>

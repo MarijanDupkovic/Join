@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-kb-board',
   standalone: true,
-  imports: [CommonModule, DragDropModule, TaskdetailsComponent,RouterLink],
+  imports: [CommonModule, DragDropModule, TaskdetailsComponent, RouterLink],
   templateUrl: './kb-board.component.html',
   styleUrl: './kb-board.component.scss'
 })
@@ -24,28 +24,27 @@ export class KbBoardComponent implements OnInit {
   detailsView: any;
   isDraggingOver = '';
   constructor(private tasks: TaskService, private contact: ContactsService) { }
+
   ngOnInit(): void {
     this.init();
-
   }
-  init() {
 
+  init() {
     this.tasks.tasks$.subscribe((data) => {
       this.loaded_tasks = data;
       if (this.loaded_tasks.length > 0) {
         this.loaded_tasks.forEach(async (task: any) => {
           if (!task.users) {
-          task.users = [];
-          for (let email of task.assigned) {
-            await this.getUserDetails(email).then((userDetails) => {
-              task.users.push(userDetails);
-            });
+            task.users = [];
+            for (let email of task.assigned) {
+              await this.getUserDetails(email).then((userDetails) => {
+                task.users.push(userDetails);
+              });
+            }
           }
-        }
         });
       }
     });
-
   }
 
   ngOnDestroy() {
@@ -57,9 +56,8 @@ export class KbBoardComponent implements OnInit {
   openDetailsView(task: any) {
     this.tasks.setSelectedTask(task);
     this.isDetailView = true;
-
-
   }
+
   dragStart(event: CdkDragStart) {
     event.source.element.nativeElement.classList.add('dragging');
   }
@@ -67,6 +65,7 @@ export class KbBoardComponent implements OnInit {
   dragEnd(event: CdkDragRelease) {
     event.source.element.nativeElement.classList.remove('dragging');
   }
+
   getCategoryColor(category: string) {
     switch (category) {
       case 'Technical Task':
@@ -132,22 +131,19 @@ export class KbBoardComponent implements OnInit {
 
   searchTasks(target: any) {
     if (target.value === "") {
-
       this.isFiltered = false;
       this.filtered_tasks = [];
       return;
     } else {
-
       this.isFiltered = true;
       this.filtered_tasks = this.loaded_tasks.filter((task: any) =>
-
         task.title.toLowerCase().includes(target.value.toLowerCase()) ||
         task.description.toLowerCase().includes(target.value.toLowerCase())
       );
     }
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  async drop(event: CdkDragDrop<string[]>) {
     this.isDraggingOver = '';
 
     if (event.item.dropContainer && event.item.dropContainer.id) {
@@ -159,15 +155,15 @@ export class KbBoardComponent implements OnInit {
           id: event.item.data.id,
           status: event.container.id
         }
-
-        this.tasks.updateTaskStatus(body).then(() => {
+        try {
+          await this.tasks.updateTaskStatus(body);
           this.tasks.getTasks();
-        });
+        } catch (err) {
+          console.log(err);
+        }
       }
     }
   }
-
-
 
   moveTask(task: any, direction: string) {
     const statuses = ["todo", "inProgress", "awaitingFeedback", "done"];
@@ -187,10 +183,12 @@ export class KbBoardComponent implements OnInit {
         id: task.id,
         status: newStatus
       };
-
-      this.tasks.updateTaskStatus(body).then(() => {
+      try {
+        this.tasks.updateTaskStatus(body);
         this.tasks.getTasks();
-      });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 }
