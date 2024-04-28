@@ -28,8 +28,6 @@ select option:hover {
 .details-box {
   width: 100%;
   @include dFlex(column, center, flex-start);
-
-
 }
 
 .input-container {
@@ -41,11 +39,11 @@ select option:hover {
   width: 100%;
   @include dFlex(column, flex-start, flex-start);
   height: calc(100vh - 80px - 80px - 4rem);
+
   @media (min-height: 900px) {
     height: unset;
     max-height: 50%;
   }
-
 }
 
 .main-container {
@@ -126,11 +124,9 @@ select {
 .dropdown {
   background-color: #FFFFFF;
   @include dFlex(row, space-between, center);
-
 }
 
 .dropdown-icon {
-
   font-size: 0.8em;
 }
 
@@ -193,8 +189,6 @@ select,
   margin-bottom: 0.5rem;
 }
 
-
-
 .input-frame {
   @include dFlex(column, center, center);
   position: relative;
@@ -223,15 +217,15 @@ select,
       width: 20px;
       height: 20px;
     }
-
     cursor: pointer;
   }
 }
+
 .head-container{
   @include dFlex(row, space-between, center);
   width: 100%;
-
 }
+
 .upper-form {
   width: 100%;
   @include dFlex(column, unset, center);
@@ -257,7 +251,6 @@ button {
 
 .btn-frame {
   @include dFlex(row, space-between, center);
-
   width: 100%;
 
   div {
@@ -273,7 +266,6 @@ button {
   width: 90%;
   @include dFlex(row, flex-start, center);
 }
-
 
 .edit-input {
   border-bottom: 1px solid blue;
