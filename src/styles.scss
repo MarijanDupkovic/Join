@@ -260,3 +260,14 @@ app-summary,app-kb-board, app-add-task,app-contacts {
   background-color: #D1D1D1;
   color: #fff;
 }
+
+
+@keyframes slide-in-custom {
+  from{
+    left:150%;
+  }
+  to{
+    left:50%;
+  }
+
+}
