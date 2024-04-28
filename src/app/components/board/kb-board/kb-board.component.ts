@@ -165,7 +165,7 @@ export class KbBoardComponent implements OnInit {
     }
   }
 
-  moveTask(task: any, direction: string) {
+  async moveTask(task: any, direction: string) {
     const statuses = ["todo", "inProgress", "awaitingFeedback", "done"];
     const currentIndex = statuses.indexOf(task.status);
     let newIndex;
@@ -184,8 +184,8 @@ export class KbBoardComponent implements OnInit {
         status: newStatus
       };
       try {
-        this.tasks.updateTaskStatus(body);
-        this.tasks.getTasks();
+        await this.tasks.updateTaskStatus(body);
+        await this.tasks.getTasks();
       } catch (err) {
         console.log(err);
       }
