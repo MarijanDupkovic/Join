@@ -134,6 +134,7 @@ hr {
   left: 0;
   bottom: 80px;
   background-color: #F6F7F8;
+  animation: 'slide-in-custom' 1s ease-in-out;
 
   @media (min-width:1000px) {
     right: 0;
@@ -156,6 +157,7 @@ hr {
   @media (min-width:1248px) {
 
     display: block;
+
     position: unset;
     width: 100%;
     background-color: #F6F7F8;
