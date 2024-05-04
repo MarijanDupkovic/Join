@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { ContactsService } from '../../../services/contacts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-summary',
@@ -24,31 +25,74 @@ export class SummaryComponent {
   loaded_contacts: any = [];
   loggedInMail = '';
   userName: any;
+  tasksObserver: Subscription | undefined;
+  userMailObserver: Subscription | undefined;
+  contactsObserver: Subscription | undefined;
 
   constructor(private tasks: TaskService, private auth: AuthService, private contacts: ContactsService) { }
-  ngOnInit() {
-    this.tasks.tasks$.subscribe((data) => {
-      this.loaded_tasks = data;
-      if (this.loaded_tasks.length > 0) {
-        this.countStatus();
-        this.getUpcomingTask();
-      }
-    });
-    this.auth.user_mail$.subscribe((data) => {
-      this.loggedInMail = data;
-    });
-    this.contacts.contacts$.subscribe((data) => {
-      this.loaded_contacts = data;
 
+  ngOnInit() {
+    this.loadTasksObserver();
+    this.loadUserMailObserver();
+    this.loadContactsObserver();
+  }
+
+  loadContactsObserver() {
+    this.contactsObserver = this.contacts.contacts$.subscribe((data) => {
+      this.loaded_contacts = data;
       this.loaded_contacts.forEach((contact: any) => {
-        if (contact.email === this.loggedInMail) {
-          this.userName = contact.firstName + ' ' + contact.lastName;
-        }
+        this.setUserName(contact);
       });
     });
-
-
   }
+
+  loadUserMailObserver() {
+    this.userMailObserver = this.auth.user_mail$.subscribe((data) => {
+      this.loggedInMail = data;
+    });
+  }
+
+  loadTasksObserver() {
+    this.tasksObserver = this.tasks.tasks$.subscribe((data) => {
+      this.loaded_tasks = data;
+      if (this.tasksLoaded()) this.initTaskDetails();
+    });
+  }
+
+  initTaskDetails() {
+    this.countStatus();
+    this.getUpcomingTask();
+  }
+
+  ngOnDestroy() {
+    if (this.tasksObserver) {
+      this.tasksObserver.unsubscribe();
+    }
+    if (this.userMailObserver) {
+      this.userMailObserver.unsubscribe();
+    }
+    if (this.contactsObserver) {
+      this.contactsObserver.unsubscribe();
+    }
+  }
+
+  setUserName(contact: any) {
+    if (this.isLoggedInUser(contact)) this.userName = this.getUserName(contact);
+  }
+
+  getUserName(contact: any) {
+    return contact.firstName + ' ' + contact.lastName
+  }
+
+  isLoggedInUser(contact: any) {
+    return contact.email === this.loggedInMail
+  }
+
+  tasksLoaded() {
+    return this.loaded_tasks.length > 0;
+  }
+
+
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -75,7 +119,6 @@ export class SummaryComponent {
       }
     });
   }
-
 
   getGreeting() {
     const hour = new Date().getHours();
