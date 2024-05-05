@@ -14,8 +14,6 @@ interface Contact {
   color_key: string;
   isSelected: boolean;
 }
-
-
 @Component({
   selector: 'app-add-task',
   standalone: true,
@@ -108,7 +106,7 @@ export class AddTaskComponent {
     }
   }
 
-  toggleCheckbox(i: number, contact: any, event: any) {
+  toggleCheckbox(i: number, contact: Contact, event: any) {
     event.preventDefault();
     event.stopPropagation();
     const checkbox = event.target.parentElement.parentElement.children[1];
@@ -169,21 +167,37 @@ export class AddTaskComponent {
     return '';
   }
 
-  onCheckboxChange(e: any, contact: any) {
-    if (e.target.checked) {
-      this.taskAssigned.push(new FormControl(e.target.value));
-      contact.isSelected = true;
+  onCheckboxChange(e: any, contact: Contact) {
+    if (this.isCheckBoxChecked(e)) {
+      this.addContactToTaskAssigned(e, contact);
     } else {
-      let i: number = 0;
-      this.taskAssigned.controls.forEach((item: AbstractControl) => {
-        if (item.value == e.target.value) {
-          this.taskAssigned.removeAt(i);
-          contact.isSelected = false;
-          return;
-        }
-        i++;
-      });
+      this.removeContactFromTaskAssigned(e, contact);
     }
+  }
+
+  removeContactFromTaskAssigned(e: any, contact: Contact) {
+    let i: number = 0;
+    this.taskAssigned.controls.forEach((item: AbstractControl) => {
+      if (item.value == e.target.value) {
+        this.removeAssigned(i, contact);
+        return;
+      }
+      i++;
+    });
+  }
+
+  removeAssigned(i:number, contact: Contact) {
+    this.taskAssigned.removeAt(i);
+    contact.isSelected = false;
+  }
+
+  addContactToTaskAssigned(e: any, contact: Contact) {
+    this.taskAssigned.push(new FormControl(e.target.value));
+    contact.isSelected = true;
+  }
+
+  isCheckBoxChecked(e: any) {
+    return e.target.checked;
   }
 
   resetSubTask() {
