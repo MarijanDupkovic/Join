@@ -34,21 +34,18 @@ export class ContactsComponent implements OnInit {
   ngOnInit(): void {
     this.contactsService.contacts$.subscribe((response: Contact[]) => {
       const groupedContacts: { [key: string]: Contact[] } = {};
-
       response.forEach(contact => {
-        const firstLetter = contact.lastName.charAt(0).toUpperCase();
-
-        if (!groupedContacts[firstLetter]) {
-          groupedContacts[firstLetter] = [];
-        }
-
-        groupedContacts[firstLetter].push(contact);
+        this.groupContacts(groupedContacts, contact);
       });
-
       this.loaded_contacts = Object.entries(groupedContacts).map(([key, value]) => ({ key, value }));
     });
   }
 
+  groupContacts(groupedContacts: { [key: string]: Contact[] }, contact: Contact): void {
+    const firstLetter = contact.lastName.charAt(0).toUpperCase();
+    if (!groupedContacts[firstLetter]) groupedContacts[firstLetter] = [];
+    groupedContacts[firstLetter].push(contact);
+  }
 
   toggleAddContact(): void {
     this.isAddContactOverlayVisible = !this.isAddContactOverlayVisible;
@@ -58,6 +55,5 @@ export class ContactsComponent implements OnInit {
     this.selectedContact = email;
     this.contactsService.changeEmail(email);
     this.isUserDetailsVisible = !this.isUserDetailsVisible;
-
   }
 }
