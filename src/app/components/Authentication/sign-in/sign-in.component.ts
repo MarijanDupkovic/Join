@@ -8,7 +8,6 @@ import { AnimationServiceService } from '../../../services/animation-service.ser
 import { environment } from '../../../../../environments/environment';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ErrorService } from '../../../services/error.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 interface SignInBody {
   email: string;

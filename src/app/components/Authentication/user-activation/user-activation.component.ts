@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
@@ -7,28 +7,29 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-user-activation',
   standalone: true,
-  imports: [HttpClientModule,CommonModule],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './user-activation.component.html',
   styleUrl: './user-activation.component.scss'
 })
 export class UserActivationComponent implements OnInit {
   message = '';
   isError = false;
+
   constructor(private auth: AuthService, private routes: ActivatedRoute, private router: Router) { }
+
   ngOnInit(): void {
     this.activateUser();
-
   }
 
   async activateUser() {
-    let emailAddy = '';
+    let email = '';
     this.routes.params.subscribe(params => {
-      emailAddy = params['email'];
+      email = params['email'];
       let body = {
-        email: emailAddy,
+        email: email,
       };
       this.auth.activateUser(body).subscribe(
-        (response:any) => {
+        (response: any) => {
           if (response['status'] === 200) {
             this.message = response['message'];
             this.isError = false;
@@ -36,11 +37,8 @@ export class UserActivationComponent implements OnInit {
               this.router.navigate(['/login']);
             }, 7000);
           }
-
-
-        },(error) => {
-          if(error['status'] === 400){
-
+        }, (error) => {
+          if (error['status'] === 400) {
             this.message = error.error.message;
             this.isError = true;
             setTimeout(() => {

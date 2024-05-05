@@ -20,6 +20,7 @@ export class AddContactOverlayComponent {
     email: new FormControl('', [Validators.required, Validators.email,]),
     phone: new FormControl('', [Validators.maxLength(12), Validators.pattern('[0-9]*')]),
   });
+
   @Output() closeOverlay = new EventEmitter<void>();
   errorSubscription: Subscription = new Subscription;
   errorCodeSubscription: Subscription = new Subscription;
@@ -48,37 +49,32 @@ export class AddContactOverlayComponent {
 
   async onSubmit() {
     this.setLoading(true);
-    let body = {
-      firstName: this.createUserForm.value.firstName,
-      lastName: this.createUserForm.value.lastName,
-      email: this.createUserForm.value.email,
-      phone: this.createUserForm.value.phone,
-    };
     this.isMessageFromThisComponent = true;
     try {
-      await this.contacts.createUser(body);
-      if (this.isMessageFromThisComponent) {
-        this.errorService.handleSuccessMessages('User created successfully');
-        setTimeout(() => {
-          this.contacts.getContacts();
-          this.createUserForm.reset();
-          this.close();
-          this.isMessageFromThisComponent = false;
-        }, 3000);
-      }
-
+      await this.contacts.createUser(this.createUserForm.value);
+      if (this.isMessageFromThisComponent) this.handleSucces();
     } catch (error) {
-      if (this.isMessageFromThisComponent) {
-        this.errorService.handleError(error);
-        setTimeout(() => {
-          this.isMessageFromThisComponent = false;
-        }, 3000);
-      }
+      if (this.isMessageFromThisComponent) this.handleErrors(error);
     } finally {
-      setTimeout(() => {
-        this.setLoading(false);
-      }, 1000);
+      setTimeout(() => this.setLoading(false), 1000);
     }
+  }
+
+  handleErrors(error: any) {
+    this.errorService.handleError(error);
+    setTimeout(() => {
+      this.isMessageFromThisComponent = false;
+    }, 3000);
+  }
+
+  handleSucces() {
+    this.errorService.handleSuccessMessages('User created successfully');
+    setTimeout(() => {
+      this.contacts.getContacts();
+      this.createUserForm.reset();
+      this.close();
+      this.isMessageFromThisComponent = false;
+    }, 3000);
   }
 
   close(): void {
