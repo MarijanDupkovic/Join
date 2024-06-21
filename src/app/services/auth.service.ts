@@ -17,9 +17,6 @@ export class AuthService {
     }
   }
 
-
-
-
   async signIn(body: Object) {
     return lastValueFrom(this.http.post('./phpscripts/signIn.php', body)).then((response: any) => {
       this.user_mail.next(response['user']);
@@ -45,7 +42,7 @@ export class AuthService {
 
 
   activateUser(body: Object) {
-    return this.http.post('./phpscripts/activateUser.php', body);
+    return lastValueFrom(this.http.post('./phpscripts/activateUser.php', body));
   }
 
   setLoggedIn(value: boolean) {

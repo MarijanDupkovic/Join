@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
@@ -6,15 +5,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { ErrorService } from '../../../services/error.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { timeout } from 'rxjs';
-
-interface SignUpBody {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
 
 @Component({
   selector: 'app-sign-up',
@@ -45,7 +35,7 @@ export class SignUpComponent {
   showPassword2 = false;
   isPWMatch: boolean = this.signUpForm.value.password === this.signUpForm.value.confirmPassword;
 
-  constructor(private http: HttpClient, private auth: AuthService, private router: Router, private errorService: ErrorService) { }
+  constructor(private auth: AuthService, private router: Router, private errorService: ErrorService) { }
 
   ngOnInit(): void {
     this.successMessageSubscription = this.errorService.successMessage$.subscribe((successMessage: any) => {
@@ -68,11 +58,9 @@ export class SignUpComponent {
     try {
       await this.auth.signUp(body);
       this.errorService.handleSuccessMessages('User created successfully - Redirecting to login page...');
-
       setTimeout(() => {
         this.close();
       }, 3000);
-
     } catch (error: any) {
       this.errorService.handleError(error);
     } finally {
@@ -83,7 +71,6 @@ export class SignUpComponent {
   close(): void {
     this.router.navigate(['/login'])
   }
-
 
   toggleShowPassword(pwField: number) {
     if (pwField === 1) {

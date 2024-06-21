@@ -3,7 +3,8 @@
     <div class="head-search">
       <div class="headline">
         <h1>Board</h1>
-        <a class="addTask-btn" [routerLink]="['/board/addTask']"><img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
+        <a class="addTask-btn" [routerLink]="['/board/addTask']"><img src="../../../../assets/img/buttons/addTask.svg"
+            alt=""></a>
       </div>
       <div class="input-frame">
         <input type="text" class="form-control" (keyup)="searchTasks($event.target)">
@@ -12,7 +13,8 @@
           <img src="../../../../assets/img/inputs/search.svg" alt="">
         </div>
       </div>
-      <a class="addTask-btn-desktop" [routerLink]="['/board/addTask']" routerLinkActive="router-link-active" >Add Task<img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
+      <a class="addTask-btn-desktop" [routerLink]="['/board/addTask']" routerLinkActive="router-link-active">Add
+        Task<img src="../../../../assets/img/buttons/addTask.svg" alt=""></a>
 
     </div>
     <div class="tasks-main-frame">
@@ -21,17 +23,19 @@
           <div class="status-headline">
             <h3>To-Do</h3>
           </div>
-          <div class="cards-container" #todo="cdkDropList" [cdkDropListConnectedTo]="[inProgress,awaitingFeedback,done]" [class.dragging-over]="isDraggingOver === 'todo'" cdkDropList id="todo" [cdkDropListData]="getTasksByStatus('todo')"
-            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'todo')" (cdkDropListExited)="hidePreview($event)">
+          <div class="cards-container" #todo="cdkDropList" [cdkDropListConnectedTo]="[inProgress,awaitingFeedback,done]"
+            [class.dragging-over]="isDraggingOver === 'todo'" cdkDropList id="todo"
+            [cdkDropListData]="getTasksByStatus('todo')" (cdkDropListDropped)="drop($event)"
+            (cdkDropListEntered)="showPreview($event,'todo')" (cdkDropListExited)="hidePreview($event)">
             <div class="empty-container" *ngIf="!hasTasks('todo')">
               <span>No Tasks To-Do</span>
             </div>
             <ng-container *ngIf="!isFiltered">
 
               <ng-container *ngFor="let task of loaded_tasks">
-                <div *ngIf="task.status == 'todo'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
-                (cdkDragReleased)="dragEnd($event)"
-                draggable="true" [cdkDragData]="task">
+                <div *ngIf="task.status == 'todo'" class="card" cdkDrag (click)="openDetailsView(task)"
+                  (cdkDragStarted)="dragStart($event)" (cdkDragReleased)="dragEnd($event)" draggable="true"
+                  [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -115,17 +119,19 @@
           <div class="status-headline">
             <h3>In Progress</h3>
           </div>
-          <div class="cards-container" #inProgress="cdkDropList" [cdkDropListConnectedTo]="[todo,awaitingFeedback,done]" [class.dragging-over]="isDraggingOver === 'inProgress'" cdkDropList id="inProgress" [cdkDropListData]="getTasksByStatus('inProgress')"
-            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'inProgress')" (cdkDropListExited)="hidePreview($event)">
+          <div class="cards-container" #inProgress="cdkDropList" [cdkDropListConnectedTo]="[todo,awaitingFeedback,done]"
+            [class.dragging-over]="isDraggingOver === 'inProgress'" cdkDropList id="inProgress"
+            [cdkDropListData]="getTasksByStatus('inProgress')" (cdkDropListDropped)="drop($event)"
+            (cdkDropListEntered)="showPreview($event,'inProgress')" (cdkDropListExited)="hidePreview($event)">
             <div class="empty-container" *ngIf="!hasTasks('inProgress')">
               <span>No Tasks in Progress</span>
             </div>
             <ng-container *ngIf="!isFiltered">
 
               <ng-container *ngFor="let task of loaded_tasks">
-                <div *ngIf="task.status == 'inProgress'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
-                (cdkDragReleased)="dragEnd($event)"
-                draggable="true" [cdkDragData]="task">
+                <div *ngIf="task.status == 'inProgress'" class="card" cdkDrag (click)="openDetailsView(task)"
+                  (cdkDragStarted)="dragStart($event)" (cdkDragReleased)="dragEnd($event)" draggable="true"
+                  [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -209,17 +215,19 @@
           <div class="status-headline">
             <h3>Awaiting feeback</h3>
           </div>
-          <div class="cards-container" #awaitingFeedback="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,done]" [class.dragging-over]="isDraggingOver === 'awaitingFeedback'" cdkDropList id="awaitingFeedback" [cdkDropListData]="getTasksByStatus('awaitingFeedback')"
-            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'awaitingFeedback')" (cdkDropListExited)="hidePreview($event)">
+          <div class="cards-container" #awaitingFeedback="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,done]"
+            [class.dragging-over]="isDraggingOver === 'awaitingFeedback'" cdkDropList id="awaitingFeedback"
+            [cdkDropListData]="getTasksByStatus('awaitingFeedback')" (cdkDropListDropped)="drop($event)"
+            (cdkDropListEntered)="showPreview($event,'awaitingFeedback')" (cdkDropListExited)="hidePreview($event)">
             <div class="empty-container" *ngIf="!hasTasks('awaitingFeedback')">
               <span>No Tasks awaiting Feedback</span>
             </div>
             <ng-container *ngIf="!isFiltered">
 
               <ng-container *ngFor="let task of loaded_tasks">
-                <div *ngIf="task.status == 'awaitingFeedback'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
-                (cdkDragReleased)="dragEnd($event)"
-                draggable="true" [cdkDragData]="task">
+                <div *ngIf="task.status == 'awaitingFeedback'" class="card" cdkDrag (click)="openDetailsView(task)"
+                  (cdkDragStarted)="dragStart($event)" (cdkDragReleased)="dragEnd($event)" draggable="true"
+                  [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>
@@ -303,17 +311,19 @@
           <div class="status-headline">
             <h3>Done</h3>
           </div>
-          <div class="cards-container" #done="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,awaitingFeedback]" [class.dragging-over]="isDraggingOver === 'done'" cdkDropList id="done" [cdkDropListData]="getTasksByStatus('done')"
-            (cdkDropListDropped)="drop($event)" (cdkDropListEntered)="showPreview($event,'done')" (cdkDropListExited)="hidePreview($event)">
+          <div class="cards-container" #done="cdkDropList" [cdkDropListConnectedTo]="[todo,inProgress,awaitingFeedback]"
+            [class.dragging-over]="isDraggingOver === 'done'" cdkDropList id="done"
+            [cdkDropListData]="getTasksByStatus('done')" (cdkDropListDropped)="drop($event)"
+            (cdkDropListEntered)="showPreview($event,'done')" (cdkDropListExited)="hidePreview($event)">
             <div class="empty-container" *ngIf="!hasTasks('done')">
               <span>No Tasks done</span>
             </div>
             <ng-container *ngIf="!isFiltered">
 
               <ng-container *ngFor="let task of loaded_tasks">
-                <div *ngIf="task.status == 'done'" class="card" cdkDrag (click)="openDetailsView(task)" (cdkDragStarted)="dragStart($event)"
-                (cdkDragReleased)="dragEnd($event)"
-                draggable="true" [cdkDragData]="task">
+                <div *ngIf="task.status == 'done'" class="card" cdkDrag (click)="openDetailsView(task)"
+                  (cdkDragStarted)="dragStart($event)" (cdkDragReleased)="dragEnd($event)" draggable="true"
+                  [cdkDragData]="task">
                   <div [style.background-color]="getCategoryColor(task.category)" class="cat-bg">
                     <span>{{ task['category'] }}</span>
                   </div>

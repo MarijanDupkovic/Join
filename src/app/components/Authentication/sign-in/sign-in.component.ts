@@ -39,7 +39,6 @@ export class SignInComponent {
   showPassword = true;
   errorSubscription: Subscription = new Subscription;
   errorCodeSubscription: Subscription = new Subscription;
-
   errorMessage: string = '';
   errorCode: number | undefined;
 
@@ -54,12 +53,24 @@ export class SignInComponent {
 
     this.errorCodeSubscription = this.errorService.errorCode$.subscribe((errorCode: any) => {
       this.errorCode = errorCode;
-    }
-    );
-    this.savedEmail = localStorage.getItem('email');
-    this.savedPassword = localStorage.getItem('password');
-    this.savedRemember = localStorage.getItem('remember');
+    });
+    this.animationSubscription = this.animationService.animationFinished$.subscribe((animation: boolean) => {
+      this.isAnimation = animation;
+    });
+    this.getDataFromLocalStorage();
+    this.setInputValues();
+    this.handleAuthStatus();
 
+  }
+
+  handleAuthStatus() {
+    if (this.auth.loggedIn$) {
+      this.setLoading(false);
+      this.router.navigateByUrl('/board/summary');
+    }
+  }
+
+  setInputValues() {
     if (this.savedEmail && this.savedPassword && this.savedRemember) {
       this.signInForm.setValue({
         email: this.savedEmail,
@@ -67,13 +78,12 @@ export class SignInComponent {
         remember: this.savedRemember
       });
     }
-    if (this.auth.loggedIn$) {
-      this.setLoading(false);
-      this.router.navigateByUrl('/board/summary');
-    }
-    this.animationSubscription = this.animationService.animationFinished$.subscribe((animation: boolean) => {
-      this.isAnimation = animation;
-    });
+  }
+
+  getDataFromLocalStorage() {
+    this.savedEmail = localStorage.getItem('email');
+    this.savedPassword = localStorage.getItem('password');
+    this.savedRemember = localStorage.getItem('remember');
   }
 
   ngOnDestroy(): void {
@@ -84,26 +94,26 @@ export class SignInComponent {
     this.showPassword = !this.showPassword;
   }
 
-  guestLogin() {
+  async guestLogin() {
     this.setLoading(true);
     this.setFormValues(environment.email, environment.password);
+    await this.signIn(this.setSignInBody())
+  }
+
+  setSignInBody(): SignInBody {
     let body: SignInBody = {
       email: environment.email,
       password: environment.password,
     };
-    this.signIn(body)
+    return body;
   }
 
-  private async signIn(body: SignInBody): Promise<void> {
-
+  private async signIn(body: SignInBody) {
     try {
       await this.auth.signIn(body);
       this.router.navigateByUrl('/board/summary');
-
-    } catch (error:any) {
-
+    } catch (error: any) {
       this.errorService.handleError(error);
-
     } finally {
       this.setLoading(false);
     }

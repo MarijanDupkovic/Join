@@ -23,32 +23,38 @@ export class UserActivationComponent implements OnInit {
 
   async activateUser() {
     let email = '';
+    let body = {};
     this.routes.params.subscribe(params => {
       email = params['email'];
-      let body = {
-        email: email,
-      };
-      this.auth.activateUser(body).subscribe(
-        (response: any) => {
-          if (response['status'] === 200) {
-            this.message = response['message'];
-            this.isError = false;
-            setTimeout(() => {
-              this.router.navigate(['/login']);
-            }, 7000);
-          }
-        }, (error) => {
-          if (error['status'] === 400) {
-            this.message = error.error.message;
-            this.isError = true;
-            setTimeout(() => {
-              this.router.navigate(['/login']);
-            }, 7000);
-          }
-
-        });
+      body = this.getBody(email);
     });
+
+    try {
+      let response: any = await this.auth.activateUser(body);
+      this.message = response['message'];
+      this.isError = false;
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 7000);
+    } catch (error: any) {
+      if (error['status'] === 400) {
+        this.message = error.error.message;
+        this.isError = true;
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 7000);
+      }
+    }
   }
+
+  getBody(mail: string) {
+    let body = {
+      email: mail
+    }
+    return body;
+  }
+
+
   getMessageColor() {
     return this.isError ? 'red' : 'green';
   }
