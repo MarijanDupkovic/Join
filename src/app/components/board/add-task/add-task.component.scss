@@ -28,7 +28,7 @@ select option:hover {
 
 .input-container {
   @include dFlex(column, center, flex-start);
-  width: 95%;
+  width: 100%;
 }
 
 .main-container {
@@ -116,7 +116,7 @@ input[type="date"],
 input[type="email"],
 textarea,
 select {
-  width: calc(100% - 2rem);
+  width: 100%;
   margin: 10px 0;
   border: 1px solid #D1D1D1;
   border-radius: 10px;
@@ -137,10 +137,7 @@ select{
   background-color: #FFFFFF;
   @include dFlex(row, space-between, center);
   cursor: pointer;
-
 }
-
-
 
 .dropdown-icon {
 
@@ -162,7 +159,6 @@ textarea {
   border-radius: 10px;
   background-color: #FFFFFF;
   gap: 1rem;
-
 }
 
 .prio-frame {
@@ -238,7 +234,6 @@ select,
       width: 20px;
       height: 20px;
       cursor: pointer;
-
     }
 
     cursor: pointer;
@@ -318,8 +313,6 @@ button {
   }
 }
 
-
-
 .addTask-container {
   height: calc(100vh - 80px - 80px);
 
@@ -327,7 +320,6 @@ button {
     height: unset;
   }
 }
-
 
 .main-container-desktop {
   display: none;
