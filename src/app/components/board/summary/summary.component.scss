@@ -4,7 +4,7 @@
 .summary-frame {
   width: 100%;
   @include dFlex(column, unset, center);
-  gap: 2rem;
+  gap: 1rem;
 
   @media (orientation:landscape) {
     overflow-y: scroll;
