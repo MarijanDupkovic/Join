@@ -14,7 +14,7 @@ input[type="text"], input[type="password"], input[type="email"]{
   border: 1px solid #D1D1D1;
   border-radius: 10px;
   outline: none;
-  height: 24px;
+  height: 48px;
   cursor: pointer;
   &:focus {
     border: 1px solid #29ABE2;
@@ -29,6 +29,8 @@ input[type="text"], input[type="password"], input[type="email"]{
   @include dFlex(column, center, center);
   position: relative;
   max-width: 350px;
+  height: 48px;
+  margin-top: 1rem;
   img{
     position: absolute;
     top:10;
