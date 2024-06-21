@@ -14,6 +14,7 @@
     </div>
 
     <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+      <div class="form-container">
       <div class="name-frame">
         <div class="name-input-frame">
           <input type="text" id="firstName" formControlName="firstName" class="form-control" placeholder="First name"
@@ -41,7 +42,7 @@
         <button type="submit" class="blue-btn" [disabled]="!createUserForm.valid" [class.disabled]="!createUserForm.valid">Create contact <img src="../../../../assets/img/buttons/check.svg"
             alt=""></button>
       </div>
-
+    </div>
 
     </form>
 
