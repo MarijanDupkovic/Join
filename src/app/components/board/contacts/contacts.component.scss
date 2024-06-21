@@ -80,7 +80,7 @@ hr {
 
 .addButton-Desktop {
   display: none;
-
+  margin-bottom: 1rem;
   @media (min-width:1248px) {
     cursor: pointer;
     @include dFlex(row, center, center);
@@ -168,7 +168,7 @@ hr {
 .main-container {
   height: calc(100vh - 80px - 80px);
   width: 100%;
-
+  padding-top: 1rem;
   @media (min-width:1000px) {
     height: calc(100vh - 80px);
   }
