@@ -9,7 +9,7 @@
 
 .name-frame {
   @include dFlex(row, unset, center);
-  width: 95% !important;
+  width: 100% !important;
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #D1D1D1;
@@ -33,7 +33,7 @@
   @include dFlex(column, center, center);
   position: relative;
   height: 41px;
-  width: 95% !important;
+  width: 100% !important;
   img {
     position: absolute;
     top: 10;
@@ -133,13 +133,12 @@ form {
 
 }
 input[type="text"], input[type="password"], input[type="email"]{
-  width: 95%;
+  width: 100%;
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #D1D1D1;
   border-radius: 10px;
   outline: none;
-  height: 24px;
 
   &:focus {
     border: 1px solid #29ABE2;
@@ -166,4 +165,12 @@ button {
 
 .inputdivider {
   width:0 !important;
+}
+
+.form-container{
+  @include dFlex(column, start, center);
+  align-self: center;
+  width: 90%;
+  gap: 1rem;
+
 }
