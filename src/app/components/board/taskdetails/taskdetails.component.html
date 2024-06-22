@@ -2,17 +2,17 @@
   <ng-container *ngIf="!isEdit">
     <div class="headline-frame">
       <div [style.background-color]="getCategoryColor(task_details.category)" class="cat-bg">
-        <span>{{ task_details.category }}</span>
+        <p>{{ task_details.category }}</p>
       </div>
       <a (click)="close()" class="close-button-overlays">
         <img src="../../../../assets/img/inputs/close.svg" alt="">
       </a>
     </div>
     <div class="task-title">
-      <p>{{ task_details.title }}</p>
+      <span>{{ task_details.title }}</span>
     </div>
     <div class="task-desc">
-      <p>{{ task_details.description }}</p>
+      <span>{{ task_details.description }}</span>
     </div>
     <div class="task-dueDate">
       <span class="task-item-label">Due date:</span>

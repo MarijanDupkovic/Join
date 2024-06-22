@@ -72,7 +72,7 @@ export class TaskdetailsComponent {
       return "../../../../assets/img/inputs/Prio media.svg";
     }
     if (prio == '3') {
-      return "Low";
+      return "../../../../assets/img/inputs/Prio baja.svg";
     } else {
       return "../../../../assets/img/inputs/Prio baja.svg";
     }

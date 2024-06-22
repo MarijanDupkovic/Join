@@ -13,6 +13,7 @@
 
   @media (min-width:1248px) {
     gap: 2rem;
+    max-width: 500px;
   }
 
   .headline-frame {
@@ -37,7 +38,7 @@
   }
 
   .task-title {
-    font-size: 2.25rem;
+    font-size: 2rem;
     font-weight: 700;
     @include dFlex(row, unset, flex-start);
     max-height: 86px;
