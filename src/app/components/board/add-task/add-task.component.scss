@@ -29,6 +29,7 @@ select option:hover {
 .input-container {
   @include dFlex(column, center, flex-start);
   width: 100%;
+  margin-bottom: 0.5rem;
 }
 
 .main-container {
@@ -123,7 +124,6 @@ select {
   outline: none;
   height: 43px;
   cursor: pointer;
-  padding: 0 1rem;
   &:focus {
     border: 1px solid #29ABE2;
   }

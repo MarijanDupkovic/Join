@@ -4,6 +4,7 @@
   background-color: #2A3647;
   height: 80px;
   @include dFlex(row, center, center);
+  z-index: 999;
 }
 
 .footer-links{

@@ -16,6 +16,17 @@
     max-width: 500px;
   }
 
+  .mc-3{
+    columns: 3;
+    resize: none;
+    border: none;
+    outline: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    width: 100%;
+  }
+
   .headline-frame {
     @include dFlex(row, space-between, center);
     width: 100%;
