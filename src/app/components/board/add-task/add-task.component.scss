@@ -335,7 +335,7 @@ button {
     .upper-form {
       @include dFlex(column, flex-start, flex-start);
       width: 95%;
-      overflow: hidden;
+      overflow: scroll;
 
       .outer-input-frame {
         @include dFlex(row, space-between, flex-start);
